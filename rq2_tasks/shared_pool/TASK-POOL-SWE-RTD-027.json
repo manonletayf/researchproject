@@ -1,0 +1,106 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-027",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new user authentication module for an existing web application. The module needs to be secure and efficient. The team consists of a Lead Developer, a Backend Engineer, and a Frontend Engineer. The Lead Developer oversees the overall architecture and guides the team. The Backend Engineer is responsible for the server-side logic and database interactions. The Frontend Engineer handles the user interface and client-side interactions. A critical, non-negotiable constraint is that the API endpoint for user login must respond within exactly 250.00 milliseconds to ensure a smooth user experience, and all password hashes must use the Argon2id algorithm. The fully connected topology ensures every agent can directly communicate with any other agent instantaneously, which is essential for maintaining situational awareness and adhering to precise technical and time-bound constraints. This is an easy structural-complexity task, with an expected 10 turns, requiring robust information exchange to ensure both the performance and security constraints are consistently applied. The agents will have ample opportunity to share and reinforce the constraints.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "LD1",
+        "role": "Lead Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead Developer, responsible for guiding the team, making architectural decisions, and ensuring all critical constraints, especially performance and security requirements, are met. You are connected to all other agents.",
+        "receives_from": [
+          "BE2",
+          "FE3"
+        ]
+      },
+      {
+        "agent_id": "BE2",
+        "role": "Backend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Backend Engineer, responsible for implementing server-side logic, API endpoints, and database interactions. You must ensure all backend development adheres to performance and security constraints. You are connected to all other agents.",
+        "receives_from": [
+          "FE3",
+          "LD1"
+        ]
+      },
+      {
+        "agent_id": "FE3",
+        "role": "Frontend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Frontend Engineer, responsible for developing the user interface and client-side logic. You must ensure the frontend integrates correctly with the backend, keeping performance and user experience in mind. You are connected to all other agents.",
+        "receives_from": [
+          "BE2",
+          "LD1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LD1",
+        "BE2"
+      ],
+      [
+        "LD1",
+        "FE3"
+      ],
+      [
+        "BE2",
+        "LD1"
+      ],
+      [
+        "BE2",
+        "FE3"
+      ],
+      [
+        "FE3",
+        "LD1"
+      ],
+      [
+        "FE3",
+        "BE2"
+      ]
+    ],
+    "speaking_order": [
+      "LD1",
+      "BE2",
+      "FE3",
+      "LD1",
+      "BE2",
+      "FE3",
+      "LD1",
+      "BE2",
+      "FE3",
+      "LD1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "The user authentication module is successfully implemented, with the login API endpoint responding within exactly 250.00 milliseconds and all password hashes utilizing the Argon2id algorithm. All agents consistently communicate these precise performance and security constraints throughout their discussions, ensuring the final implementation meets both requirements, demonstrating effective information flow in the fully connected network.",
+    "quality_rubric": "Score 0-100: Login API endpoint response time is exactly 250.00 ms (40 pts), all password hashes use Argon2id (40 pts), module is functional and secure (10 pts), clear and consistent internal communication (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-SEC-PERF-XY88",
+      "anchor": "the API endpoint for user login must respond within exactly 250.00 milliseconds, and all password hashes must use the Argon2id algorithm",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Use OAuth 2.0 for third-party integrations.",
+        "Implement a 'Forgot Password' flow with email verification.",
+        "Front-end framework: React.",
+        "Database: PostgreSQL 14.",
+        "Logging level for authentication events: WARNING."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

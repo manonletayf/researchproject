@@ -1,0 +1,73 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-028",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new feature for their existing web application: user profile management. The 'Frontend Developer' is responsible for designing and implementing the user interface elements. Simultaneously, the 'Backend Developer' needs to create the API endpoints and database logic for handling user data. Both developers must coordinate to ensure a seamless integration of the frontend and backend components. A key constraint is introduced: 'all user profile updates must be processed within 500 milliseconds end-to-end'. The Frontend Developer will communicate this performance requirement to ensure their UI design considers responsiveness, and the Backend Developer must implement the API with this latency target in mind. The overall objective is to evaluate how this critical performance constraint is communicated and integrated between two closely collaborating agents responsible for different parts of a feature, ensuring both are aware and work towards the shared performance goal.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Frontend Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Frontend Developer. Your task is to design and implement the user interface for profile management, ensuring all communicated performance constraints are considered in the UI/UX. You will discuss requirements with the Backend Developer.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Backend Developer. Your task is to design and implement the API and database logic for profile management, ensuring all communicated performance constraints are met. You will discuss requirements with the Frontend Developer.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A2",
+        "A1"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A1",
+      "A2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "Both the Frontend Developer and Backend Developer should acknowledge and incorporate the '500 milliseconds end-to-end' constraint into their respective design and implementation plans. The Frontend Developer should mention UI responsiveness or loading state considerations, and the Backend Developer should discuss API optimization strategies or database query performance, explicitly linking these to the latency target. The constraint's presence and understanding should be clear in the dialogue between the two agents.",
+    "quality_rubric": "Score 0-100: Frontend Developer explicitly mentions considering '500 milliseconds' for UI/UX (30 pts), Backend Developer explicitly mentions considering '500 milliseconds' for API/DB (30 pts), both agents demonstrate mutual awareness and discussion of the constraint's impact on their shared task (40 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "LATENCY-UP500",
+      "anchor": "all user profile updates must be processed within 500 milliseconds end-to-end",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "Authentication method: OAuth 2.0",
+        "Data storage: PostgreSQL table 'user_profiles'",
+        "Frontend framework: React v18",
+        "Backend language: Python with Flask",
+        "API endpoint: /api/v1/profile/{userId}"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

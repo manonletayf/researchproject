@@ -1,0 +1,116 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-119",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with implementing a continuous deployment pipeline for a critical microservice. The pipeline needs to ensure high availability and rapid rollback capabilities. A crucial constraint for this project is that all production deployments must only occur between '03:00 AM' and '05:00 AM UTC' on weekdays, explicitly forbidding deployments outside this window. This is to minimize user impact during peak hours. Furthermore, the maximum acceptable rollback time for any failed production deployment must not exceed '180.5' seconds, a precise numerical target to ensure quick recovery. The team consists of a DevOps Lead, a Infrastructure Engineer, a SRE, a Release Manager, and a QA Automation Engineer. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents. The task is expected to conclude within 18 turns, emphasizing robust and safe deployment practices.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "DEVOPS_LEAD",
+        "role": "DevOps Lead",
+        "system_prompt": "You are the DevOps Lead, responsible for the overall strategy and execution of the continuous deployment pipeline. You must ensure all critical constraints, like the specific deployment window and the strict rollback time, are clearly communicated, enforced, and integrated into deployment policies. You coordinate the team and approve release plans.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "INFRA_ENG",
+        "role": "Infrastructure Engineer",
+        "system_prompt": "You are the Infrastructure Engineer, responsible for provisioning and configuring the deployment environment. You must ensure that the infrastructure supports deployments only within the specified UTC window and facilitates rapid rollbacks. You work closely with the SRE.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      },
+      {
+        "agent_id": "SRE",
+        "role": "Site Reliability Engineer",
+        "system_prompt": "You are the Site Reliability Engineer (SRE), responsible for monitoring the production environment and ensuring service reliability. You must verify that deployments adhere to the '03:00 AM to 05:00 AM UTC' window and that rollback mechanisms are effective within '180.5' seconds. You provide feedback to the Infrastructure Engineer and the Release Manager.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      },
+      {
+        "agent_id": "RELEASE_MANAGER",
+        "role": "Release Manager",
+        "system_prompt": "You are the Release Manager, responsible for scheduling and coordinating deployments. You must strictly enforce the '03:00 AM to 05:00 AM UTC' deployment window on weekdays and ensure that all release plans include strategies for achieving the '180.5' second rollback time. You communicate with the QA Automation Engineer and SRE.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      },
+      {
+        "agent_id": "QA_AUTO_ENG",
+        "role": "QA Automation Engineer",
+        "system_prompt": "You are the QA Automation Engineer, responsible for designing and implementing automated tests for the deployment pipeline. You verify that rollback procedures meet the '180.5' second constraint and that deployment triggers are correctly configured for the '03:00 AM to 05:00 AM UTC' window. You report findings to the DevOps Lead and Release Manager.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS_LEAD",
+        "INFRA_ENG"
+      ],
+      [
+        "DEVOPS_LEAD",
+        "SRE"
+      ],
+      [
+        "DEVOPS_LEAD",
+        "RELEASE_MANAGER"
+      ],
+      [
+        "DEVOPS_LEAD",
+        "QA_AUTO_ENG"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS_LEAD",
+      "INFRA_ENG",
+      "QA_AUTO_ENG",
+      "RELEASE_MANAGER",
+      "SRE"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The continuous deployment pipeline is successfully designed, implemented, and validated. All production deployments exclusively occur between 03:00 AM and 05:00 AM UTC on weekdays, with no exceptions. The maximum rollback time for any failed production deployment consistently meets the stringent requirement, not exceeding 180.5 seconds. The final pipeline adheres to both the precise deployment window and the specific rollback time constraint.",
+    "quality_rubric": "Score 0-100: All production deployments occur only between 03:00 AM and 05:00 AM UTC on weekdays (50 pts), maximum rollback time for any failed production deployment does not exceed 180.5 seconds (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DEPLOY-WINDOW-03-05UTC",
+            "anchor": "all production deployments must only occur between 03:00 AM and 05:00 AM UTC on weekdays"
+          },
+          {
+            "tracer_id": "ROLLBACK-MAX-180.5S",
+            "anchor": "the maximum acceptable rollback time for any failed production deployment must not exceed 180.5 seconds"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Deployment platform uses Kubernetes.",
+        "Monitoring stack includes Prometheus and Grafana.",
+        "CI/CD tool is GitLab CI.",
+        "Configuration management uses Ansible.",
+        "Infrastructure is managed as code using Terraform.",
+        "Microservice uses Python with FastAPI.",
+        "Alerts are routed to PagerDuty and Slack."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

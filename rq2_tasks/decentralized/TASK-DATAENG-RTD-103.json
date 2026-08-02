@@ -1,0 +1,116 @@
+{
+  "task_id": "TASK-DATAENG-RTD-103",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new ETL pipeline to ingest customer feedback data from various sources into a centralized data warehouse. The pipeline needs to process a large volume of unstructured text data, perform sentiment analysis, and make it available for reporting dashboards. The team consists of a Data Architect, an ETL Developer, and a Data Quality Engineer. The Data Architect designs the overall structure, the ETL Developer implements the data ingestion and transformation logic, and the Data Quality Engineer ensures data integrity and accuracy. A critical aspect is that the daily ETL job must complete within exactly 2.50 hours to meet reporting SLAs, and the data processing costs for this specific pipeline must not exceed $15.75 USD per day. Agents must effectively communicate these precise constraints throughout the design and implementation phases to ensure the final solution adheres to both the strict time limit and the exact cost cap. This scenario emphasizes the challenge of propagating multiple exact numerical constraints in a fully connected team environment, ensuring no constraint is lost or diluted.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect responsible for designing scalable and efficient data pipelines. Your role involves outlining the overall architecture, ensuring performance targets are met, and communicating critical constraints to the team.",
+        "receives_from": [
+          "DE1",
+          "DQ1"
+        ]
+      },
+      {
+        "agent_id": "DE1",
+        "role": "ETL Developer",
+        "system_prompt": "You are the ETL Developer, tasked with implementing the data ingestion, transformation, and loading processes. You must ensure the pipeline adheres to design specifications and critical operational constraints, such as job completion times and processing costs.",
+        "receives_from": [
+          "DA1",
+          "DQ1"
+        ]
+      },
+      {
+        "agent_id": "DQ1",
+        "role": "Data Quality Engineer",
+        "system_prompt": "You are the Data Quality Engineer, responsible for defining and implementing data quality checks and ensuring data accuracy and integrity. You must also be aware of and contribute to meeting performance and cost constraints related to the pipeline operations.",
+        "receives_from": [
+          "DA1",
+          "DE1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "DE1"
+      ],
+      [
+        "DA1",
+        "DQ1"
+      ],
+      [
+        "DE1",
+        "DA1"
+      ],
+      [
+        "DE1",
+        "DQ1"
+      ],
+      [
+        "DQ1",
+        "DA1"
+      ],
+      [
+        "DQ1",
+        "DE1"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "DE1",
+      "DQ1",
+      "DA1",
+      "DE1",
+      "DQ1",
+      "DA1",
+      "DE1",
+      "DQ1",
+      "DA1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully designs and implements an ETL pipeline that completes daily processing within exactly 2.50 hours and incurs processing costs not exceeding $15.75 USD per day. All agents consistently integrate both the precise time limit and the exact cost cap into their discussions and proposed solutions, demonstrating seamless propagation of these critical constraints across the fully connected team.",
+    "quality_rubric": "Score 0-100: ETL job completes within 2.50 hours (35 pts), daily processing costs do not exceed $15.75 USD (35 pts), pipeline accurately processes customer feedback data (20 pts), sentiment analysis and reporting dashboards function correctly (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "ETL-TIME-001",
+            "anchor": "the daily ETL job must complete within exactly 2.50 hours to meet reporting SLAs"
+          },
+          {
+            "tracer_id": "ETL-COST-002",
+            "anchor": "data processing costs must not exceed $15.75 USD per day for this pipeline"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Source data is stored in AWS S3 buckets.",
+        "Target data warehouse is Snowflake.",
+        "Sentiment analysis to use a pre-trained Hugging Face model.",
+        "Data schema: customer_id, feedback_text, timestamp, sentiment_score.",
+        "Alerting system to be configured for pipeline failures."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

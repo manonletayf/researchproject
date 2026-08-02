@@ -1,0 +1,102 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-074",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new user authentication module. The module needs to securely handle user credentials, integrate with an existing identity provider, and enforce specific password policies. The team consists of a Lead Developer (DEV1), a Security Engineer (DEV2), and a QA Engineer (DEV3). The Lead Developer is responsible for overall design and implementation, the Security Engineer ensures compliance with security best practices and policies, and the QA Engineer is responsible for testing the module's functionality and security. A critical requirement for this module is that all user passwords must be hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and the maximum session timeout must be exactly '3600 seconds'. This fully connected topology allows all three agents to communicate directly and instantly, which is vital for ensuring that these precise technical and security constraints are accurately propagated and maintained throughout the development and testing phases. This easy structural-complexity task focuses on confirming the strict adherence to these technical specifications over a concise interaction of 6 turns, ensuring no details are lost or misinterpreted due to direct, unmediated communication channels.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DEV1",
+        "role": "Lead Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead Developer overseeing the implementation of a new authentication module. You receive requirements and ensure the design and code adhere to all specified technical and security constraints. You coordinate with the Security Engineer and QA Engineer.",
+        "receives_from": [
+          "DEV2",
+          "DEV3"
+        ]
+      },
+      {
+        "agent_id": "DEV2",
+        "role": "Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Security Engineer responsible for ensuring the authentication module meets all security best practices and compliance requirements, especially related to password hashing and session management. You provide guidance to the Lead Developer and QA Engineer.",
+        "receives_from": [
+          "DEV1",
+          "DEV3"
+        ]
+      },
+      {
+        "agent_id": "DEV3",
+        "role": "QA Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the QA Engineer responsible for testing the authentication module for functionality, performance, and security compliance. You verify that all specified constraints, including hashing algorithms and session timeouts, are correctly implemented. You report findings to the Lead Developer and Security Engineer.",
+        "receives_from": [
+          "DEV1",
+          "DEV2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEV1",
+        "DEV2"
+      ],
+      [
+        "DEV1",
+        "DEV3"
+      ],
+      [
+        "DEV2",
+        "DEV1"
+      ],
+      [
+        "DEV2",
+        "DEV3"
+      ],
+      [
+        "DEV3",
+        "DEV1"
+      ],
+      [
+        "DEV3",
+        "DEV2"
+      ]
+    ],
+    "speaking_order": [
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV1",
+      "DEV2",
+      "DEV3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The user authentication module is designed, implemented, and tested with user passwords hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and a maximum session timeout of exactly '3600 seconds'. All agents consistently communicate and adhere to these specific technical constraints throughout the development process, demonstrating perfect information retention within the fully connected team.",
+    "quality_rubric": "Score 0-100: Password hashing uses 'SHA-256 with 100,000 iterations of PBKDF2' (40 pts), Session timeout is exactly '3600 seconds' (40 pts), Module functions correctly (10 pts), Security best practices are followed (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-SEC-POL-V4",
+      "anchor": "all user passwords must be hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and the maximum session timeout must be exactly '3600 seconds'",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The module should support multi-factor authentication.",
+        "Frontend framework is React v18.",
+        "Database connection pooling should be optimized.",
+        "Logging level for authentication events should be set to 'WARN'.",
+        "The API endpoint for login is '/api/v1/auth/login'."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

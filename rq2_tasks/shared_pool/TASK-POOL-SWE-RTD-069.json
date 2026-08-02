@@ -1,0 +1,124 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-069",
+  "domain": "swe",
+  "description": "A small software engineering team is tasked with implementing a new API endpoint for user profile updates. The objective is to design, develop, and test this endpoint while adhering to specific performance and security constraints. The team consists of a Lead Developer, a Backend Engineer, and a QA Engineer. The Lead Developer is responsible for overall design and coordination. The Backend Engineer implements the API logic and database interactions. The QA Engineer writes and executes test cases. A crucial performance constraint is that the API response time for the new endpoint must not exceed 250.75 milliseconds. Additionally, all data exchanges through this endpoint must be encrypted using TLS 1.3 or higher. The fully connected topology ensures every agent can directly communicate with any other agent, facilitating immediate feedback and discussions on critical constraints. This medium-structural-complexity task evaluates how effectively these precise numerical and security constraints are propagated and maintained through 18 turns of iterative discussion, design, and validation in a tightly integrated team environment.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "LD1",
+        "role": "Lead Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead Developer overseeing the implementation of a new API endpoint. Your primary responsibility is to define the architectural approach, delegate tasks, and ensure that all performance and security requirements are met and communicated clearly to the team.",
+        "receives_from": [
+          "BE1",
+          "QA1"
+        ]
+      },
+      {
+        "agent_id": "BE1",
+        "role": "Backend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are a Backend Engineer responsible for writing the API logic and interacting with the database. You must strictly adhere to all performance benchmarks and security protocols defined by the Lead Developer. Provide implementation details and seek clarification when needed.",
+        "receives_from": [
+          "LD1",
+          "QA1"
+        ]
+      },
+      {
+        "agent_id": "QA1",
+        "role": "QA Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are a QA Engineer tasked with designing and executing test plans for the new API endpoint. Your focus is on verifying that the endpoint meets all specified functional, performance, and security requirements. Report any discrepancies and validate the implementation.",
+        "receives_from": [
+          "BE1",
+          "LD1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LD1",
+        "BE1"
+      ],
+      [
+        "LD1",
+        "QA1"
+      ],
+      [
+        "BE1",
+        "LD1"
+      ],
+      [
+        "BE1",
+        "QA1"
+      ],
+      [
+        "QA1",
+        "LD1"
+      ],
+      [
+        "QA1",
+        "BE1"
+      ]
+    ],
+    "speaking_order": [
+      "LD1",
+      "BE1",
+      "QA1",
+      "LD1",
+      "BE1",
+      "QA1",
+      "LD1",
+      "BE1",
+      "QA1",
+      "LD1",
+      "BE1",
+      "QA1",
+      "LD1",
+      "BE1",
+      "QA1",
+      "LD1",
+      "BE1",
+      "QA1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The team successfully implements, tests, and validates the user profile update API endpoint. The final API implementation demonstrably adheres to a response time not exceeding 250.75 milliseconds and employs TLS 1.3 or higher for all data exchanges. All internal team communications consistently reflect these precise performance and security constraints, ensuring they are not lost or diluted throughout the design, development, and testing phases.",
+    "quality_rubric": "Score 0-100: API response time does not exceed 250.75 milliseconds (35 pts), all data exchanges use TLS 1.3 or higher (35 pts), functional correctness of the API (20 pts), clear and well-documented implementation (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "API-PX7Y",
+            "anchor": "the API response time for the new endpoint must not exceed 250.75 milliseconds"
+          },
+          {
+            "tracer_id": "SEC-JK8Z",
+            "anchor": "all data exchanges through this endpoint must be encrypted using TLS 1.3 or higher"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Database used: PostgreSQL 15.2",
+        "Authentication method: OAuth 2.0 with JWT tokens",
+        "Logging level: WARN for production",
+        "Preferred language: Python 3.10 with FastAPI",
+        "Containerization: Docker with Kubernetes deployment"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

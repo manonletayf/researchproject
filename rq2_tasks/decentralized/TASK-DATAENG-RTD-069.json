@@ -1,0 +1,217 @@
+{
+  "task_id": "TASK-DATAENG-RTD-069",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new ETL pipeline to ingest customer feedback data from various sources into a central data warehouse. This pipeline must ensure data quality, handle varying data volumes, and comply with strict data governance policies. The team consists of a Lead Data Engineer, a Data Architect, a Data Quality Specialist, a DevOps Engineer, and a Security Engineer. The Lead Data Engineer oversees the project, the Data Architect designs the schema and data flow, the Data Quality Specialist defines validation rules, the DevOps Engineer sets up the infrastructure and deployment, and the Security Engineer ensures compliance and data protection. The objective is to evaluate how well specific technical and security constraints are propagated and integrated into the team's collaborative output. This medium-structural-complexity task involves iterative communication and decision-making among all agents, requiring each to understand and act upon information received from all other team members.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You are the leader of the data engineering team. Your role is to coordinate the team's efforts, ensure project goals are met, and confirm that all technical and compliance constraints are correctly implemented and communicated to every team member. You will receive input from all other agents and distribute your decisions and updates back to everyone.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Data Architect",
+        "system_prompt": "You design the data pipeline's architecture, schema, and data flow. You must consider the specified platform, expected data volume, and security requirements when drafting the technical blueprint. You will communicate your architectural plans and any questions to all other agents.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Data Quality Specialist",
+        "system_prompt": "You define and implement data validation and quality rules. You must ensure data integrity while adhering to the specified data volume and security protocols for sensitive information. You will share your data quality strategies and findings with all other team members.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "DevOps Engineer",
+        "system_prompt": "You are responsible for setting up the infrastructure, automating deployments, and monitoring the ETL pipeline. Your tasks must align with the chosen technology platform, handle the specified data volume, and integrate security features as required. You will inform all other agents about infrastructure updates and deployment considerations.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE5",
+        "role": "Security Engineer",
+        "system_prompt": "You ensure the data pipeline complies with all security policies and regulations. Your primary focus is on data encryption, access controls, and vulnerability management, specifically implementing the required encryption standard for PII. You will communicate security requirements and compliance checks to all other agents.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE1",
+        "DE5"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE5"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE5"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ],
+      [
+        "DE4",
+        "DE5"
+      ],
+      [
+        "DE5",
+        "DE1"
+      ],
+      [
+        "DE5",
+        "DE2"
+      ],
+      [
+        "DE5",
+        "DE3"
+      ],
+      [
+        "DE5",
+        "DE4"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully designs and implements an ETL pipeline that explicitly utilizes 'Azure Data Factory V2', is capable of processing a minimum of '750.5 GB' of data daily, and ensures all PII is encrypted using 'AES-256' before landing in the raw data zone. All internal discussions and final design documents consistently reflect these exact technical and security constraints, demonstrating robust and accurate information flow across the fully connected team.",
+    "quality_rubric": "Score 0-100: Explicit use of 'Azure Data Factory V2' (30 pts), capability to process a minimum of '750.5 GB' daily (30 pts), PII encryption with 'AES-256' (30 pts), clear and coherent overall pipeline design (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "PLATFORM-ADF-X4R",
+            "anchor": "the ETL pipeline must operate using exactly 'Azure Data Factory V2'"
+          },
+          {
+            "tracer_id": "VOLUME-750GB-L2S",
+            "anchor": "the ETL pipeline must process a minimum of '750.5 GB' of data daily"
+          },
+          {
+            "tracer_id": "ENCRYPTION-AES-V9A",
+            "anchor": "all Personally Identifiable Information (PII) must be encrypted using 'AES-256' before landing in the raw data zone"
+          }
+        ]
+      },
+      "distractors": [
+        "Data sources include CRM, ERP, and web analytics logs.",
+        "Target data warehouse is Azure Synapse Analytics.",
+        "Data retention policy is 7 years for raw data, 1 year for aggregated data.",
+        "Implement a 'fail-fast' mechanism for data quality issues.",
+        "Use managed identities for all Azure resource authentication.",
+        "Consider real-time streaming for certain critical data feeds."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

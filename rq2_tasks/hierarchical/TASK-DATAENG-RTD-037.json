@@ -1,0 +1,107 @@
+{
+  "task_id": "TASK-DATAENG-RTD-037",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a robust data pipeline for customer usage data. The Data Architect (A1) receives the project brief, which includes a critical data retention policy. The Architect then delegates initial setup to the Data Ingestion Specialist (A2) and a compliance review to the Data Governance Lead (A3). A2 is responsible for setting up initial data feeds and ensuring source data quality, passing details to the Data Quality Analyst (A4). A3 reviews policy adherence from a governance perspective, also communicating findings to A4. A4 then consolidates the ingestion details and governance feedback, preparing a comprehensive report for the Data Transformation Specialist (A5), who will implement the actual data cleansing and enrichment logic. The primary constraint is a strict data retention policy: 'customer usage data must be purged from all systems after 367 days of inactivity to comply with privacy regulations'. This setup rigorously tests whether this precise numerical retention constraint is consistently propagated and maintained through a branching path, where A4 acts as a consolidation point before A5's final implementation. The hard structural-complexity is justified by the precise numerical anchor, the number of agents, the branching topology leading to a convergent point for A4, and the high expected turn count, requiring agents to maintain the constraint over an extended, iterative conversation.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect. Your role is to design robust data pipelines and delegate initial tasks to specialists. You communicate all critical policies and compliance requirements clearly, ensuring the foundational directives are understood by all.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Ingestion Specialist",
+        "system_prompt": "You are a Data Ingestion Specialist. Your primary responsibility is to design and implement data ingestion pipelines, ensuring data quality, schema integrity, and adherence to all data policies, especially retention. You report your ingestion plan and quality checks to the Data Quality Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Data Governance Lead",
+        "system_prompt": "You are the Data Governance Lead. Your role is to provide guidance on data policies and ensure compliance throughout the data pipeline lifecycle. You receive requirements from the Architect and ensure specialists are aware of and implement governance rules. You communicate your policy review findings to the Data Quality Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are a Data Quality Analyst. Your role is to consolidate information from both the Ingestion Specialist and the Data Governance Lead, then prepare a comprehensive report for the Data Transformation Specialist. You must ensure all specified policies and compliance requirements, especially data retention, are clearly articulated for transformation.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Data Transformation Specialist",
+        "system_prompt": "You are a Data Transformation Specialist. Your role is to develop and implement data transformation logic, including cleansing, enrichment, and formatting. You receive a consolidated report from the Data Quality Analyst and must ensure all data policies, particularly retention and privacy, are respected during transformation and in the final output.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A1",
+        "A4"
+      ],
+      [
+        "A1",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Data Ingestion Specialist (A2) proposes an ingestion pipeline that incorporates the 367-day purge policy. The Data Governance Lead (A3) explicitly reviews and validates the 367-day retention policy. The Data Quality Analyst (A4) consolidates this information and explicitly includes the '367 days' purge requirement in their report to A5. The Data Transformation Specialist (A5) then designs transformation logic that respects the 367-day purge, explicitly detailing its implementation.",
+    "quality_rubric": "Score 0-100: A2 explicitly includes the '367 days' purge in their plan (25 pts). A3 explicitly acknowledges and plans for the '367 days' retention in their review (25 pts). A4's consolidated report explicitly states the '367 days' purge adherence for A5 (25 pts). A5's transformation design explicitly details the '367 days' purge implementation (25 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DATA-RETN-367D",
+      "anchor": "customer usage data must be purged from all systems after 367 days of inactivity to comply with privacy regulations",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "Data source: CRM database",
+        "Target storage: Data Lake (S3)",
+        "Transformation tool: Apache Spark",
+        "Schema version: v2.1",
+        "Encryption standard: AES-256",
+        "Access control: RBAC",
+        "GDPR compliance reference: Article 17 (Right to Erasure)",
+        "Data anonymization technique: k-anonymity for PII"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

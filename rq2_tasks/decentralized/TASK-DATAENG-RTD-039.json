@@ -1,0 +1,104 @@
+{
+  "task_id": "TASK-DATAENG-RTD-039",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with creating a new data pipeline for real-time analytics. The objective is to extract, transform, and load customer interaction data into a data warehouse, ensuring data integrity and compliance with privacy regulations. The team consists of a Data Architect, a Pipeline Engineer, and a QA Analyst. The Data Architect designs the overall structure and flow. The Pipeline Engineer implements the extraction and transformation logic. The QA Analyst verifies data quality and ensures all constraints are met. A crucial constraint is that the pipeline must process a minimum of 5,000 records per second, and all PII data must be masked using SHA-256 hashing. The fully connected topology ensures every agent can directly communicate with any other agent, facilitating rapid feedback and coordination, which is essential for maintaining consistency across all aspects of the pipeline development. This is an easy structural-complexity task designed to test whether the precise throughput requirement and the specific hashing algorithm for PII masking are accurately propagated and maintained across the team's internal discussions and the final pipeline design over 8 turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect responsible for designing the overall data pipeline architecture. You define the high-level strategy and ensure compliance with all data processing requirements. You will receive input from the Pipeline Engineer and QA Analyst.",
+        "receives_from": [
+          "PE2",
+          "QA3"
+        ]
+      },
+      {
+        "agent_id": "PE2",
+        "role": "Pipeline Engineer",
+        "system_prompt": "You are the Pipeline Engineer, tasked with implementing the data extraction, transformation, and loading (ETL) processes. You must ensure the pipeline adheres to performance metrics and data privacy standards. You will receive input from the Data Architect and QA Analyst.",
+        "receives_from": [
+          "DA1",
+          "QA3"
+        ]
+      },
+      {
+        "agent_id": "QA3",
+        "role": "QA Analyst",
+        "system_prompt": "You are the QA Analyst, responsible for testing the data pipeline for data quality, performance, and compliance. You must verify that all specified constraints, including data throughput and PII masking, are correctly implemented. You will receive input from the Data Architect and Pipeline Engineer.",
+        "receives_from": [
+          "DA1",
+          "PE2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "PE2"
+      ],
+      [
+        "DA1",
+        "QA3"
+      ],
+      [
+        "PE2",
+        "DA1"
+      ],
+      [
+        "PE2",
+        "QA3"
+      ],
+      [
+        "QA3",
+        "DA1"
+      ],
+      [
+        "QA3",
+        "PE2"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "PE2",
+      "QA3",
+      "DA1",
+      "PE2",
+      "QA3",
+      "DA1",
+      "PE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The data pipeline design and implementation clearly reflect a minimum processing capability of 5,000 records per second and specify that all PII data must be masked using SHA-256 hashing. All agents' communications consistently refer to these exact constraints, leading to a final design that explicitly incorporates both the throughput requirement and the specific hashing algorithm for PII masking, demonstrating perfect information flow in the fully connected network.",
+    "quality_rubric": "Score 0-100: Pipeline designed for \u22655,000 records/second (40 pts), SHA-256 hashing explicitly used for PII masking (40 pts), overall data integrity maintained (10 pts), compliance with privacy regulations (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DATA-PIPE-THRUPUT-PII-MASK-SHA256",
+      "anchor": "the pipeline must process a minimum of 5,000 records per second, and all PII data must be masked using SHA-256 hashing",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is a Kafka cluster.",
+        "Target is a Snowflake data warehouse.",
+        "Monitoring via Prometheus and Grafana.",
+        "Error logging level: WARNING.",
+        "Data retention policy: 7 years for audit logs."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

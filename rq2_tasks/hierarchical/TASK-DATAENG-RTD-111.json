@@ -1,0 +1,119 @@
+{
+  "task_id": "TASK-DATAENG-RTD-111",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with overhauling an existing batch processing system for supply chain logistics data. The primary goal is to improve data quality, processing efficiency, and ensure regulatory compliance. A critical constraint for all data transformations is the mandatory use of Apache Spark's DataFrame API with Scala, explicitly forbidding Python/PySpark for performance and consistency reasons across the existing ecosystem. Furthermore, all outgoing data feeds to external partners must be encrypted end-to-end using 'TLS 1.3 with AES-256 GCM' cipher suites, rejecting any weaker encryption standards like TLS 1.2. The team consists of a Data Platform Architect, a Senior ETL Developer, a Data Quality Engineer, a Security Auditor, and a DevOps Engineer. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents. The goal is to build a high-quality, secure, and compliant data pipeline.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "DP_ARCHITECT",
+        "role": "Data Platform Architect",
+        "system_prompt": "You are the Data Platform Architect, responsible for the high-level design and technical direction of the data processing system. You must ensure all critical constraints, like using Spark DataFrame API with Scala and TLS 1.3 with AES-256 GCM for encryption, are clearly communicated, enforced, and integrated into architectural decisions. You coordinate the team and review core designs.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "SENIOR_ETL_DEV",
+        "role": "Senior ETL Developer",
+        "system_prompt": "You are the Senior ETL Developer, responsible for implementing data transformation jobs. You must strictly use Apache Spark's DataFrame API with Scala for all transformations and deliver high-quality, efficient code. You provide code to the Data Quality Engineer and receive feedback from the Data Platform Architect.",
+        "receives_from": [
+          "DP_ARCHITECT"
+        ]
+      },
+      {
+        "agent_id": "DQ_ENGINEER",
+        "role": "Data Quality Engineer",
+        "system_prompt": "You are the Data Quality Engineer, responsible for designing and implementing data validation and quality checks. You ensure that all transformations adhere to the Spark/Scala constraint and that data integrity is maintained throughout the pipeline. You provide feedback to the Senior ETL Developer and report findings to the Security Auditor.",
+        "receives_from": [
+          "DP_ARCHITECT"
+        ]
+      },
+      {
+        "agent_id": "SECURITY_AUDITOR",
+        "role": "Security Auditor",
+        "system_prompt": "You are the Security Auditor, responsible for reviewing the security aspects of the data platform. You must verify that all outgoing data feeds use TLS 1.3 with AES-256 GCM and ensure no weaker encryption standards are used. You provide security recommendations to the DevOps Engineer and report findings to the Data Platform Architect.",
+        "receives_from": [
+          "DP_ARCHITECT"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS_ENG",
+        "role": "DevOps Engineer",
+        "system_prompt": "You are the DevOps Engineer, responsible for deploying and managing the data pipeline infrastructure. You must configure all external data feeds to strictly use TLS 1.3 with AES-256 GCM encryption and ensure the Spark environment is properly set up for Scala-based DataFrame operations. You receive security recommendations and report deployment status to the Data Platform Architect.",
+        "receives_from": [
+          "DP_ARCHITECT"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DP_ARCHITECT",
+        "SENIOR_ETL_DEV"
+      ],
+      [
+        "DP_ARCHITECT",
+        "DQ_ENGINEER"
+      ],
+      [
+        "DP_ARCHITECT",
+        "SECURITY_AUDITOR"
+      ],
+      [
+        "DP_ARCHITECT",
+        "DEVOPS_ENG"
+      ]
+    ],
+    "speaking_order": [
+      "DP_ARCHITECT",
+      "DEVOPS_ENG",
+      "DQ_ENGINEER",
+      "SECURITY_AUDITOR",
+      "SENIOR_ETL_DEV"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The data processing system is successfully overhauled, designed, implemented, and validated. All data transformations consistently use Apache Spark's DataFrame API with Scala. All outgoing data feeds to external partners are end-to-end encrypted using TLS 1.3 with AES-256 GCM cipher suites, with no weaker standards present. The final system adheres to both the Spark/Scala transformation constraint and the specific TLS 1.3 with AES-256 GCM encryption standard.",
+    "quality_rubric": "Score 0-100: All raw data transformations use Apache Spark's DataFrame API with Scala (50 pts), all outgoing data feeds are encrypted with TLS 1.3 with AES-256 GCM (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "SPK-SCL-DF7",
+            "anchor": "all data transformations must exclusively use Apache Spark's DataFrame API with Scala, forbidding Python/PySpark"
+          },
+          {
+            "tracer_id": "TLS13-AESGCM9",
+            "anchor": "all outgoing data feeds to external partners must be encrypted end-to-end using TLS 1.3 with AES-256 GCM cipher suites"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is an S3 bucket with daily batches.",
+        "Data warehouse platform is Databricks Lakehouse.",
+        "ETL orchestrator is Apache Airflow.",
+        "Data retention policy: 5 years for historical data.",
+        "Performance target: process 500GB of data per hour.",
+        "Team uses GitLab for version control.",
+        "Weekly performance reviews are required.",
+        "Alerting integrates with Opsgenie.",
+        "Data lineage tracking must be implemented.",
+        "Schema evolution handled by Delta Lake."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

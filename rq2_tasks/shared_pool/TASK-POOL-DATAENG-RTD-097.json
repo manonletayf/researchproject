@@ -1,0 +1,114 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-097",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a critical ETL pipeline that processes sensitive customer data. The pipeline is currently experiencing intermittent failures and high latency, impacting downstream analytics. The team consists of a Lead Data Engineer, a Data Quality Specialist, and a Cloud Infrastructure Engineer. The Lead Data Engineer oversees the entire optimization process and ensures compliance with all requirements. The Data Quality Specialist focuses on improving data integrity and schema validation, while the Cloud Infrastructure Engineer manages the underlying cloud resources and performance tuning. A crucial constraint is that all data transformations must use exactly Apache Spark 3.3.2, and the total processing time for the nightly batch must not exceed 2.75 hours. The fully connected topology ensures direct and immediate communication between all agents, which is vital for quickly resolving complex technical issues and coordinating efforts. This easy structural-complexity task evaluates the team's ability to consistently propagate and adhere to both the specific software version and the tight processing time constraint over 6 turns, ensuring that these precise requirements are maintained throughout the optimization discussions.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the leader of the data engineering team responsible for optimizing an ETL pipeline. Your role involves coordinating tasks, ensuring technical decisions align with project requirements, and maintaining strict adherence to critical constraints, especially software versions and performance targets.",
+        "receives_from": [
+          "DE2",
+          "DE3"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Data Quality Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You focus on data integrity, schema validation, and ensuring the quality of data moving through the pipeline. You must verify that any proposed changes maintain or improve data quality while respecting specified software versions and processing limits.",
+        "receives_from": [
+          "DE1",
+          "DE3"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Cloud Infrastructure Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the cloud resources, performance tuning, and deployment aspects of the ETL pipeline. You must ensure that infrastructure changes support the required software versions and contribute to meeting the overall processing time constraints.",
+        "receives_from": [
+          "DE1",
+          "DE2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE1",
+      "DE2",
+      "DE3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully proposes an optimized ETL pipeline solution that explicitly uses Apache Spark 3.3.2 for all transformations and guarantees a total processing time not exceeding 2.75 hours for the nightly batch. All agents consistently integrate both the precise software version and the strict time limit into their discussions and proposed solutions, demonstrating perfect information retention and adherence within the fully connected team.",
+    "quality_rubric": "Score 0-100: Solution explicitly uses Apache Spark 3.3.2 (40 pts), total processing time does not exceed 2.75 hours (40 pts), proposed solution addresses intermittent failures and high latency (10 pts), clear and coherent team communication (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "ETL-SPARK-PZ51",
+      "anchor": "all data transformations must use exactly Apache Spark 3.3.2",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "ETL-SPARK-PZ51",
+            "anchor": "all data transformations must use exactly Apache Spark 3.3.2"
+          },
+          {
+            "tracer_id": "ETL-TIME-QW93",
+            "anchor": "the total processing time for the nightly batch must not exceed 2.75 hours"
+          }
+        ]
+      },
+      "distractors": [
+        "Data source is PostgreSQL 14.",
+        "Target data warehouse is Google BigQuery.",
+        "Schema changes require a formal review process.",
+        "Monitoring is done via Datadog.",
+        "Sensitive customer data requires encryption at rest and in transit."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

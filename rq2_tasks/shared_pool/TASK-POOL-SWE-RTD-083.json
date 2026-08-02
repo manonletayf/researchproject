@@ -1,0 +1,96 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-083",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new user authentication module. The module needs to securely handle user logins and sign-ups while integrating with an existing database. The team consists of a Project Lead, a Backend Developer, and a QA Engineer. The Project Lead oversees the development process, sets priorities, and ensures compliance with architectural standards. The Backend Developer is responsible for writing the server-side logic and database interactions. The QA Engineer tests the module for functionality, security vulnerabilities, and adherence to specifications. A crucial, non-negotiable constraint is that all user passwords must be hashed using the argon2id algorithm. This constraint must be accurately understood and propagated throughout the team's discussions and implementation. The fully connected topology facilitates direct and instantaneous communication among all three agents, which is essential for ensuring that this specific security requirement is not overlooked or misinterpreted during the iterative development and testing phases of this easy-structural-complexity task, expected to conclude within 6 turns.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "PL1",
+        "role": "Project Lead",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Project Lead for a software development team. Your role is to define project requirements, oversee development, and ensure all critical technical specifications and security constraints are met and communicated effectively to the team.",
+        "receives_from": [
+          "BD1",
+          "QA1"
+        ]
+      },
+      {
+        "agent_id": "BD1",
+        "role": "Backend Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are a Backend Developer responsible for implementing server-side logic and database interactions. You must adhere strictly to all architectural and security constraints provided by the Project Lead and validate your work with the QA Engineer.",
+        "receives_from": [
+          "PL1",
+          "QA1"
+        ]
+      },
+      {
+        "agent_id": "QA1",
+        "role": "QA Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are a QA Engineer responsible for testing software modules, identifying bugs, and verifying compliance with specifications and security standards. You must ensure all critical constraints, especially security-related ones, are correctly implemented.",
+        "receives_from": [
+          "BD1",
+          "PL1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "PL1",
+        "BD1"
+      ],
+      [
+        "PL1",
+        "QA1"
+      ],
+      [
+        "BD1",
+        "PL1"
+      ],
+      [
+        "BD1",
+        "QA1"
+      ],
+      [
+        "QA1",
+        "PL1"
+      ],
+      [
+        "QA1",
+        "BD1"
+      ]
+    ],
+    "speaking_order": [
+      "PL1",
+      "BD1",
+      "QA1",
+      "PL1",
+      "BD1",
+      "QA1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The user authentication module is developed and tested, ensuring that all user passwords are hashed using the argon2id algorithm. All agents, including the Project Lead, Backend Developer, and QA Engineer, consistently communicate and confirm adherence to this specific hashing algorithm throughout their discussions and in their final outputs.",
+    "quality_rubric": "Score 0-100: Argon2id algorithm used for password hashing (80 pts), module functions correctly (10 pts), secure handling of user data (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "SEC-PASS-ARGON2ID-X9A7",
+      "anchor": "all user passwords must be hashed using the argon2id algorithm",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": []
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

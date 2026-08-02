@@ -1,0 +1,142 @@
+{
+  "task_id": "TASK-SWE-RTD-030",
+  "domain": "swe",
+  "description": "A specialized software development team is tasked with enhancing the security and performance of an existing financial transaction processing microservice. This critical service handles high-volume, sensitive financial data, necessitating absolute precision in all security parameters and strict adherence to performance SLAs. The team consists of a Lead Architect, a Cryptography Engineer, a Performance Optimization Specialist, and a Compliance Officer. The Lead Architect oversees the overall system design and integration. The Cryptography Engineer is responsible for implementing and reviewing all encryption and data protection protocols. The Performance Optimization Specialist focuses on identifying and eliminating bottlenecks to meet latency targets. The Compliance Officer ensures that all operations adhere to financial regulations and internal security policies. A paramount, non-negotiable constraint is that all financial transaction data must be encrypted using AES-256 with a key rotation interval of exactly 29.75 days, and the service must process at least 1,000,000 transactions per hour with an end-to-end latency not exceeding 45.50 milliseconds for 99.9% of transactions. Given the extreme sensitivity and the need for constant, real-time communication on evolving threats and performance nuances, a fully connected topology is essential. This setup allows all four agents to communicate directly and instantly, ensuring that these highly precise security and performance constraints are continuously understood, meticulously implemented, and rigorously verified throughout the development and deployment phases, making this a hard structural-complexity task requiring extensive, iterative collaboration over approximately 34 turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "SWE-ARC",
+        "role": "Lead Architect",
+        "system_prompt": "You are the Lead Architect for a financial microservice. Your role involves designing secure, high-performance systems and coordinating your team to meet strict security and performance SLAs. You must ensure all communications uphold the specified encryption and throughput constraints.",
+        "receives_from": [
+          "SWE-COM",
+          "SWE-CRY",
+          "SWE-PERF"
+        ]
+      },
+      {
+        "agent_id": "SWE-CRY",
+        "role": "Cryptography Engineer",
+        "system_prompt": "You are a Cryptography Engineer specializing in secure data handling for financial systems. You are responsible for implementing and reviewing all encryption protocols, ensuring key management and data protection adhere to the strictest security standards and precise key rotation intervals.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-COM",
+          "SWE-PERF"
+        ]
+      },
+      {
+        "agent_id": "SWE-PERF",
+        "role": "Performance Optimization Specialist",
+        "system_prompt": "You are a Performance Optimization Specialist focused on financial microservices. Your task is to ensure the service meets demanding throughput and latency requirements, specifically processing transactions at a high rate with minimal end-to-end latency.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-COM",
+          "SWE-CRY"
+        ]
+      },
+      {
+        "agent_id": "SWE-COM",
+        "role": "Compliance Officer",
+        "system_prompt": "You are a Compliance Officer for a financial institution, ensuring all software development adheres to regulatory requirements and internal security policies. You must verify that the microservice's data handling and performance metrics comply with all legal and internal standards.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-CRY",
+          "SWE-PERF"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SWE-ARC",
+        "SWE-CRY"
+      ],
+      [
+        "SWE-ARC",
+        "SWE-PERF"
+      ],
+      [
+        "SWE-ARC",
+        "SWE-COM"
+      ],
+      [
+        "SWE-CRY",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-CRY",
+        "SWE-PERF"
+      ],
+      [
+        "SWE-CRY",
+        "SWE-COM"
+      ],
+      [
+        "SWE-PERF",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-PERF",
+        "SWE-CRY"
+      ],
+      [
+        "SWE-PERF",
+        "SWE-COM"
+      ],
+      [
+        "SWE-COM",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-COM",
+        "SWE-CRY"
+      ],
+      [
+        "SWE-COM",
+        "SWE-PERF"
+      ]
+    ],
+    "speaking_order": [
+      "SWE-ARC",
+      "SWE-COM",
+      "SWE-CRY",
+      "SWE-PERF"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The financial transaction processing microservice is successfully developed and deployed, ensuring all financial transaction data is encrypted using AES-256 with a key rotation interval of exactly 29.75 days. The service consistently processes at least 1,000,000 transactions per hour with an end-to-end latency not exceeding 45.50 milliseconds for 99.9% of transactions. All internal team communications and final documentation precisely reflect both the specific encryption standards and the strict performance targets, demonstrating robust information flow and adherence across the fully connected development team.",
+    "quality_rubric": "Score 0-100: All transaction data encrypted using AES-256 (25 pts), key rotation interval exactly 29.75 days (25 pts), processes at least 1,000,000 transactions/hour (20 pts), end-to-end latency no more than 45.50 milliseconds for 99.9% of transactions (20 pts), clear and consistent team communication reflecting all constraints (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "FIN-SEC-PERF-29D75-45MS50",
+      "anchor": "all financial transaction data must be encrypted using AES-256 with a key rotation interval of exactly 29.75 days, and the service must process at least 1,000,000 transactions per hour with an end-to-end latency not exceeding 45.50 milliseconds for 99.9% of transactions",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Utilize a message queue system (e.g., Apache Kafka) for asynchronous processing.",
+        "Implement robust error handling and retry mechanisms with exponential backoff.",
+        "Ensure audit logs are immutable and stored for at least 7 years as per regulation.",
+        "Consider using a graph database for fraud detection analysis.",
+        "The microservice should be stateless to facilitate horizontal scaling.",
+        "All API endpoints must be documented using OpenAPI Specification.",
+        "Conduct regular penetration testing and vulnerability assessments.",
+        "Support multi-region deployment for disaster recovery.",
+        "Monitor resource utilization (CPU, memory, network I/O) in real-time.",
+        "Implement circuit breakers to prevent cascading failures in dependent services."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

@@ -1,0 +1,95 @@
+{
+  "task_id": "TASK-DATAENG-RTD-092",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a data ingestion pipeline for an analytics dashboard. The Data Lead (A1), acting as the orchestrator, receives the initial request along with two crucial, distinct performance constraints. The first constraint specifies a data processing window: 'all daily ETL jobs must complete within a 45-minute window'. This constraint is directed to the ETL Engineer (A2). The second constraint, related to data lineage, states that 'data lineage metadata must be updated every 7 minutes'. This constraint is directed to the Data Governance Specialist (A3). The Data Lead must ensure both precise numerical constraints are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient constraints to the appropriate specialized agents, who then act on them. The easy structural-complexity is justified by the precise numerical constraints, the low number of agents, the branching topology, and the low expected turn count, requiring agents to maintain the constraints over a few turns without extensive iterative dialogue.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Lead",
+        "system_prompt": "You are the Data Lead. Your role is to understand data pipeline requirements, communicate critical performance constraints to your team, and delegate tasks to specialized data engineers. Ensure all specific numerical constraints are accurately relayed.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "ETL Engineer",
+        "system_prompt": "You are an ETL Engineer. Your task is to design and implement data processing workflows, optimizing for efficiency and ensuring all specified processing window constraints are strictly met.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Data Governance Specialist",
+        "system_prompt": "You are a Data Governance Specialist. Your task is to ensure data quality, compliance, and maintain accurate data lineage. You must ensure all metadata update frequencies are strictly followed.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "The ETL Engineer (A2) acknowledges and plans for daily ETL jobs to complete within a '45-minute window'. The Data Governance Specialist (A3) acknowledges and plans for 'data lineage metadata to be updated every 7 minutes'. The Data Lead (A1) verifies both specialists have adhered to their respective constraints in their initial plans, and provides further guidance if needed.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the '45-minute window' constraint (40 pts). A3's responses consistently reflect the '7 minutes' lineage update constraint (40 pts). A1's final review confirms both policies are correctly handled (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "ETL-WINDOW-45MIN-X9V1",
+            "anchor": "all daily ETL jobs must complete within a 45-minute window"
+          },
+          {
+            "tracer_id": "LINEAGE-UPDATE-7MIN-Z3L2",
+            "anchor": "data lineage metadata must be updated every 7 minutes"
+          }
+        ]
+      },
+      "distractors": [
+        "Dashboard Type: Executive Summary",
+        "Data Volume: Medium-High",
+        "Processing Environment: Cloud-based Data Lake",
+        "Compliance Standard: GDPR",
+        "Team Lead: Sarah Chen"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

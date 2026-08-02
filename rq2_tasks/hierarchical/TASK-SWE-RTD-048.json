@@ -1,0 +1,126 @@
+{
+  "task_id": "TASK-SWE-RTD-048",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new user authentication module. The Project Lead, acting as the Orchestrator (A1), receives the core requirements and a critical security constraint. The Lead then delegates the task to two parallel sub-teams: the Frontend Lead (A2) and the Backend Lead (A3). The Frontend Lead (A2) is responsible for the user interface and passes their design to a UI/UX Developer (A4) for implementation details. Concurrently, the Backend Lead (A3) focuses on API development and passes their architectural plan to a Database Engineer (A5) for schema design and integration. Both the UI/UX Developer and the Database Engineer must ensure the critical security constraint is upheld in their respective outputs. The core constraint dictates that 'all user passwords must be hashed using Argon2id with a minimum memory cost of 2^20 KiB and a time cost of 4 iterations.' This setup evaluates whether this precise technical security constraint propagates accurately down both branches of the development team, from high-level design to low-level implementation, without being diluted or lost.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Project Lead",
+        "system_prompt": "You are the Project Lead. Your role is to oversee the development of a new user authentication module. You must understand the core requirements, communicate critical security constraints clearly, and delegate tasks to appropriate team leads. Ensure the constraint is accurately relayed to all downstream agents.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Frontend Lead",
+        "system_prompt": "You are the Frontend Lead. Your responsibility is to design the user interface for the authentication module. You must ensure that the design considerations align with all security constraints. You will communicate your design approach and considerations to the UI/UX Developer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Backend Lead",
+        "system_prompt": "You are the Backend Lead. Your responsibility is to design the backend architecture and API for the authentication module. You must ensure the architectural decisions strictly adhere to all security constraints. You will communicate your architectural plan to the Database Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "UI/UX Developer",
+        "system_prompt": "You are the UI/UX Developer. Your task is to implement the user interface based on the Frontend Lead's design. You must ensure that any client-side implications or data handling considerations uphold the specified security constraints.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Database Engineer",
+        "system_prompt": "You are the Database Engineer. Your task is to design the database schema and implement storage mechanisms for user credentials based on the Backend Lead's plan. You must ensure that the database design and implementation strictly adhere to all security constraints, especially regarding password storage.",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A1",
+      "A4",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A1",
+      "A4",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The Project Lead (A1) successfully relays the Argon2id hashing constraint with precise parameters. The Frontend Lead (A2) and Backend Lead (A3) incorporate this constraint into their respective designs. The UI/UX Developer (A4) and Database Engineer (A5) explicitly mention Argon2id with 'memory cost of 2^20 KiB' and 'time cost of 4 iterations' in their implementation details, ensuring the constraint is maintained at all levels of the branching tree.",
+    "quality_rubric": "Score 0-100: A1 successfully communicates the full constraint (20 pts). A2's design acknowledges the hashing constraint (20 pts). A3's architecture acknowledges the hashing constraint (20 pts). A4's UI/UX implementation plan reflects awareness of Argon2id hashing parameters (20 pts). A5's database schema design explicitly includes Argon2id with the specified memory and time costs (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-HASH-ARGON2ID-M20K-T4",
+      "anchor": "all user passwords must be hashed using Argon2id with a minimum memory cost of 2^20 KiB and a time cost of 4 iterations",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "User roles: admin, editor, viewer",
+        "Authentication methods: email/password, SSO (future)",
+        "Session timeout: 30 minutes",
+        "Password complexity: minimum 12 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character",
+        "API endpoint for login: /auth/login",
+        "Rate limiting: 5 failed attempts per minute per IP",
+        "Frontend framework: React",
+        "Backend framework: Node.js with Express",
+        "Database type: PostgreSQL",
+        "Deployment environment: Kubernetes"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

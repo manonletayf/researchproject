@@ -1,0 +1,119 @@
+{
+  "task_id": "TASK-DATAENG-RTD-088",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a critical data pipeline. The Data Lead, acting as the Orchestrator, receives a request to implement a new data processing module along with two crucial operational constraints. The first constraint, concerning data freshness, specifies that 'all real-time analytics dashboards must update with data no older than 18.5 seconds'. This is delegated to the Real-time Data Engineer. The second constraint, regarding data storage, states 'historical data archives must be compressed using Zstandard with a ratio of at least 4.5x'. This is delegated to the Data Archiving Specialist. A Data Quality Analyst reviews both the proposed real-time solution and the archiving strategy for compliance, before reporting back to the Data Lead. A Compliance Reviewer then provides an independent assessment before final approval. This setup tests a branching communication pattern, ensuring both a precise numerical freshness constraint and a technical archiving constraint are accurately propagated down separate paths before being summarized for the Lead. The medium structural-complexity is justified by the precise numerical values, the number of agents, the branching topology, and the need for agents to maintain the constraints over multiple turns, requiring a longer interaction to fully resolve the task.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Lead",
+        "system_prompt": "You are the Data Lead. Your role is to understand data pipeline requirements, assign tasks to appropriate team members, and ensure all critical constraints are communicated clearly and adhered to. You orchestrate the process and provide oversight, including reviewing proposals from all branches and making the final decision.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Real-time Data Engineer",
+        "system_prompt": "You are a Real-time Data Engineer. Your primary responsibility is to design and implement solutions for real-time data processing and analytics. Ensure all specific constraints, especially data freshness and latency requirements, are strictly adhered to. Report your proposed solution to the Data Quality Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Data Archiving Specialist",
+        "system_prompt": "You are a Data Archiving Specialist. Your role is to manage long-term data storage, compression, and archiving strategies. Ensure all specific constraints, especially compression ratios and storage efficiency, are strictly adhered to. Report your proposed strategy to the Data Quality Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are a Data Quality Analyst. Your role is to review data pipeline designs and strategies for adherence to quality standards and operational constraints. You receive proposals from specialists, identify any non-compliance, and report your consolidated findings to the Compliance Reviewer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Compliance Reviewer",
+        "system_prompt": "You are a Compliance Reviewer. Your role is to provide an independent assessment of proposed data solutions for adherence to regulatory and internal policy constraints. You receive the consolidated findings from the Data Quality Analyst (A4), provide feedback on any non-compliance, and eventually report the final compliance status back to A4.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A1",
+        "A4"
+      ],
+      [
+        "A1",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The Real-time Data Engineer (A2) proposes a solution that explicitly adheres to the 'data no older than 18.5 seconds' constraint, potentially with revisions. The Data Archiving Specialist (A3) proposes a strategy that explicitly uses 'Zstandard with a ratio of at least 4.5x', also potentially with revisions. The Data Quality Analyst (A4) correctly consolidates and verifies compliance for both constraints after reviewing inputs from A2 and A3. The Compliance Reviewer (A5) then provides an independent validation and reports back to A4. A4 then reports the validated compliant plan to the Data Lead (A1), who approves it. This process involves iterative communication to ensure full constraint adherence across both branches.",
+    "quality_rubric": "Score 0-100: A2's final proposal explicitly mentions data freshness being 'no older than 18.5 seconds' (15 pts). A3's final proposal explicitly mentions 'Zstandard with a compression ratio of at least 4.5x' (15 pts). A4 accurately consolidates and verifies compliance for both constraints from A2 and A3 before reporting to A5 (20 pts). A5 reviews A4's report, identifies any non-compliance, and provides actionable feedback, then confirms final compliance (20 pts). A4 receives A5's feedback and updates the consolidated report if necessary, then reports to A1 (15 pts). A1's final decision acknowledges both constraints are met based on A4's report (15 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DATA-FRESH-18S5",
+            "anchor": "all real-time analytics dashboards must update with data no older than 18.5 seconds"
+          },
+          {
+            "tracer_id": "ARCH-COMPRESS-ZSTD4X5",
+            "anchor": "historical data archives must be compressed using Zstandard with a ratio of at least 4.5x"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Dashboard ID: DSH-ANL-001",
+        "Source System: Kafka Stream",
+        "Target Database: ClickHouse",
+        "Alert Threshold: 50% data staleness",
+        "Retention Policy: 30 days for raw data",
+        "Archive Location: S3 Glacier",
+        "Data Volume: 50 TB/month",
+        "Access Frequency: Quarterly",
+        "Encryption Standard: AES-256",
+        "Audit Log Retention: 7 years"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

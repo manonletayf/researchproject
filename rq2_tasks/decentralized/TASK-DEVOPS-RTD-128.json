@@ -1,0 +1,229 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-128",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a critical hotfix to a production microservice. The hotfix addresses a severe security vulnerability, and the deployment process must adhere to strict operational and security protocols. The team consists of a Lead DevOps Engineer, a Security Engineer, a Release Manager, an Infrastructure Engineer, and a Monitoring Specialist. The Lead DevOps Engineer orchestrates the overall deployment. The Security Engineer reviews all changes for compliance and potential new vulnerabilities. The Release Manager manages the deployment pipeline and schedule. The Infrastructure Engineer prepares and validates the target environment. The Monitoring Specialist sets up and verifies new alerts for the deployed hotfix. Non-negotiable constraints include ensuring the rollback plan is fully tested and verified to succeed within 15.75 minutes, and the deployment must occur strictly between 02:00 UTC and 03:00 UTC. The fully connected topology ensures immediate and comprehensive communication among all team members, which is crucial for coordinating a precise and highly time-sensitive operation while maintaining stringent security and operational standards. This hard structural-complexity task demands meticulous propagation of specific time constraints and a numerical success metric across 34 turns, reflecting the complexity of real-world hotfix deployments.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You lead the DevOps team for critical production deployments. Your role involves coordinating all efforts, ensuring strict adherence to timelines and operational procedures, and verifying all essential constraints, particularly related to rollback and deployment windows, are met.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Security Engineer",
+        "system_prompt": "You are responsible for reviewing all deployment activities and configurations to ensure security compliance and identify any potential new vulnerabilities introduced. You must ensure that all security-related constraints, including robust rollback capabilities, are fully satisfied.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Release Manager",
+        "system_prompt": "You manage the deployment pipeline, scheduling, and release readiness. You must ensure the deployment adheres to the specified time window and that all pre-deployment checks, including the rollback plan, are successfully executed.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS4",
+        "role": "Infrastructure Engineer",
+        "system_prompt": "You prepare, provision, and validate the target infrastructure for the hotfix deployment. You are responsible for ensuring the environment can support the changes and that any potential rollback scenarios can be executed flawlessly and quickly.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS5",
+        "role": "Monitoring Specialist",
+        "system_prompt": "You set up, configure, and verify all monitoring and alerting systems for the new deployment. Your role is crucial for detecting issues post-deployment and ensuring that the system's health and performance are continuously tracked.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS4"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The DevOps team successfully deploys the hotfix within the 02:00 UTC to 03:00 UTC window, ensuring that the rollback plan is thoroughly tested and verified to complete successfully within 15.75 minutes. All agents' communications and actions consistently reflect these precise time and success constraints throughout the planning and execution phases, demonstrating robust and accurate information propagation in the fully connected network.",
+    "quality_rubric": "Score 0-100: Deployment occurs strictly between 02:00 UTC and 03:00 UTC (35 pts), rollback plan is verified to succeed within 15.75 minutes (35 pts), hotfix deployed correctly and securely (20 pts), clear communication and coordination across the team (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Affected microservice: 'UserAuth-Service-v2'.",
+        "Vulnerability type: SQL Injection (CVE-2023-9849).",
+        "Current production version: 2.3.1.",
+        "Expected downtime: less than 1.00 minute (during blue/green swap).",
+        "Verify all CI/CD pipelines are green before deployment.",
+        "Update incident response plan to reflect new hotfix details.",
+        "Notify stakeholders (Product, Support) 30 minutes before deployment start.",
+        "Ensure all log aggregation services are functioning optimally.",
+        "Run performance tests on staging environment post-hotfix.",
+        "Database schema changes are NOT included in this hotfix."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "ROLLBACK-TM77",
+            "anchor": "the rollback plan must be fully tested and verified to succeed within 15.75 minutes"
+          },
+          {
+            "tracer_id": "DEPLOY-WIN-DT99",
+            "anchor": "the deployment must occur strictly between 02:00 UTC and 03:00 UTC"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

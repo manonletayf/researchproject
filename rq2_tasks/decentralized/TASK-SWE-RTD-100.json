@@ -1,0 +1,196 @@
+{
+  "task_id": "TASK-SWE-RTD-100",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new user authentication module for a critical banking application. The module needs to securely integrate with an existing identity provider while maintaining a strict performance threshold. The team consists of a Lead Architect, a Security Engineer, a Backend Developer, a QA Engineer, and a DevOps Specialist. The Lead Architect designs the overall solution, the Security Engineer ensures compliance with security protocols, the Backend Developer implements the core logic, the QA Engineer verifies functionality and performance, and the DevOps Specialist handles deployment and infrastructure. A critical constraint is that the authentication API's average response time must not exceed 150.75 milliseconds, and all PII data must be encrypted using AES-256. The fully connected topology facilitates direct and immediate communication among all five agents, which is essential for quickly resolving integration challenges and ensuring stringent security and performance requirements are met. This medium-structural-complexity task requires consistent propagation of both the specific latency target and the encryption standard across 22 turns, making it a good test of information fidelity in a high-interdependency environment.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "SA1",
+        "role": "Lead Architect",
+        "system_prompt": "You are the Lead Architect for a banking application. Your role is to design robust, scalable, and secure solutions. You coordinate the team, defining the architectural vision and ensuring all critical performance and security constraints are met.",
+        "receives_from": [
+          "SA2",
+          "SA3",
+          "SA4",
+          "SA5"
+        ]
+      },
+      {
+        "agent_id": "SA2",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer responsible for ensuring all code and infrastructure comply with the highest security standards, including encryption protocols and data handling. You must verify that security constraints are implemented correctly.",
+        "receives_from": [
+          "SA1",
+          "SA3",
+          "SA4",
+          "SA5"
+        ]
+      },
+      {
+        "agent_id": "SA3",
+        "role": "Backend Developer",
+        "system_prompt": "You are a Backend Developer tasked with implementing the core logic for the authentication module. You must adhere to architectural designs, performance targets, and strict security requirements for data handling and encryption.",
+        "receives_from": [
+          "SA1",
+          "SA2",
+          "SA4",
+          "SA5"
+        ]
+      },
+      {
+        "agent_id": "SA4",
+        "role": "QA Engineer",
+        "system_prompt": "You are a QA Engineer responsible for testing the authentication module for functionality, performance, and security compliance. You must ensure that the API's response time meets the specified threshold and that all data encryption is properly implemented.",
+        "receives_from": [
+          "SA1",
+          "SA2",
+          "SA3",
+          "SA5"
+        ]
+      },
+      {
+        "agent_id": "SA5",
+        "role": "DevOps Specialist",
+        "system_prompt": "You are the DevOps Specialist, responsible for deploying, monitoring, and maintaining the authentication module infrastructure. You must ensure that the deployed environment supports the required performance characteristics and applies all necessary security configurations, including encryption.",
+        "receives_from": [
+          "SA1",
+          "SA2",
+          "SA3",
+          "SA4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SA1",
+        "SA2"
+      ],
+      [
+        "SA1",
+        "SA3"
+      ],
+      [
+        "SA1",
+        "SA4"
+      ],
+      [
+        "SA1",
+        "SA5"
+      ],
+      [
+        "SA2",
+        "SA1"
+      ],
+      [
+        "SA2",
+        "SA3"
+      ],
+      [
+        "SA2",
+        "SA4"
+      ],
+      [
+        "SA2",
+        "SA5"
+      ],
+      [
+        "SA3",
+        "SA1"
+      ],
+      [
+        "SA3",
+        "SA2"
+      ],
+      [
+        "SA3",
+        "SA4"
+      ],
+      [
+        "SA3",
+        "SA5"
+      ],
+      [
+        "SA4",
+        "SA1"
+      ],
+      [
+        "SA4",
+        "SA2"
+      ],
+      [
+        "SA4",
+        "SA3"
+      ],
+      [
+        "SA4",
+        "SA5"
+      ],
+      [
+        "SA5",
+        "SA1"
+      ],
+      [
+        "SA5",
+        "SA2"
+      ],
+      [
+        "SA5",
+        "SA3"
+      ],
+      [
+        "SA5",
+        "SA4"
+      ]
+    ],
+    "speaking_order": [
+      "SA1",
+      "SA2",
+      "SA3",
+      "SA4",
+      "SA5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The team successfully implements the user authentication module, ensuring that the authentication API's average response time does not exceed 150.75 milliseconds and all PII data is encrypted using AES-256. All internal discussions and outputs consistently reflect both the precise latency target and the specific encryption standard, demonstrating robust information flow and consistent adherence across the fully connected team.",
+    "quality_rubric": "Score 0-100: Authentication API average response time \u2264 150.75ms (40 pts), all PII data encrypted with AES-256 (40 pts), successful integration with identity provider (10 pts), secure and scalable design (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "LATENCY-9Y2K",
+            "anchor": "the authentication API's average response time must not exceed 150.75 milliseconds"
+          },
+          {
+            "tracer_id": "ENCRYPT-X4R7",
+            "anchor": "all PII data must be encrypted using AES-256"
+          }
+        ]
+      },
+      "distractors": [
+        "Use OAuth 2.0 with PKCE for client authentication.",
+        "Implement rate limiting at 100 requests per minute per IP.",
+        "Logs must be retained for 90 days in a WORM-compliant storage.",
+        "Frontend should use React with Typescript.",
+        "Database is PostgreSQL with read replicas.",
+        "Consider caching tokens with a 15-minute expiry."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

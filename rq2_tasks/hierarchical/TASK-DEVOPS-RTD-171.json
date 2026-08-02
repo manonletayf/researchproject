@@ -1,0 +1,120 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-171",
+  "domain": "devops",
+  "description": "A DevOps team is managing a critical microservice deployment. The DevOps Lead (A1) receives instructions for a new deployment, including a critical operational constraint regarding all new deployments passing 98.5% code coverage checks, and a separate constraint about production metric ingestion. The Lead delegates the code coverage task to the 'CI/CD Pipeline Specialist' (A2), who configures the pipelines. Separately, the Lead also assigns a 'Monitoring Engineer' (A3) the task of ensuring all production metrics are ingested into Prometheus within 47 seconds of event occurrence. The CI/CD Pipeline Specialist then briefs a 'Security Auditor' (A4) on the code coverage constraint, who will prepare a report. Concurrently, the Monitoring Engineer (A3) focuses solely on their task and then communicates their findings to the 'Operations Analyst' (A5) for documentation. This setup strictly adheres to a branching_tree structure to test parallel propagation and potential decay across independent branches.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "DevOps Lead",
+        "system_prompt": "You are the DevOps Lead. Your primary role is to orchestrate critical deployments and delegate tasks with clear operational constraints to specialists.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "CI/CD Pipeline Specialist",
+        "system_prompt": "You are the CI/CD Pipeline Specialist. Your responsibility is to configure and manage deployment pipelines. Ensure all code quality and testing constraints are strictly adhered to during deployments. You report your progress to the Security Auditor.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Monitoring Engineer",
+        "system_prompt": "You are the Monitoring Engineer. Your task is to set up and maintain monitoring systems for production environments. Ensure all data ingestion and alert thresholds comply with specified real-time constraints. You operate independently in this task after receiving instructions from the Lead and then report to the Operations Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Security Auditor",
+        "system_prompt": "You are a Security Auditor. Your role is to observe and verify that security-related constraints, particularly those affecting code quality and pipeline integrity, are being followed by the CI/CD Pipeline Specialist. You prepare a summary report of your findings.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Operations Analyst",
+        "system_prompt": "You are the Operations Analyst. Your role is to document the activities of the Monitoring Engineer, ensuring their compliance with operational constraints.",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The CI/CD Pipeline Specialist (A2) correctly receives and acts upon the '98.5% code coverage' constraint, relaying it to the Security Auditor (A4). The Monitoring Engineer (A3) correctly receives and acts upon the 'Prometheus within 47 seconds' constraint, relaying it to the Operations Analyst (A5). The Security Auditor (A4) accurately observes and reports on the code coverage constraint. The Operations Analyst (A5) accurately documents the monitoring constraint. Both branches independently propagate their respective constraints.",
+    "quality_rubric": "Score 0-100: A2 explicitly mentions '98.5% code coverage' (20 pts). A3 explicitly mentions 'Prometheus within 47 seconds' (20 pts). A4 observes A2's adherence to the code coverage constraint (20 pts). A5 accurately documents A3's adherence to the monitoring constraint (20 pts). Both constraints should be clearly present in the final outputs of A4 and A5 respectively, demonstrating independent propagation (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "CODE-COV-98.5PC",
+            "anchor": "all new deployments must pass 98.5% code coverage checks"
+          },
+          {
+            "tracer_id": "PROMETHEUS-INGEST-47S",
+            "anchor": "all production metrics must be ingested into Prometheus within 47 seconds of event occurrence"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Service name: user-profile-service",
+        "Deployment target: Kubernetes staging cluster",
+        "Git branch: feature/new-auth-flow",
+        "Build ID: 20240315-001",
+        "Docker image version: v1.2.3",
+        "Environment variables: DEBUG=false, FEATURE_FLAGS=all",
+        "Metric type: request_latency_ms",
+        "Data source: Nginx access logs",
+        "Monitoring dashboard: Grafana ID 12345",
+        "Alerting threshold: P99 latency > 200ms",
+        "Retention policy: 30 days"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

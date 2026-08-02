@@ -1,0 +1,130 @@
+{
+  "task_id": "TASK-SWE-RTD-067",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new microservice that processes user data. The Software Architect (A1) receives the initial requirements and two critical architectural constraints. The first constraint dictates that 'all persistent storage for user profiles must exclusively utilize encrypted S3 buckets with server-side encryption enabled'. This is communicated to the Lead Backend Engineer (A2). The second constraint states 'the microservice must maintain a maximum API response time of 75 milliseconds for 99th percentile requests'. This performance constraint is communicated to the Performance Optimization Specialist (A3). The Lead Backend Engineer then relies on the Junior Developer (A4) to implement the storage solution. The Architect needs to ensure both the stringent security policy regarding S3 usage and the precise performance target are accurately propagated down their respective paths, and that the Junior Developer correctly incorporates the S3 encryption requirement. This task evaluates whether the branching communication pattern effectively transmits distinct, highly salient constraints to the appropriate specialized agents, and if the security constraint survives an additional hop.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to define the overall structure of software systems, communicate critical architectural and performance constraints to your team, and delegate tasks to specialized engineers. Ensure all specific constraints are accurately relayed and adhered to.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Lead Backend Engineer",
+        "system_prompt": "You are the Lead Backend Engineer. Your task is to design and oversee the implementation of backend services, ensuring all architectural and security policies, especially concerning data storage, are strictly followed and communicated to junior developers.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Performance Optimization Specialist",
+        "system_prompt": "You are the Performance Optimization Specialist. Your task is to analyze and improve the performance of services, ensuring all performance targets and metrics, such as API response times, are met.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Junior Developer",
+        "system_prompt": "You are a Junior Developer. Your task is to implement code according to specifications provided by senior engineers. Pay close attention to all security and architectural guidelines, especially regarding data handling.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The Lead Backend Engineer (A2) and Junior Developer (A4) consistently acknowledge and plan for using encrypted S3 buckets with server-side encryption for user profiles. The Performance Optimization Specialist (A3) consistently acknowledges and plans for achieving a maximum API response time of 75 milliseconds for 99th percentile requests. The Software Architect (A1) verifies that both branches adhere to their respective constraints throughout the interaction.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the 'encrypted S3 buckets with server-side encryption' constraint (30 pts). A4's responses consistently reflect the 'encrypted S3 buckets with server-side encryption' constraint (30 pts). A3's responses consistently reflect the '75 milliseconds for 99th percentile' performance constraint (30 pts). A1's final review confirms both policies are correctly handled (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "S3-ENCRYPTION-USRPROF-SSE",
+            "anchor": "all persistent storage for user profiles must exclusively utilize encrypted S3 buckets with server-side encryption enabled",
+            "salience": "high",
+            "distractors": [
+              "User data schema version: 2.1",
+              "Preferred language: Python 3.9",
+              "CI/CD pipeline: GitHub Actions",
+              "Authentication method: OAuth2",
+              "Error logging framework: Sentry",
+              "Monitoring solution: Prometheus and Grafana",
+              "Deployment environment: Kubernetes on AWS EKS"
+            ]
+          },
+          {
+            "tracer_id": "API-RESP-TIME-75MS-P99",
+            "anchor": "the microservice must maintain a maximum API response time of 75 milliseconds for 99th percentile requests",
+            "salience": "high",
+            "distractors": [
+              "Load balancing strategy: Round Robin",
+              "Cache invalidation policy: TTL 5 minutes",
+              "Database connection pool size: 20",
+              "Concurrency limit: 500 requests per second",
+              "Alerting threshold: 2% error rate",
+              "Autoscaling policy: CPU utilization > 70%"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

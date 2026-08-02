@@ -1,0 +1,83 @@
+{
+  "task_id": "TASK-SWE-RTD-076",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new user authentication module. The Software Architect (A1) needs to convey a crucial security constraint regarding password hashing, alongside a general coding standard. The Architect delegates the specific implementation of the hashing algorithm to the Lead Developer (A2) and the user interface integration to the Frontend Developer (A3). The core security constraint dictates that 'all password hashes must use bcrypt with a work factor of 12 or higher'. This constraint needs to be accurately propagated to the Lead Developer, who is responsible for the backend security implementation. Additionally, a general coding standard 'all new code must include comprehensive unit tests' is also relayed. This setup tests the branching communication pattern, verifying that the critical security constraint is accurately propagated down the relevant path (to the Lead Developer), while also ensuring general best practices are communicated.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to design software systems, define architectural guidelines, and delegate implementation tasks to your team. Ensure critical security and coding standards are clearly communicated to the relevant developers.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Lead Developer (Backend)",
+        "system_prompt": "You are the Lead Developer specializing in backend systems and security. Your task is to implement core functionalities, especially authentication, adhering strictly to architectural and security constraints. Report your implementation plan.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Frontend Developer",
+        "system_prompt": "You are the Frontend Developer. Your task is to build user interfaces and integrate them with backend services. Ensure user experience and client-side best practices are followed. Report your UI integration plan.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The Lead Developer (A2) proposes an implementation plan that explicitly mentions using 'bcrypt with a work factor of 12 or higher' for password hashing. The Frontend Developer (A3) acknowledges the general coding standard about comprehensive unit tests. The Software Architect (A1) verifies that both critical constraints are correctly understood and addressed by the respective specialists.",
+    "quality_rubric": "Score 0-100: A2's response explicitly states the use of 'bcrypt with a work factor of 12 or higher' (50 pts). A3's response acknowledges the 'comprehensive unit tests' requirement (30 pts). A1 confirms both policies are correctly handled in the subsequent turns (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PWD-HASH-BCRYPT-WF12",
+      "anchor": "all password hashes must use bcrypt with a work factor of 12 or higher",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "Authentication flow: OAuth 2.0 with JWTs",
+        "Database: PostgreSQL 15",
+        "Framework: Spring Boot for backend, React for frontend",
+        "Deployment environment: Kubernetes",
+        "Error logging: ELK stack"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

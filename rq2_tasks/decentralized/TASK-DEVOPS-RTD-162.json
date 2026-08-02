@@ -1,0 +1,280 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-162",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a critical new microservice to production, including setting up monitoring, logging, and an auto-scaling group. The deployment must adhere to strict security and performance guidelines. The team consists of a Lead DevOps Engineer, an Infrastructure Architect, a Security Specialist, a Performance Engineer, a Monitoring Specialist, and a Release Manager. The Lead DevOps Engineer oversees the entire process. The Infrastructure Architect designs the cloud infrastructure. The Security Specialist reviews and enforces security policies. The Performance Engineer optimizes resource utilization. The Monitoring Specialist sets up alerts and dashboards. The Release Manager handles the final deployment and rollout strategy. A crucial constraint is that all new compute instances must use 't3a.medium' as the instance type, and the maximum concurrent connections to the database must never exceed 150.00 to prevent overload. The fully connected topology ensures every agent can communicate directly with any other agent at any time, which is essential for maintaining consistency across all aspects of the deployment, especially for adhering to precise instance types and connection limits in this hard structural-complexity scenario. The objective is to evaluate how well these two critical, numerical constraints are propagated, debated, and integrated into the team's collaborative output over 28 turns, allowing for multiple rounds of iterative communication and decision-making.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEV1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the leader of the DevOps team. Your role is to coordinate the microservice deployment, ensure all technical and operational constraints are met, and facilitate communication among team members.",
+        "receives_from": [
+          "DEV2",
+          "DEV3",
+          "DEV4",
+          "DEV5",
+          "DEV6"
+        ]
+      },
+      {
+        "agent_id": "DEV2",
+        "role": "Infrastructure Architect",
+        "system_prompt": "You design the cloud infrastructure for the microservice. Your plans must strictly adhere to specified instance types and resource limits, communicating any deviations or requirements to the team.",
+        "receives_from": [
+          "DEV1",
+          "DEV3",
+          "DEV4",
+          "DEV5",
+          "DEV6"
+        ]
+      },
+      {
+        "agent_id": "DEV3",
+        "role": "Security Specialist",
+        "system_prompt": "You are responsible for reviewing and enforcing security policies for the microservice. You must ensure all infrastructure choices comply with security standards, especially concerning resource configurations and network access.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV4",
+          "DEV5",
+          "DEV6"
+        ]
+      },
+      {
+        "agent_id": "DEV4",
+        "role": "Performance Engineer",
+        "system_prompt": "You optimize the microservice's performance and resource utilization. Your recommendations must consider specific instance types and database connection limits to prevent performance bottlenecks.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV3",
+          "DEV5",
+          "DEV6"
+        ]
+      },
+      {
+        "agent_id": "DEV5",
+        "role": "Monitoring Specialist",
+        "system_prompt": "You set up monitoring and alerting for the new microservice. You must ensure that metrics related to instance types, database connections, and other critical resources are correctly configured and tracked.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV3",
+          "DEV4",
+          "DEV6"
+        ]
+      },
+      {
+        "agent_id": "DEV6",
+        "role": "Release Manager",
+        "system_prompt": "You manage the final deployment and rollout strategy. You must verify that all infrastructure and performance constraints, including instance types and database connection limits, are confirmed before proceeding with the release.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV3",
+          "DEV4",
+          "DEV5"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEV1",
+        "DEV2"
+      ],
+      [
+        "DEV1",
+        "DEV3"
+      ],
+      [
+        "DEV1",
+        "DEV4"
+      ],
+      [
+        "DEV1",
+        "DEV5"
+      ],
+      [
+        "DEV1",
+        "DEV6"
+      ],
+      [
+        "DEV2",
+        "DEV1"
+      ],
+      [
+        "DEV2",
+        "DEV3"
+      ],
+      [
+        "DEV2",
+        "DEV4"
+      ],
+      [
+        "DEV2",
+        "DEV5"
+      ],
+      [
+        "DEV2",
+        "DEV6"
+      ],
+      [
+        "DEV3",
+        "DEV1"
+      ],
+      [
+        "DEV3",
+        "DEV2"
+      ],
+      [
+        "DEV3",
+        "DEV4"
+      ],
+      [
+        "DEV3",
+        "DEV5"
+      ],
+      [
+        "DEV3",
+        "DEV6"
+      ],
+      [
+        "DEV4",
+        "DEV1"
+      ],
+      [
+        "DEV4",
+        "DEV2"
+      ],
+      [
+        "DEV4",
+        "DEV3"
+      ],
+      [
+        "DEV4",
+        "DEV5"
+      ],
+      [
+        "DEV4",
+        "DEV6"
+      ],
+      [
+        "DEV5",
+        "DEV1"
+      ],
+      [
+        "DEV5",
+        "DEV2"
+      ],
+      [
+        "DEV5",
+        "DEV3"
+      ],
+      [
+        "DEV5",
+        "DEV4"
+      ],
+      [
+        "DEV5",
+        "DEV6"
+      ],
+      [
+        "DEV6",
+        "DEV1"
+      ],
+      [
+        "DEV6",
+        "DEV2"
+      ],
+      [
+        "DEV6",
+        "DEV3"
+      ],
+      [
+        "DEV6",
+        "DEV4"
+      ],
+      [
+        "DEV6",
+        "DEV5"
+      ]
+    ],
+    "speaking_order": [
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV5",
+      "DEV6",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV5",
+      "DEV6",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV5",
+      "DEV6",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV5",
+      "DEV6",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The microservice is deployed with all compute instances configured as 't3a.medium' and the maximum concurrent database connections strictly capped at 150.00. All agents consistently reflect and enforce both the specified instance type and the database connection limit throughout their discussions and the final deployment plan, demonstrating perfect information flow and adherence in the fully connected team.",
+    "quality_rubric": "Score 0-100: All compute instances explicitly set to 't3a.medium' (40 pts), maximum concurrent database connections strictly capped at 150.00 (40 pts), comprehensive monitoring and logging setup (10 pts), effective auto-scaling configuration (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The microservice name is 'PaymentGateway-V2'.",
+        "Preferred region for deployment is 'us-east-1'.",
+        "Service discovery should use AWS Cloud Map.",
+        "CI/CD pipeline: GitHub Actions with ArgoCD.",
+        "Logging: Centralized to AWS CloudWatch with retention of 90 days.",
+        "Error budget for the service: 0.1% of requests.",
+        "Alerts should be routed to PagerDuty Critical queue.",
+        "Database type: PostgreSQL 14 managed service.",
+        "Container runtime: Amazon ECS Fargate.",
+        "Cost optimization target: 15% reduction from baseline."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "INST-TYPE-001",
+            "anchor": "all new compute instances must use 't3a.medium' as the instance type"
+          },
+          {
+            "tracer_id": "DB-CONN-LIMIT-001",
+            "anchor": "the maximum concurrent connections to the database must never exceed 150.00"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

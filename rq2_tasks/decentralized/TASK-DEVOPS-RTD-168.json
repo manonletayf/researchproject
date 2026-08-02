@@ -1,0 +1,269 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-168",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a critical security patch to a production microservice. This patch addresses a zero-day vulnerability and must be rolled out globally across all regions, followed by a mandatory system restart of affected instances. The team consists of a Lead DevOps Engineer, a Cloud Architect, a Security Engineer, a Release Manager, a Monitoring Specialist, and a Database Administrator. The Lead DevOps Engineer orchestrates the deployment. The Cloud Architect designs the global rollout strategy. The Security Engineer verifies the patch integrity and efficacy. The Release Manager handles version control and deployment pipelines. The Monitoring Specialist ensures system health during and after deployment. The Database Administrator manages database migrations or schema changes if required. A crucial, non-negotiable constraint is that the rollback window, if any issues arise, must be exactly 15.00 minutes, and the deployment must be completed with 100% success across all environments. Given the immediate need for seamless, instantaneous communication across all specializations to maintain a strict timeline and ensure consistency, the team operates in a fully connected topology. This ensures every agent can directly communicate with any other agent at any time, which is critical for adherence to precise numeric commitments in a high-pressure, complex environment, making this a hard structural-complexity task requiring a robust exchange of information over 28 turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the orchestrator for a critical security patch deployment. Your role is to coordinate the team, ensure accurate information flow, and confirm that all deployment constraints, especially the rollback window and success rate, are met. You need to ensure the team can communicate effectively.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5",
+          "DEVOPS6"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Architect",
+        "system_prompt": "You design the global rollout strategy for the security patch, considering multi-region deployments and infrastructure dependencies. You must ensure the strategy adheres to the strict rollback window and target success rate.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5",
+          "DEVOPS6"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Security Engineer",
+        "system_prompt": "You verify the integrity and efficacy of the security patch and ensure it addresses the zero-day vulnerability effectively. You must also ensure the deployment process maintains security best practices, especially concerning the defined rollback window.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS4",
+          "DEVOPS5",
+          "DEVOPS6"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS4",
+        "role": "Release Manager",
+        "system_prompt": "You manage the deployment pipelines, version control, and actual rollout process. You are responsible for executing the deployment strategy and ensuring the rollback window is precisely maintained. You receive updates from all team members.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS5",
+          "DEVOPS6"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS5",
+        "role": "Monitoring Specialist",
+        "system_prompt": "You monitor system health, performance metrics, and logs during and after the patch deployment. Your role is critical for immediately detecting any issues that would necessitate a rollback within the specified window. You share observations with the team.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS6"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS6",
+        "role": "Database Administrator",
+        "system_prompt": "You manage database changes, migrations, and ensure data integrity during the patch rollout. If the patch requires database updates, you must coordinate closely with the team to ensure the rollback window is respected and that the deployment achieves 100% success without data loss.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS6"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS6"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS6"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS6"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS6"
+      ],
+      [
+        "DEVOPS6",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS6",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS6",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS6",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS6",
+        "DEVOPS5"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS6",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS6",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS6",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS6",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The critical security patch is successfully deployed globally across all production environments, achieving 100% success. During the deployment, any issues that arise are detected and a rollback initiated within the exact 15.00 minute window. All agents consistently communicate and adhere to both the precise 15.00 minute rollback window and the 100% success rate throughout their internal discussions and final reports, demonstrating robust and consistent information flow in the fully connected network.",
+    "quality_rubric": "Score 0-100: Deployment achieves 100% success rate (35 pts), rollback window of exactly 15.00 minutes is maintained (35 pts), accurate assessment and resolution of any issues (20 pts), clear and concise team communication (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "SEC-PATCH-ROLLBACK15MIN-100SUCCESS",
+      "anchor": "the rollback window for this deployment must be exactly 15.00 minutes, and the deployment must be completed with 100% success across all environments",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Affected microservice: 'AuthGateway v2.3'.",
+        "Vulnerability type: deserialization flaw (CVE-2023-XYZ).",
+        "Deployment target: AWS, Azure, GCP regions.",
+        "Preferred deployment tool: Kubernetes with Argo CD.",
+        "Testing environment: pre-prod staged rollout complete.",
+        "Client impact: potential data exfiltration.",
+        "Review logging levels for verbose output post-deployment.",
+        "Consider an emergency brownout strategy for non-critical services.",
+        "Document all post-deployment verification steps."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

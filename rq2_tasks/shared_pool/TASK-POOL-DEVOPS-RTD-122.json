@@ -1,0 +1,152 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-122",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a critical microservice update to production while ensuring zero downtime and strict adherence to resource allocation limits. The update involves changes to both the backend service and its associated database schema. The team consists of a Lead DevOps Engineer, a Cloud Infrastructure Engineer, a Database Administrator, and a Security Engineer. The Lead DevOps Engineer orchestrates the deployment plan. The Cloud Infrastructure Engineer manages the Kubernetes cluster and networking. The Database Administrator handles schema migrations and data integrity. The Security Engineer performs final security checks and ensures compliance. A crucial constraint is that the deployment must complete within exactly 45.00 minutes, and the memory allocation for the new microservice must not exceed 2.50 GB per instance. The fully connected topology is used to facilitate immediate communication and collaboration among all team members, which is essential for coordinating complex deployment steps and resolving unforeseen issues swiftly. This medium-structural-complexity task requires the team to consistently propagate and apply both the precise time limit and the memory constraint throughout their planning and execution discussions over 18 turns, ensuring robust constraint adherence in a high-stakes environment.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the leader of the DevOps team, responsible for orchestrating the microservice deployment. You must ensure all team members adhere to deployment timelines and resource constraints, and that information flows effectively.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Infrastructure Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the cloud infrastructure, including Kubernetes clusters, network configurations, and resource provisioning. You must ensure that the microservice's memory allocation does not exceed specified limits and that the deployment proceeds without downtime.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3",
+          "DEVOPS4"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Database Administrator",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for all database-related tasks, including schema migrations, backups, and ensuring data integrity during deployment. You must coordinate closely with the team to ensure database changes align with the overall deployment timeline.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS4"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS4",
+        "role": "Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You perform security reviews and ensure that all deployment steps and configurations comply with security policies. You must verify that the new microservice adheres to all security best practices without compromising the deployment timeline.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS3"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS1",
+      "DEVOPS2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The microservice update is successfully deployed to production within exactly 45.00 minutes, maintaining zero downtime, and each instance of the new microservice does not exceed 2.50 GB of memory allocation. All internal discussions and final deployment plans consistently reflect both the precise 45.00-minute time limit and the 2.50 GB memory constraint, demonstrating robust information flow and consistent adherence across the fully connected DevOps team.",
+    "quality_rubric": "Score 0-100: Deployment completed within 45.00 minutes (35 pts), memory allocation not exceeding 2.50 GB per instance (35 pts), zero downtime achieved (20 pts), clear and well-documented deployment steps (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEPLOYMENT-MSVC-UPDT-AB45",
+      "anchor": "the deployment must complete within exactly 45.00 minutes, and the memory allocation for the new microservice must not exceed 2.50 GB per instance",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Affected microservice: 'UserAuthenticationService v2.1'",
+        "Rollback strategy: canary deployment with 10% traffic",
+        "Monitoring dashboard: Grafana link available in #devops-alerts",
+        "Database type: PostgreSQL 13.5",
+        "Testing environment: pre-prod tests passed with 99.8% coverage",
+        "Communication channel: primary Slack channel #devops-deployments"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

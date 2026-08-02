@@ -1,0 +1,93 @@
+{
+  "task_id": "TASK-DATAENG-RTD-058",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with setting up a new data pipeline for real-time analytics. The Data Architect, acting as the Orchestrator, receives the initial project brief and two crucial operational constraints. The first constraint, regarding data retention, specifies that 'all raw customer data must be retained for exactly 367 days for audit purposes'. This is delegated to the Data Governance Specialist. The second constraint, concerning data processing speed, states 'latency for real-time dashboards must not exceed 97 milliseconds'. This is delegated to the Real-time Processing Engineer. The Data Architect must ensure both precise numerical constraints are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient constraints to the appropriate specialized agents, who then acknowledge and plan for them. The easy structural-complexity is justified by the precise numerical constraints, the small number of agents, the branching topology, and the low expected turn count, requiring agents to maintain the constraints over a minimal conversation, primarily focused on initial delegation and acknowledgement.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect. Your role is to design data pipelines, communicate critical operational constraints to your team, and delegate tasks to specialized engineers. Ensure all specific numerical constraints are accurately relayed and understood.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Governance Specialist",
+        "system_prompt": "You are the Data Governance Specialist. Your task is to implement data retention policies and ensure compliance with regulatory requirements. Your focus is on data lifecycle management and audit readiness. Acknowledge and plan for all data retention constraints.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Real-time Processing Engineer",
+        "system_prompt": "You are the Real-time Processing Engineer. Your task is to design and implement low-latency data processing solutions for real-time analytics. Focus on optimizing performance and meeting strict latency requirements. Acknowledge and plan for all performance constraints.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 3,
+  "ground_truth": {
+    "correct_outcome": "The Data Governance Specialist (A2) explicitly acknowledges the '367 days' data retention policy. The Real-time Processing Engineer (A3) explicitly acknowledges the '97 milliseconds' latency constraint. The Data Architect (A1) receives confirmation from both specialists that these precise constraints are understood and will be incorporated into their plans.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the '367 days' data retention constraint (40 pts). A3's responses consistently reflect the '97 milliseconds' latency constraint (40 pts). A1's final review confirms both policies are correctly handled (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "injection_layer": 0,
+      "salience": "high",
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "RAW-DATA-RETENTION-367D",
+            "anchor": "all raw customer data must be retained for exactly 367 days for audit purposes",
+            "distractors": [
+              "Data source: CRM database",
+              "Data volume: 5TB/month",
+              "Storage tier: Cold Storage",
+              "Compliance regulation: GDPR"
+            ]
+          },
+          {
+            "tracer_id": "DASHBOARD-LATENCY-97MS",
+            "anchor": "latency for real-time dashboards must not exceed 97 milliseconds",
+            "distractors": [
+              "Dashboard tool: Tableau",
+              "Data refresh rate: 5 seconds",
+              "Aggregation level: hourly",
+              "Infrastructure: Cloud-based streaming platform"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

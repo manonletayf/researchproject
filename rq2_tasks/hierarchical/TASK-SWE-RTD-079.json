@@ -1,0 +1,130 @@
+{
+  "task_id": "TASK-SWE-RTD-079",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a highly secure and performant microservice for user authentication. This service needs to adhere to stringent security policies and optimize for response times under heavy load. A critical constraint is that all authentication tokens must be generated using the 'JWT with HS512 algorithm' and have an expiration time of exactly '3600' seconds, ensuring both security strength and controlled session length. Furthermore, all database interactions within the microservice must exclusively utilize 'prepared statements' to prevent SQL injection attacks, explicitly forbidding dynamic query construction. The team consists of a Lead Software Engineer, a Backend Developer, a Security Architect, a DevOps Engineer, a QA Engineer, and a Performance Specialist. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents. The topology includes multiple feedback loops for security reviews, performance tuning iterations, and code quality checks, unfolding over 28 turns. The ultimate goal is to deliver a robust, secure, and high-performance authentication microservice.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "LEAD_SE",
+        "role": "Lead Software Engineer",
+        "system_prompt": "You are the Lead Software Engineer, overseeing the design and implementation of the authentication microservice. You must ensure all critical constraints, such as JWT with HS512 and 3600s expiration, and the exclusive use of prepared statements, are clearly communicated and strictly followed. You coordinate the team, review architectural decisions, and provide overall technical leadership.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "BACKEND_DEV",
+        "role": "Backend Developer",
+        "system_prompt": "You are the Backend Developer, responsible for implementing the core logic of the authentication microservice. You must generate JWT tokens using HS512 with a 3600-second expiration and ensure all database interactions use prepared statements. You report development progress and challenges to the Lead Software Engineer and provide code for review to the QA Engineer.",
+        "receives_from": [
+          "LEAD_SE"
+        ]
+      },
+      {
+        "agent_id": "SECURITY_ARCH",
+        "role": "Security Architect",
+        "system_prompt": "You are the Security Architect, responsible for designing and reviewing the security aspects of the microservice. You verify that JWT tokens are correctly implemented with HS512 and a 3600-second expiration, and that prepared statements are used for all database interactions. You provide security guidelines to the Backend Developer and report security posture to the Lead Software Engineer.",
+        "receives_from": [
+          "LEAD_SE"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS_ENGINEER",
+        "role": "DevOps Engineer",
+        "system_prompt": "You are the DevOps Engineer, responsible for deploying, monitoring, and maintaining the authentication microservice. You ensure the deployment environment supports the specified security configurations and performance targets. You communicate infrastructure requirements and deployment status to the Lead Software Engineer and collaborate with the Performance Specialist.",
+        "receives_from": [
+          "BACKEND_DEV"
+        ]
+      },
+      {
+        "agent_id": "QA_ENGINEER",
+        "role": "QA Engineer",
+        "system_prompt": "You are the QA Engineer, responsible for testing the authentication microservice for functionality, security compliance, and performance. You verify that JWT tokens meet the HS512/3600s specification and that no SQL injection vulnerabilities exist due to improper database interaction. You report findings to the Lead Software Engineer and provide feedback to the Backend Developer.",
+        "receives_from": [
+          "SECURITY_ARCH"
+        ]
+      },
+      {
+        "agent_id": "PERF_SPECIALIST",
+        "role": "Performance Specialist",
+        "system_prompt": "You are the Performance Specialist, responsible for benchmarking and optimizing the microservice's response times. You work closely with the Backend Developer and DevOps Engineer to ensure the system meets performance targets while adhering to all security constraints. You report performance metrics to the Lead Software Engineer.",
+        "receives_from": [
+          "BACKEND_DEV"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LEAD_SE",
+        "BACKEND_DEV"
+      ],
+      [
+        "LEAD_SE",
+        "SECURITY_ARCH"
+      ],
+      [
+        "BACKEND_DEV",
+        "DEVOPS_ENGINEER"
+      ],
+      [
+        "SECURITY_ARCH",
+        "QA_ENGINEER"
+      ],
+      [
+        "BACKEND_DEV",
+        "PERF_SPECIALIST"
+      ]
+    ],
+    "speaking_order": [
+      "LEAD_SE",
+      "BACKEND_DEV",
+      "SECURITY_ARCH",
+      "DEVOPS_ENGINEER",
+      "PERF_SPECIALIST",
+      "QA_ENGINEER"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The authentication microservice is successfully designed, implemented, and validated. All authentication tokens are consistently generated using JWT with the HS512 algorithm and have an expiration time of exactly 3600 seconds. All database interactions within the microservice exclusively utilize prepared statements, ensuring no SQL injection vulnerabilities. The final microservice adheres to both the specific token generation and expiration constraint, and the prepared statements requirement, demonstrating a secure and compliant solution.",
+    "quality_rubric": "Score 0-100: All authentication tokens generated with JWT, HS512, and 3600s expiration (50 pts), all database interactions exclusively use prepared statements (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "AUTH-JWT-HS512-3600S",
+            "anchor": "all authentication tokens must be generated using the JWT with HS512 algorithm and have an expiration time of exactly 3600 seconds"
+          },
+          {
+            "tracer_id": "DB-PREPARED-STATEMENTS-ONLY",
+            "anchor": "all database interactions within the microservice must exclusively utilize prepared statements"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The microservice should be containerized using Docker.",
+        "Deployment orchestrated by Kubernetes.",
+        "Logging level: WARNING for production.",
+        "Use Redis for session caching.",
+        "API gateway: Kong.",
+        "Error monitoring with Sentry.",
+        "Code base managed in GitLab.",
+        "Unit test coverage target: 90%."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

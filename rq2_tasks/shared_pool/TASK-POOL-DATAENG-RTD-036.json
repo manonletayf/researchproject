@@ -1,0 +1,219 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-036",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a robust, secure, and highly optimized data pipeline to ingest, transform, and load sensitive financial transaction data from various sources into a data warehouse for analytical reporting. The project involves multiple stages including data ingestion, cleansing, enrichment, and storage, followed by the creation of aggregated views. The team consists of a Lead Data Engineer, a Data Architect, a Data Security Engineer, a Data Quality Specialist, and a Database Administrator. The Lead Data Engineer oversees the entire pipeline development and deployment. The Data Architect designs the overall structure and flow. The Data Security Engineer ensures all data handling complies with regulations. The Data Quality Specialist validates data integrity and accuracy. The Database Administrator manages the data warehouse and associated databases. A critical, non-negotiable constraint is that all PII (Personally Identifiable Information) data must be encrypted using 256-bit AES encryption before being stored, and the end-to-end data latency for critical financial transactions must not exceed 60.50 seconds. Given the sensitive nature of the data and the need for tight integration and immediate feedback across all roles, a fully connected topology is employed. This structure ensures every agent can directly communicate with any other agent, facilitating real-time decision-making and constraint adherence. This is a hard structural-complexity task, requiring robust information exchange over 34 turns to ensure both encryption and latency constraints are consistently applied throughout the pipeline development.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the leader of the data engineering team. Your role is to oversee the design, development, and deployment of data pipelines, ensuring all critical constraints, especially regarding security and performance, are met. You coordinate the team's efforts and make final decisions.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Data Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for designing the overall data pipeline architecture, including data flow, storage solutions, and integration patterns. You must ensure the design inherently supports all security and performance requirements. You provide architectural guidance to the team.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Data Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You specialize in data security and compliance. Your role is to implement and verify encryption, access controls, and other security measures for all data, especially PII. You must ensure all data handling adheres to the specified encryption standards.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "Data Quality Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You focus on ensuring the accuracy, completeness, and consistency of data throughout the pipeline. While your primary focus is quality, you must also be aware of and factor in performance and security constraints during validation processes.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3",
+          "DE5"
+        ]
+      },
+      {
+        "agent_id": "DE5",
+        "role": "Database Administrator",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the data warehouse, databases, and ensure optimal performance and reliability of data storage. You are responsible for implementing schema changes, tuning queries, and ensuring data retention policies. You must ensure the database configuration supports both encryption and latency requirements.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE1",
+        "DE5"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE5"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE5"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ],
+      [
+        "DE4",
+        "DE5"
+      ],
+      [
+        "DE5",
+        "DE1"
+      ],
+      [
+        "DE5",
+        "DE2"
+      ],
+      [
+        "DE5",
+        "DE3"
+      ],
+      [
+        "DE5",
+        "DE4"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE5",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The data pipeline is successfully designed and implemented such that all PII data is encrypted using 256-bit AES encryption before storage, and the end-to-end data latency for critical financial transactions does not exceed 60.50 seconds. All internal team discussions and design documents consistently reflect both the precise encryption standard and the exact latency target, demonstrating perfect information flow and consistent adherence across the fully connected data engineering team.",
+    "quality_rubric": "Score 0-100: All PII data encrypted with 256-bit AES (45 pts), end-to-end latency for critical transactions <= 60.50 seconds (45 pts), robust and scalable data pipeline design (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DE_SECURITY_LATENCY_FNC27",
+      "anchor": "all PII data must be encrypted using 256-bit AES encryption before being stored, and the end-to-end data latency for critical financial transactions must not exceed 60.50 seconds",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data sources include Kafka topics and S3 buckets.",
+        "Target data warehouse: Snowflake.",
+        "Data cleansing involves deduplication and standardization of addresses.",
+        "Reporting tools: Tableau and PowerBI.",
+        "Maintain historical data for 7 years.",
+        "Use Apache Spark for data transformation jobs.",
+        "Implement a monitoring dashboard for pipeline health.",
+        "Team will conduct weekly stand-ups.",
+        "Backup strategy: daily snapshots.",
+        "Compliance requirements: GDPR and CCPA."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

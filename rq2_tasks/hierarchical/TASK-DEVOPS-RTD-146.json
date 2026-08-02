@@ -1,0 +1,138 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-146",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new microservice. The DevOps Lead (A1), acting as the orchestrator, receives the initial deployment request along with two critical operational constraints. The first constraint, regarding resource allocation, specifies that 'no single container instance must exceed 3.75 GB of RAM allocation'. This is delegated to the Container Specialist (A2). The second constraint, regarding network security, states 'all external ingress traffic must be routed through the dedicated Web Application Firewall (WAF-PROD-237)'. This is delegated to the Network Security Engineer (A3). A senior DevOps Reviewer (A4) is responsible for reviewing the plans from the Network Security Engineer, ensuring compliance with both constraints before reporting back to the Lead. The Container Specialist then reports directly to the Lead. This setup tests whether two distinct, highly salient constraints (numerical and architectural/security) are accurately propagated down separate branches, with one branch undergoing review and the other reporting directly, and maintained through the process. The 'hard' structural-complexity is justified by the precise numerical and technical constraints, the number of agents, the branching topology, and the high expected turn count, requiring agents to maintain the constraints over multiple exchanges within their branches.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "DevOps Lead",
+        "system_prompt": "You are the DevOps Lead. Your role is to understand deployment requirements, assign tasks to the appropriate team members, and ensure all critical operational and security policies are communicated clearly. You orchestrate the process.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Container Specialist",
+        "system_prompt": "You are the Container Specialist. Your primary responsibility is to design and configure container deployments, ensuring all resource allocation constraints, especially RAM limits, are strictly adhered to. Report your proposed container configuration directly to the DevOps Lead (A1).",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Network Security Engineer",
+        "system_prompt": "You are the Network Security Engineer. Your role is to design and implement network configurations, ensuring strict adherence to all security policies and routing requirements, especially regarding WAF integration. Report your proposed network configuration to the DevOps Reviewer (A4).",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "DevOps Reviewer",
+        "system_prompt": "You are the DevOps Reviewer. You provide advanced review and act as a critical checkpoint for deployment plans, ensuring compliance with all operational, resource, and security constraints. You review findings from the Network Security Engineer (A3) and provide a compliance assessment to the DevOps Lead (A1).",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A3",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Container Specialist proposes a container configuration that does not exceed 3.75 GB RAM. The Network Security Engineer proposes a network configuration that routes all external ingress through WAF-PROD-237. The DevOps Reviewer (A4) accurately confirms compliance for the WAF constraint and reports this. Both constraints are maintained throughout their respective branches.",
+    "quality_rubric": "Score 0-100: A2's proposed RAM allocation is consistently <= 3.75 GB (30 pts). A3's proposed network routing explicitly includes WAF-PROD-237 for external ingress (30 pts). A4 correctly identifies compliance/non-compliance for the WAF constraint (40 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "injection_layer": 0,
+      "salience": "high",
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Image: custom-app-v2.1",
+        "CPU: 2 cores",
+        "Persistent Storage: 50GB SSD",
+        "Logging: stdout/stderr to ELK stack",
+        "Region: us-east-1",
+        "Replica Count: 3 minimum",
+        "Environment: Production",
+        "Service Port: 8080 (HTTP)",
+        "Health Check Path: /health",
+        "Deployment Strategy: Rolling Update",
+        "Load Balancer: AWS ALB",
+        "DNS: Route53",
+        "TLS Certificate: ACM Managed",
+        "Internal Network: VPC Subnet Private-A",
+        "CDN: CloudFront",
+        "DDoS Protection: AWS Shield Advanced",
+        "VPN Access: Site-to-Site VPN",
+        "Network ACLs: Strict Egress Only"
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "RAM-KX77",
+            "anchor": "no single container instance must exceed 3.75 GB of RAM allocation"
+          },
+          {
+            "tracer_id": "WAF-FN61",
+            "anchor": "all external ingress traffic must be routed through the dedicated Web Application Firewall (WAF-PROD-237)"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

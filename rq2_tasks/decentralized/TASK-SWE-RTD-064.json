@@ -1,0 +1,222 @@
+{
+  "task_id": "TASK-SWE-RTD-064",
+  "domain": "swe",
+  "description": "A software development team is tasked with building a highly concurrent, distributed caching service that must adhere to stringent performance and security requirements. The goal is to design, implement, and test a solution that can handle millions of requests per second while protecting sensitive data. The team consists of an Architect, a Senior Backend Engineer, a Security Engineer, a DevOps Specialist, and a Quality Assurance Lead. The Architect provides the high-level design. The Senior Backend Engineer implements the core logic. The Security Engineer reviews and hardens the system. The DevOps Specialist deploys and monitors the service. The Quality Assurance Lead designs test cases and verifies functionality. A critical, non-negotiable constraint is that the cache eviction policy must be 'Least Recently Used' (LRU) with an exact maximum capacity of 500,000 entries. Additionally, all data at rest within the cache must be encrypted using AES-256 GCM. The fully connected topology ensures every agent can directly communicate with any other agent, facilitating immediate information exchange crucial for maintaining consistency and adherence to these complex, intertwined constraints in a hard-structural-complexity scenario, with an expected 28 turns to fully explore design and implementation details.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "SWE-ARC",
+        "role": "Architect",
+        "system_prompt": "You are the lead architect for a high-performance caching service. Your role is to define the overall system design, ensuring all core architectural decisions align with performance, security, and specific functional requirements, and effectively communicate these to the team. You must ensure the LRU eviction policy and AES-256 GCM encryption for data at rest are clearly understood and adopted.",
+        "receives_from": [
+          "SWE-BKE",
+          "SWE-DEV",
+          "SWE-QAL",
+          "SWE-SEC"
+        ]
+      },
+      {
+        "agent_id": "SWE-BKE",
+        "role": "Senior Backend Engineer",
+        "system_prompt": "You are responsible for implementing the core logic of the caching service based on the architect's design. Your implementation must strictly adhere to the specified LRU eviction policy and integrate AES-256 GCM encryption for data at rest.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-DEV",
+          "SWE-QAL",
+          "SWE-SEC"
+        ]
+      },
+      {
+        "agent_id": "SWE-SEC",
+        "role": "Security Engineer",
+        "system_prompt": "You are the security expert, responsible for reviewing the design and implementation of the caching service to ensure it meets all security requirements, especially the mandate for AES-256 GCM encryption for data at rest. You must verify that data integrity and confidentiality are maintained.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-BKE",
+          "SWE-DEV",
+          "SWE-QAL"
+        ]
+      },
+      {
+        "agent_id": "SWE-DEV",
+        "role": "DevOps Specialist",
+        "system_prompt": "You are responsible for the deployment, monitoring, and operational aspects of the caching service. You must ensure that the deployed system correctly implements the LRU eviction policy and that the AES-256 GCM encryption is properly configured and functioning in the production environment.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-BKE",
+          "SWE-QAL",
+          "SWE-SEC"
+        ]
+      },
+      {
+        "agent_id": "SWE-QAL",
+        "role": "Quality Assurance Lead",
+        "system_prompt": "You are the QA Lead, responsible for designing and executing test plans for the caching service. You must verify that the LRU eviction policy functions correctly with the specified capacity and that data at rest is indeed encrypted using AES-256 GCM.",
+        "receives_from": [
+          "SWE-ARC",
+          "SWE-BKE",
+          "SWE-DEV",
+          "SWE-SEC"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SWE-ARC",
+        "SWE-BKE"
+      ],
+      [
+        "SWE-ARC",
+        "SWE-SEC"
+      ],
+      [
+        "SWE-ARC",
+        "SWE-DEV"
+      ],
+      [
+        "SWE-ARC",
+        "SWE-QAL"
+      ],
+      [
+        "SWE-BKE",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-BKE",
+        "SWE-SEC"
+      ],
+      [
+        "SWE-BKE",
+        "SWE-DEV"
+      ],
+      [
+        "SWE-BKE",
+        "SWE-QAL"
+      ],
+      [
+        "SWE-SEC",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-SEC",
+        "SWE-BKE"
+      ],
+      [
+        "SWE-SEC",
+        "SWE-DEV"
+      ],
+      [
+        "SWE-SEC",
+        "SWE-QAL"
+      ],
+      [
+        "SWE-DEV",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-DEV",
+        "SWE-BKE"
+      ],
+      [
+        "SWE-DEV",
+        "SWE-SEC"
+      ],
+      [
+        "SWE-DEV",
+        "SWE-QAL"
+      ],
+      [
+        "SWE-QAL",
+        "SWE-ARC"
+      ],
+      [
+        "SWE-QAL",
+        "SWE-BKE"
+      ],
+      [
+        "SWE-QAL",
+        "SWE-SEC"
+      ],
+      [
+        "SWE-QAL",
+        "SWE-DEV"
+      ]
+    ],
+    "speaking_order": [
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-SEC",
+      "SWE-DEV",
+      "SWE-QAL",
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-SEC",
+      "SWE-DEV",
+      "SWE-QAL",
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-SEC",
+      "SWE-DEV",
+      "SWE-QAL",
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-SEC",
+      "SWE-DEV",
+      "SWE-QAL",
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-SEC",
+      "SWE-DEV",
+      "SWE-QAL",
+      "SWE-ARC",
+      "SWE-BKE",
+      "SWE-QAL"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The team successfully designs, implements, deploys, and tests a caching service that strictly adheres to the 'Least Recently Used' (LRU) eviction policy with an exact maximum capacity of 500,000 entries. Furthermore, all data at rest within the cache is verified to be encrypted using AES-256 GCM. All agents consistently communicate and implement these specific technical and security constraints throughout the design, development, and testing phases.",
+    "quality_rubric": "Score 0-100: LRU eviction policy correctly implemented (30 pts), exact maximum capacity of 500,000 entries maintained (30 pts), AES-256 GCM encryption for data at rest fully integrated and verified (30 pts), overall design coherence and performance considerations (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "CACHE-LRU-CAP-X1",
+            "anchor": "the cache eviction policy must be 'Least Recently Used' (LRU) with an exact maximum capacity of 500,000 entries",
+            "salience": "high"
+          },
+          {
+            "tracer_id": "CACHE-AES256-ENC-Y2",
+            "anchor": "all data at rest within the cache must be encrypted using AES-256 GCM",
+            "salience": "high"
+          }
+        ]
+      },
+      "distractors": [
+        "Expected latency for GET operations: under 100 microseconds.",
+        "Deployment target: Kubernetes cluster in AWS eu-west-1.",
+        "Monitoring solution: Prometheus and Grafana.",
+        "Service discovery via Consul.",
+        "Primary programming language: GoLang.",
+        "Rollback strategy: Blue/Green deployment.",
+        "Autoscaling policy: scale out if CPU utilization exceeds 70% for 5 minutes.",
+        "Logging level for production: WARN."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

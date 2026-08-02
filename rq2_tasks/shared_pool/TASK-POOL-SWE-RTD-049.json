@@ -1,0 +1,162 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-049",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new microservice for user authentication. This service needs to integrate with an existing legacy system while strictly adhering to modern security standards and performance metrics. The team consists of a Lead Architect, a Backend Engineer, a Security Specialist, and a QA Engineer. The Lead Architect designs the overall system, the Backend Engineer implements the core logic, the Security Specialist reviews for vulnerabilities, and the QA Engineer tests functionality and performance. The primary challenge for this medium-structural-complexity task is to ensure two critical constraints\u2014API response time and password hashing method\u2014are accurately propagated and maintained throughout the development lifecycle across all team members. The fully connected topology ensures that all agents can communicate directly, fostering a highly collaborative environment essential for maintaining tight constraints over approximately 18 turns of interaction, allowing for iterative refinement and validation.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "SWE1",
+        "role": "Lead Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead Architect responsible for designing a new user authentication microservice. You must ensure that architectural decisions align with performance, security, and integration requirements. You coordinate the team's efforts and ensure all critical constraints are understood and implemented.",
+        "receives_from": [
+          "SWE2",
+          "SWE3",
+          "SWE4"
+        ]
+      },
+      {
+        "agent_id": "SWE2",
+        "role": "Backend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Backend Engineer responsible for implementing the core logic of the user authentication microservice. Your code must be performant, secure, and integrate seamlessly with existing systems. You receive architectural guidance and security requirements.",
+        "receives_from": [
+          "SWE1",
+          "SWE3",
+          "SWE4"
+        ]
+      },
+      {
+        "agent_id": "SWE3",
+        "role": "Security Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Security Specialist responsible for reviewing the microservice for vulnerabilities and ensuring compliance with security best practices. You provide guidance on hashing algorithms, authentication protocols, and data protection. You must verify that all security constraints are strictly followed.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE4"
+        ]
+      },
+      {
+        "agent_id": "SWE4",
+        "role": "QA Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the QA Engineer responsible for testing the functionality, performance, and security of the microservice. You design test cases to validate that all requirements, especially API response times and security measures, are met before deployment. You report any deviations from specified constraints.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SWE1",
+        "SWE2"
+      ],
+      [
+        "SWE1",
+        "SWE3"
+      ],
+      [
+        "SWE1",
+        "SWE4"
+      ],
+      [
+        "SWE2",
+        "SWE1"
+      ],
+      [
+        "SWE2",
+        "SWE3"
+      ],
+      [
+        "SWE2",
+        "SWE4"
+      ],
+      [
+        "SWE3",
+        "SWE1"
+      ],
+      [
+        "SWE3",
+        "SWE2"
+      ],
+      [
+        "SWE3",
+        "SWE4"
+      ],
+      [
+        "SWE4",
+        "SWE1"
+      ],
+      [
+        "SWE4",
+        "SWE2"
+      ],
+      [
+        "SWE4",
+        "SWE3"
+      ]
+    ],
+    "speaking_order": [
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE1",
+      "SWE3",
+      "SWE2",
+      "SWE4",
+      "SWE1",
+      "SWE4",
+      "SWE2",
+      "SWE3",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE1",
+      "SWE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The user authentication microservice is developed such that its API response time does not exceed 150.75 milliseconds for 99% of requests, and all user passwords are robustly hashed using Argon2id. All agents consistently communicate and adhere to these specific performance and security constraints throughout the design, implementation, and testing phases. The final deliverable meets both numerical and architectural/security requirements.",
+    "quality_rubric": "Score 0-100: API response time constraint (150.75ms) met (40 pts), Argon2id hashing implemented (30 pts), microservice integrates correctly with legacy system (15 pts), robust error handling (15 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The microservice should use RESTful principles.",
+        "Database migrations must be backward compatible.",
+        "Implement comprehensive logging with a 'DEBUG' level during development.",
+        "Containerization using Docker is required.",
+        "CI/CD pipeline must include automated unit and integration tests.",
+        "Use OpenAPI specification for API documentation."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "AUTH-PERF-150MS",
+            "anchor": "the API response time must not exceed 150.75 milliseconds (ms) for 99% of requests"
+          },
+          {
+            "tracer_id": "AUTH-SEC-ARGON2ID",
+            "anchor": "all user passwords must be hashed using Argon2id"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

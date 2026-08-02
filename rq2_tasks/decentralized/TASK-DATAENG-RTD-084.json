@@ -1,0 +1,160 @@
+{
+  "task_id": "TASK-DATAENG-RTD-084",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a critical ETL pipeline that processes real-time sensor data. The goal is to reduce latency and improve data quality while ensuring the pipeline remains robust and cost-effective. The team consists of a Data Architect, an ETL Developer, a Database Administrator, and a Data Quality Analyst. The Data Architect designs the overall solution. The ETL Developer implements the transformations. The Database Administrator manages the data storage and retrieval. The Data Quality Analyst verifies the integrity of the processed data. A crucial constraint is that the end-to-end processing latency for any single data record must not exceed 250.00 milliseconds, and the monthly cloud infrastructure cost for this pipeline must be capped at exactly $850.50 USD. This medium-structural-complexity task utilizes a fully connected topology, enabling direct communication between all four agents. This setup should facilitate rapid information exchange and collaborative problem-solving, but also requires careful attention to ensure both the precise latency and budget constraints are consistently maintained and acted upon across all agents' contributions over 14 expected turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You are the lead Data Architect. Your role is to design scalable and efficient data pipelines, considering overall architecture, performance, and cost. You must ensure all design decisions adhere to latency and budget constraints.",
+        "receives_from": [
+          "DBA3",
+          "DQA4",
+          "ED2"
+        ]
+      },
+      {
+        "agent_id": "ED2",
+        "role": "ETL Developer",
+        "system_prompt": "You are an ETL Developer responsible for implementing data extraction, transformation, and loading processes. Your work must optimize for performance while strictly adhering to architectural guidelines, latency targets, and cost limitations.",
+        "receives_from": [
+          "DA1",
+          "DBA3",
+          "DQA4"
+        ]
+      },
+      {
+        "agent_id": "DBA3",
+        "role": "Database Administrator",
+        "system_prompt": "You manage the underlying data storage systems, including database design, optimization, and maintenance. You must ensure data access is efficient and supports the required processing latency, while also monitoring and minimizing infrastructure costs.",
+        "receives_from": [
+          "DA1",
+          "DQA4",
+          "ED2"
+        ]
+      },
+      {
+        "agent_id": "DQA4",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are a Data Quality Analyst. Your role is to define and implement data quality checks and ensure the accuracy and integrity of processed data. You must also consider the performance impact of quality checks and the overall cost efficiency of the pipeline.",
+        "receives_from": [
+          "DA1",
+          "DBA3",
+          "ED2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "ED2"
+      ],
+      [
+        "DA1",
+        "DBA3"
+      ],
+      [
+        "DA1",
+        "DQA4"
+      ],
+      [
+        "ED2",
+        "DA1"
+      ],
+      [
+        "ED2",
+        "DBA3"
+      ],
+      [
+        "ED2",
+        "DQA4"
+      ],
+      [
+        "DBA3",
+        "DA1"
+      ],
+      [
+        "DBA3",
+        "ED2"
+      ],
+      [
+        "DBA3",
+        "DQA4"
+      ],
+      [
+        "DQA4",
+        "DA1"
+      ],
+      [
+        "DQA4",
+        "ED2"
+      ],
+      [
+        "DQA4",
+        "DBA3"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "ED2",
+      "DBA3",
+      "DQA4",
+      "DA1",
+      "ED2",
+      "DBA3",
+      "DQA4",
+      "DA1",
+      "ED2",
+      "DBA3",
+      "DQA4",
+      "DA1",
+      "ED2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully designs and implements an ETL pipeline that explicitly adheres to an end-to-end processing latency of no more than 250.00 milliseconds per record and a monthly cloud infrastructure cost cap of exactly $850.50 USD. All agent communications and final outputs consistently reflect both the precise latency and budget constraints, demonstrating robust and accurate information propagation within the fully connected network.",
+    "quality_rubric": "Score 0-100: Pipeline design ensures latency <= 250.00ms (35 pts), monthly cost <= $850.50 USD (35 pts), improved data quality (15 pts), robust and scalable design (15 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source: IoT sensor feeds via Kafka.",
+        "Target database: Managed PostgreSQL instance.",
+        "Data volume: Approximately 5TB per day.",
+        "Data retention policy: 90 days for raw data, 365 days for aggregated data.",
+        "Security requirement: All data in transit and at rest must be encrypted with AES-256.",
+        "Monitoring solution: Prometheus and Grafana integration is required.",
+        "Team must document all schema changes.",
+        "Preferred language for ETL scripts: Python with PySpark."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "LATENCY-DE71",
+            "anchor": "the end-to-end processing latency for any single data record must not exceed 250.00 milliseconds"
+          },
+          {
+            "tracer_id": "BUDGET-DE72",
+            "anchor": "the monthly cloud infrastructure cost for this pipeline must be capped at exactly $850.50 USD"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

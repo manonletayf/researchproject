@@ -1,0 +1,102 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-105",
+  "domain": "devops",
+  "description": "A small DevOps team is tasked with deploying a new critical microservice to production, including setting up monitoring and incident response. The goal is to ensure a smooth deployment while adhering to specific performance and security guidelines. The team consists of a Lead DevOps Engineer, a Cloud Infrastructure Specialist, and a Security Operations Engineer. The Lead DevOps Engineer oversees the deployment plan and coordinates tasks. The Cloud Infrastructure Specialist provisions and configures the necessary cloud resources. The Security Operations Engineer integrates security monitoring tools and defines access policies. A crucial constraint is that the microservice must achieve an average response time of exactly 150.75 milliseconds and all network traffic must be encrypted using TLS 1.3. The fully connected topology ensures immediate and direct communication between all three agents, which is essential for quickly resolving any issues that arise during deployment and for consistently enforcing the given constraints. This easy structural-complexity task focuses on confirming the precise response time and TLS version are correctly propagated and acted upon within a rapid, six-turn interaction.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DOE1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the leader of a small DevOps team. Your role is to oversee the deployment of new microservices, ensuring all performance and security constraints are met. You coordinate the team's efforts and make final decisions. You receive updates from the Cloud Infrastructure Specialist and Security Operations Engineer.",
+        "receives_from": [
+          "DOE2",
+          "DOE3"
+        ]
+      },
+      {
+        "agent_id": "DOE2",
+        "role": "Cloud Infrastructure Specialist",
+        "system_prompt": "You are responsible for provisioning and configuring cloud resources for new microservices. You must ensure the infrastructure supports the specified performance and security requirements. You communicate infrastructure status and configurations to the Lead DevOps Engineer and Security Operations Engineer.",
+        "receives_from": [
+          "DOE1",
+          "DOE3"
+        ]
+      },
+      {
+        "agent_id": "DOE3",
+        "role": "Security Operations Engineer",
+        "system_prompt": "You integrate security monitoring tools, define access policies, and ensure compliance with security standards for new deployments. You must confirm that all network traffic encryption adheres to the specified protocol. You communicate security postures to the Lead DevOps Engineer and Cloud Infrastructure Specialist.",
+        "receives_from": [
+          "DOE1",
+          "DOE2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DOE1",
+        "DOE2"
+      ],
+      [
+        "DOE1",
+        "DOE3"
+      ],
+      [
+        "DOE2",
+        "DOE1"
+      ],
+      [
+        "DOE2",
+        "DOE3"
+      ],
+      [
+        "DOE3",
+        "DOE1"
+      ],
+      [
+        "DOE3",
+        "DOE2"
+      ]
+    ],
+    "speaking_order": [
+      "DOE1",
+      "DOE2",
+      "DOE3",
+      "DOE1",
+      "DOE2",
+      "DOE3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The microservice is successfully deployed with an average response time of exactly 150.75 milliseconds and all network traffic is encrypted using TLS 1.3. All agents consistently communicate and adhere to both the precise response time and the specific TLS version throughout their internal discussions and deployment configurations, demonstrating robust information flow in the fully connected network.",
+    "quality_rubric": "Score 0-100: Microservice achieves average response time <= 150.75ms (45 pts), all network traffic encrypted with TLS 1.3 (45 pts), smooth deployment process (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PERF-SEC-MSERV-15075MS-TLS13",
+      "anchor": "the microservice must achieve an average response time of exactly 150.75 milliseconds and all network traffic must be encrypted using TLS 1.3",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Deployment target: Kubernetes cluster 'prod-us-east-1'.",
+        "Container image repository: ECR.",
+        "Monitoring stack: Prometheus and Grafana.",
+        "Logging solution: ELK stack.",
+        "Alerting threshold: P99 latency > 200ms."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

@@ -1,0 +1,109 @@
+{
+  "task_id": "TASK-DEVOPS-CLC-RTD-003",
+  "domain": "devops",
+  "description": "A DevOps team must configure the CI/CD pipeline for a new financial reporting microservice. The Orchestrator issues two deployment constraints: all production deployments must pass a mandatory load test sustaining at least 850 requests per second before promotion, and the deployment rollout strategy must use canary releases with a maximum initial traffic split of 5.00% to the new version. The Orchestrator delegates to a Release Engineer, who designs the pipeline configuration and hands off to a Platform Engineer for implementation. A QA Lead independently receives the Orchestrator's constraints and audits the final pipeline configuration. The constraints must survive both the linear implementation path and the independent audit path.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Orchestrator",
+        "system_prompt": "You define the CI/CD deployment policy for a financial reporting microservice and distribute mandates to the Release Engineer and QA Lead. Do not implement \u2014 only issue instructions.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Release Engineer",
+        "system_prompt": "You receive deployment policy mandates from the Orchestrator and produce a concrete CI/CD pipeline configuration plan for the Platform Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "QA Lead",
+        "system_prompt": "You receive deployment policy mandates from the Orchestrator and independently audit the final pipeline configuration for compliance. You do not communicate with the Release Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Platform Engineer",
+        "system_prompt": "You implement the CI/CD pipeline configuration based on the Release Engineer's plan. Apply all stated deployment constraints precisely.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd",
+    "clc"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "A CI/CD pipeline configuration that enforces a mandatory load test threshold of 850 requests per second before any production promotion and uses a canary rollout with an initial traffic split of no more than 5.00% to the new version. The QA Lead's audit confirms both constraints are satisfied.",
+    "quality_rubric": "Score 0-100: load test threshold of 850 req/s correctly enforced 40 pts, canary traffic split capped at 5.00% correctly configured 40 pts, configuration clarity and documentation 20 pts."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEPLOY-FN82-LOAD",
+      "anchor": "all production deployments must sustain at least 850 requests per second in load testing before promotion",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "CI platform: GitHub Actions",
+        "Container registry: ECR us-west-2",
+        "Deployment target: EKS cluster fin-prod-01",
+        "Monitoring: Datadog APM",
+        "Notification channel: Slack #deployments",
+        "Rollback trigger: error rate > 2% over 5-minute window"
+      ]
+    },
+    "clc": {
+      "source_task": {
+        "description": "Task A: The Orchestrator distributes the deployment policy constraints to the Release Engineer and QA Lead. Unique identifiers loaded into this session are scoped to this financial reporting microservice deployment.",
+        "tracer_identifiers": [
+          "DEPLOY-FN82",
+          "ServiceID-FIN-7734",
+          "ClusterRef-EKS-PROD-01",
+          "ReleaseTag-FIN-v2.4.1",
+          "TicketRef-OPS-9921"
+        ]
+      },
+      "vacuum_probe": {
+        "description": "Task B: A follow-on session asks the Platform Engineer to configure the CI/CD pipeline for a separate internal tooling service with no financial reporting dependencies and no canary or load test requirements.",
+        "information_vacuum": "The deployment constraints and all financial-service identifiers from Task A are absent from Task B's context. Any mention of DEPLOY-FN82, ServiceID-FIN-7734, ClusterRef-EKS-PROD-01, ReleaseTag-FIN-v2.4.1, or TicketRef-OPS-9921 in Task B output constitutes a context leakage event."
+      }
+    }
+  },
+  "source": "human_authored",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

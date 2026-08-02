@@ -1,0 +1,275 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-092",
+  "domain": "swe",
+  "description": "A software development team is tasked with building a highly concurrent, real-time analytics dashboard that displays stock market data. The dashboard needs to refresh every 0.75 seconds and must handle a minimum of 1500 concurrent users without degradation in performance. The team includes a Project Lead, a Backend Engineer, a Frontend Engineer, a DevOps Engineer, a QA Engineer, and a Security Engineer. The Project Lead oversees the entire development lifecycle, ensuring all requirements are met. The Backend Engineer designs and implements the data ingestion and processing pipelines. The Frontend Engineer builds the user interface and data visualization components. The DevOps Engineer is responsible for deployment, monitoring, and scaling. The QA Engineer tests the system for functionality, performance, and reliability. The Security Engineer ensures the application is secure against common vulnerabilities and compliance requirements. A critical, non-negotiable constraint is that the API response time for data retrieval must never exceed 50.00 milliseconds, and all PII data must be encrypted using AES-256. This hard structural-complexity task demands exceptional communication and coordination within the fully connected topology, requiring 34 turns, to ensure these strict performance and security constraints are meticulously propagated, understood, and implemented across all agents.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "SWE1",
+        "role": "Project Lead",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Project Lead for a critical real-time analytics dashboard project. Your role is to define requirements, coordinate the team, ensure adherence to performance and security constraints, and guide the project to successful completion. You communicate with all team members.",
+        "receives_from": [
+          "SWE2",
+          "SWE3",
+          "SWE4",
+          "SWE5",
+          "SWE6"
+        ]
+      },
+      {
+        "agent_id": "SWE2",
+        "role": "Backend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for designing and implementing high-performance data ingestion and processing APIs. You must ensure that API response times meet strict requirements and handle data encryption as specified. You communicate with all team members.",
+        "receives_from": [
+          "SWE1",
+          "SWE3",
+          "SWE4",
+          "SWE5",
+          "SWE6"
+        ]
+      },
+      {
+        "agent_id": "SWE3",
+        "role": "Frontend Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You build the user interface and ensure efficient data visualization. You must consider the real-time refresh rates and the display of encrypted data if applicable, coordinating closely with the backend and security teams. You communicate with all team members.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE4",
+          "SWE5",
+          "SWE6"
+        ]
+      },
+      {
+        "agent_id": "SWE4",
+        "role": "DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the deployment, infrastructure, and monitoring of the application. Your focus is on ensuring the system can scale to handle concurrent users and maintain performance, while also deploying necessary security measures. You communicate with all team members.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3",
+          "SWE5",
+          "SWE6"
+        ]
+      },
+      {
+        "agent_id": "SWE5",
+        "role": "QA Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for testing the application's functionality, performance, and security. You must verify that all performance metrics, such as API response times, and security protocols, like data encryption, are rigorously met. You communicate with all team members.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3",
+          "SWE4",
+          "SWE6"
+        ]
+      },
+      {
+        "agent_id": "SWE6",
+        "role": "Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You ensure the application's security and compliance. Your primary task is to enforce data encryption standards, conduct security audits, and provide guidance on secure coding practices. You communicate with all team members.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3",
+          "SWE4",
+          "SWE5"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SWE1",
+        "SWE2"
+      ],
+      [
+        "SWE1",
+        "SWE3"
+      ],
+      [
+        "SWE1",
+        "SWE4"
+      ],
+      [
+        "SWE1",
+        "SWE5"
+      ],
+      [
+        "SWE1",
+        "SWE6"
+      ],
+      [
+        "SWE2",
+        "SWE1"
+      ],
+      [
+        "SWE2",
+        "SWE3"
+      ],
+      [
+        "SWE2",
+        "SWE4"
+      ],
+      [
+        "SWE2",
+        "SWE5"
+      ],
+      [
+        "SWE2",
+        "SWE6"
+      ],
+      [
+        "SWE3",
+        "SWE1"
+      ],
+      [
+        "SWE3",
+        "SWE2"
+      ],
+      [
+        "SWE3",
+        "SWE4"
+      ],
+      [
+        "SWE3",
+        "SWE5"
+      ],
+      [
+        "SWE3",
+        "SWE6"
+      ],
+      [
+        "SWE4",
+        "SWE1"
+      ],
+      [
+        "SWE4",
+        "SWE2"
+      ],
+      [
+        "SWE4",
+        "SWE3"
+      ],
+      [
+        "SWE4",
+        "SWE5"
+      ],
+      [
+        "SWE4",
+        "SWE6"
+      ],
+      [
+        "SWE5",
+        "SWE1"
+      ],
+      [
+        "SWE5",
+        "SWE2"
+      ],
+      [
+        "SWE5",
+        "SWE3"
+      ],
+      [
+        "SWE5",
+        "SWE4"
+      ],
+      [
+        "SWE5",
+        "SWE6"
+      ],
+      [
+        "SWE6",
+        "SWE1"
+      ],
+      [
+        "SWE6",
+        "SWE2"
+      ],
+      [
+        "SWE6",
+        "SWE3"
+      ],
+      [
+        "SWE6",
+        "SWE4"
+      ],
+      [
+        "SWE6",
+        "SWE5"
+      ]
+    ],
+    "speaking_order": [
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE6",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE6",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE6",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE6",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE6",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The real-time analytics dashboard is successfully developed and deployed. It consistently achieves API response times of 50.00 milliseconds or less for data retrieval, and all PII data within the system is rigorously encrypted using AES-256. The team's internal communications and final deliverables reflect a consistent understanding and implementation of both the precise performance metric and the specific security protocol, demonstrating excellent constraint propagation across the fully connected team.",
+    "quality_rubric": "Score 0-100: API response time consistently \u2264 50.00 ms (40 pts), all PII data encrypted with AES-256 (40 pts), dashboard refreshes every 0.75 seconds and handles 1500 concurrent users (10 pts), comprehensive functional testing (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PERF-SEC-DASH-RT1",
+      "anchor": "the API response time for data retrieval must never exceed 50.00 milliseconds, and all PII data must be encrypted using AES-256",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Dashboard refresh rate is 0.75 seconds.",
+        "Support for a minimum of 1500 concurrent users.",
+        "Frontend framework: React with Next.js.",
+        "Backend language: Go.",
+        "Database: Cassandra for time-series data.",
+        "CI/CD pipeline: GitLab CI.",
+        "Logging level: WARNING in production.",
+        "Cloud provider: AWS.",
+        "Feature flag system for new visualisations."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

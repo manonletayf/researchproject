@@ -1,0 +1,195 @@
+{
+  "task_id": "TASK-SWE-RTD-093",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new microservice that processes user-uploaded images. This microservice needs to be highly scalable and robust, handling various image formats and sizes while ensuring data integrity and security. The team, consisting of a Lead Developer, a Backend Engineer, a DevOps Specialist, a Quality Assurance Engineer, and a Security Engineer, must collaborate to design, develop, and deploy this service. The Lead Developer oversees the project, the Backend Engineer writes the core logic, the DevOps Specialist handles deployment and infrastructure, the QA Engineer ensures functionality and performance, and the Security Engineer focuses on vulnerability assessment. A critical, non-negotiable constraint is that the image processing service must utilize exactly 'AWS Lambda with a 256MB memory limit' for all serverless functions to control costs and ensure efficient resource usage, and all images must be stored with 'AES-256 encryption using KMS managed keys'. The fully connected topology facilitates direct and instantaneous communication among all five agents, which is essential for ensuring that these precise architectural and security constraints are consistently propagated and adhered to throughout the development lifecycle, making this a medium structural-complexity task with 14 expected turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "LD1",
+        "role": "Lead Developer",
+        "system_prompt": "You are the Lead Developer overseeing the implementation of a new image processing microservice. Your role is to guide the team, ensure architectural compliance, and verify that all critical constraints, especially resource limits and security protocols, are integrated into the design and implementation. You coordinate inputs from all team members.",
+        "receives_from": [
+          "BE2",
+          "DS3",
+          "QA4",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "BE2",
+        "role": "Backend Engineer",
+        "system_prompt": "You are responsible for developing the core backend logic for the image processing microservice. You must adhere strictly to specified architectural choices, particularly regarding serverless function configuration and data storage encryption. You provide technical implementation details to the team.",
+        "receives_from": [
+          "DS3",
+          "LD1",
+          "QA4",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "DS3",
+        "role": "DevOps Specialist",
+        "system_prompt": "You manage the deployment, infrastructure, and operational aspects of the microservice. You must ensure that the deployed environment strictly conforms to the specified cloud resources and security configurations, including serverless function memory limits and encryption standards. You report on deployment status and infrastructure setup.",
+        "receives_from": [
+          "BE2",
+          "LD1",
+          "QA4",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "QA4",
+        "role": "Quality Assurance Engineer",
+        "system_prompt": "You are responsible for testing the microservice to ensure it meets functional requirements, performance benchmarks, and adheres to all specified architectural and security constraints. You verify that image processing operates within resource limits and data is correctly encrypted. You report on testing outcomes.",
+        "receives_from": [
+          "BE2",
+          "DS3",
+          "LD1",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "SE5",
+        "role": "Security Engineer",
+        "system_prompt": "You focus on identifying and mitigating security vulnerabilities within the microservice. You must ensure that all security protocols, especially data encryption at rest (AES-256 with KMS), are correctly implemented and robust. You provide security recommendations and audit results.",
+        "receives_from": [
+          "BE2",
+          "DS3",
+          "LD1",
+          "QA4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LD1",
+        "BE2"
+      ],
+      [
+        "LD1",
+        "DS3"
+      ],
+      [
+        "LD1",
+        "QA4"
+      ],
+      [
+        "LD1",
+        "SE5"
+      ],
+      [
+        "BE2",
+        "LD1"
+      ],
+      [
+        "BE2",
+        "DS3"
+      ],
+      [
+        "BE2",
+        "QA4"
+      ],
+      [
+        "BE2",
+        "SE5"
+      ],
+      [
+        "DS3",
+        "LD1"
+      ],
+      [
+        "DS3",
+        "BE2"
+      ],
+      [
+        "DS3",
+        "QA4"
+      ],
+      [
+        "DS3",
+        "SE5"
+      ],
+      [
+        "QA4",
+        "LD1"
+      ],
+      [
+        "QA4",
+        "BE2"
+      ],
+      [
+        "QA4",
+        "DS3"
+      ],
+      [
+        "QA4",
+        "SE5"
+      ],
+      [
+        "SE5",
+        "LD1"
+      ],
+      [
+        "SE5",
+        "BE2"
+      ],
+      [
+        "SE5",
+        "DS3"
+      ],
+      [
+        "SE5",
+        "QA4"
+      ]
+    ],
+    "speaking_order": [
+      "LD1",
+      "BE2",
+      "DS3",
+      "QA4",
+      "SE5",
+      "LD1",
+      "BE2",
+      "DS3",
+      "QA4",
+      "SE5",
+      "LD1",
+      "BE2",
+      "DS3",
+      "QA4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The team successfully designs, develops, and deploys the image processing microservice. The final deployed solution explicitly utilizes 'AWS Lambda with a 256MB memory limit' for serverless functions, and all images are stored with 'AES-256 encryption using KMS managed keys'. All internal communications consistently reflect these precise architectural and security constraints, demonstrating full adherence and robust information propagation across the fully connected team.",
+    "quality_rubric": "Score 0-100: Microservice utilizes AWS Lambda with 256MB memory limit (35 pts), images stored with AES-256 encryption using KMS managed keys (35 pts), clear and viable design/implementation plan (20 pts), effective collaboration and issue resolution (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "IMGPROC-ARCH-SEC-CX98",
+      "anchor": "the image processing service must utilize exactly 'AWS Lambda with a 256MB memory limit' for all serverless functions, and all images must be stored with 'AES-256 encryption using KMS managed keys'",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Primary image formats: JPEG, PNG, WEBP.",
+        "Maximum image size for processing: 10MB.",
+        "Error logging should use CloudWatch Logs.",
+        "API Gateway should be configured for rate limiting at 100 req/sec.",
+        "Frontend team requires a RESTful API endpoint for uploads.",
+        "Consider using SQS for asynchronous processing queues."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

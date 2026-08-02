@@ -1,0 +1,201 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-120",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new critical microservice to production, ensuring high availability, strict security compliance, and optimal performance. The team consists of a Lead DevOps Engineer, a Cloud Architect, a Security Engineer, a Network Engineer, and an SRE Specialist. The Lead DevOps Engineer oversees the deployment and coordination. The Cloud Architect designs the infrastructure. The Security Engineer audits configurations for vulnerabilities. The Network Engineer configures load balancing and firewall rules. The SRE Specialist monitors performance and implements auto-scaling. A crucial constraint is that all deployment artifacts must be stored in an immutable Amazon S3 bucket with versioning enabled, and the maximum allowed latency for the primary API endpoint must not exceed 75.50 milliseconds. The fully connected topology ensures every agent can directly communicate with any other agent, facilitating rapid information exchange and decision-making crucial for a medium-structural-complexity deployment scenario. The objective is to evaluate how effectively these precise architectural and performance constraints are propagated and adhered to across 18 turns of iterative communication and collaborative problem-solving.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the leader of the DevOps team, coordinating the deployment of a critical microservice. Your role involves overseeing the entire process, ensuring all team members adhere to architectural and performance constraints, and facilitating clear communication.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You design the cloud infrastructure for the microservice. Your designs must strictly adhere to specified architectural constraints, focusing on scalability, cost-efficiency, and compliance.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You audit and enforce security policies for the deployment. You must ensure all components comply with security standards and any specific immutable storage requirements.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS4",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS4",
+        "role": "Network Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You configure network components like load balancers, firewalls, and routing. You must optimize for performance, ensuring the primary API endpoint meets latency requirements.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS5"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS5",
+        "role": "SRE Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for site reliability, monitoring system performance, and implementing auto-scaling. You must ensure that the deployed microservice consistently meets its performance and availability SLAs, especially regarding API latency.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2",
+          "DEVOPS3",
+          "DEVOPS4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS4"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS4",
+        "DEVOPS5"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS5",
+        "DEVOPS4"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS4",
+      "DEVOPS5",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The microservice is successfully deployed to production with all deployment artifacts stored in an immutable Amazon S3 bucket with versioning enabled, and the primary API endpoint consistently achieves a maximum latency not exceeding 75.50 milliseconds. All internal team discussions and final deployment configurations explicitly reflect both the immutable S3 storage requirement and the precise latency constraint, demonstrating robust information flow and consistent adherence across the fully connected team.",
+    "quality_rubric": "Score 0-100: Immutable S3 bucket with versioning enabled for deployment artifacts (40 pts), Primary API endpoint latency not exceeding 75.50ms (40 pts), successful microservice deployment (10 pts), comprehensive deployment report (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEVOPS-DEPLOY-IMMUTABLE-LATENCY-7550MS",
+      "anchor": "all deployment artifacts must be stored in an immutable Amazon S3 bucket with versioning enabled, and the maximum allowed latency for the primary API endpoint must not exceed 75.50 milliseconds",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Use Kubernetes for orchestration.",
+        "Implement a blue/green deployment strategy.",
+        "Integrate with existing CI/CD pipelines.",
+        "Microservice written in GoLang.",
+        "Database is PostgreSQL 14 in RDS.",
+        "Enable distributed tracing with Jaeger.",
+        "Set up alerting for critical error rates.",
+        "Schedule daily backups for configuration files."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

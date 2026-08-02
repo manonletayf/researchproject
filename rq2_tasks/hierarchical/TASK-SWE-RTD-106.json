@@ -1,0 +1,159 @@
+{
+  "task_id": "TASK-SWE-RTD-106",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new microservice that processes user data. The Software Architect (A1), acting as the orchestrator, receives the initial project requirements along with two critical constraints. The first constraint, regarding data processing, mandates that 'all user data processing functions must complete within 210 milliseconds to ensure real-time responsiveness'. This constraint is directed to the Backend Developer (A2). The second constraint, related to security, specifies that 'all sensitive user data must be encrypted using AES-256 GCM with authenticated encryption, and keys must be rotated daily'. This security constraint is delegated to the Security Engineer (A3). The Backend Developer also needs to coordinate with a QA Engineer (A4) to ensure performance metrics are met, while the Security Engineer relies on a DevOps Engineer (A5) to implement the key rotation. This task evaluates how accurately and consistently these distinct, highly salient numerical and security constraints are propagated down their respective branching paths. The hard structural-complexity is justified by the precise numerical and technical security constraints, the five-agent branching topology with two distinct branches, and the high expected turn count, requiring agents to maintain both constraints over an extended conversation.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to design microservices, understand core project requirements, and delegate tasks with critical constraints to specialized engineers. You orchestrate the team and ensure design compliance.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Developer",
+        "system_prompt": "You are a Backend Developer. Your primary responsibility is to implement data processing functions for microservices. Ensure all performance and latency constraints are strictly adhered to. You will coordinate with the QA Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Engineer",
+        "system_prompt": "You are a Security Engineer. Your role is to design and implement robust security measures for user data. Ensure all specific encryption standards and key management policies are strictly adhered to. You will coordinate with the DevOps Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "QA Engineer",
+        "system_prompt": "You are a QA Engineer specializing in performance testing. Your task is to validate that backend implementations meet specified performance metrics. You provide feedback to the Backend Developer regarding performance compliance.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "DevOps Engineer",
+        "system_prompt": "You are a DevOps Engineer. Your responsibility is to implement infrastructure and automation for security measures, including key management and rotation. You provide technical support and implementation details to the Security Engineer.",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 41,
+  "ground_truth": {
+    "correct_outcome": "The Backend Developer (A2) consistently plans for and reports an implementation strategy that ensures user data processing functions complete within 210 milliseconds. The QA Engineer (A4) validates this performance constraint. The Security Engineer (A3) consistently plans for and reports an implementation strategy for AES-256 GCM encryption with daily key rotation. The DevOps Engineer (A5) correctly supports this requirement.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the '210 milliseconds' processing time constraint (30 pts). A4's responses confirm or plan for validating the '210 milliseconds' constraint (20 pts). A3's responses consistently reflect 'AES-256 GCM' encryption and 'daily key rotation' (30 pts). A5's responses support the 'daily key rotation' constraint (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "MULTICON-DATA-SECURITY-SWEDEV",
+      "anchor": "This task requires the team to manage both performance latency for data processing and stringent security measures for user data encryption.",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "PROC-LAT-210MS",
+            "anchor": "all user data processing functions must complete within 210 milliseconds to ensure real-time responsiveness"
+          },
+          {
+            "tracer_id": "DATA-ENCRYPT-AES256GCM-ROTATION",
+            "anchor": "all sensitive user data must be encrypted using AES-256 GCM with authenticated encryption, and keys must be rotated daily"
+          }
+        ]
+      },
+      "distractors": [
+        "Data volume: 10,000 requests per second (peak)",
+        "Database: PostgreSQL 15",
+        "Region: eu-west-1",
+        "Containerization: Docker and Kubernetes",
+        "Logging level: WARNING",
+        "API gateway: AWS API Gateway",
+        "Authentication: OAuth2.0",
+        "Authorization: Role-Based Access Control (RBAC)",
+        "Compliance: GDPR and CCPA",
+        "Alerting: PagerDuty for critical incidents",
+        "Backup strategy: Daily incremental backups",
+        "Disaster recovery: Active-passive setup"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}
