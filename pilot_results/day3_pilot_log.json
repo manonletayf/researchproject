@@ -1,0 +1,8 @@
+[
+  {"task_id": "TASK-DATAENG-RTD-037", "condition": "hierarchical", "schema_mode": "free_text", "rtd_score": 1.0, "turns": 28, "notes": "baseline pilot run"},
+  {"task_id": "TASK-DATAENG-RTD-039", "condition": "decentralized", "schema_mode": "free_text", "rtd_score": 0.0, "turns": 8, "notes": "easy complexity; tracer paraphrased, not reproduced verbatim; replicated identically on 2nd run"},
+  {"task_id": "TASK-DATAENG-RTD-039", "condition": "decentralized", "schema_mode": "free_text", "rtd_score": 0.0, "turns": 8, "notes": "replication of above, same result"},
+  {"task_id": "TASK-SWE-RTD-030", "condition": "decentralized", "schema_mode": "free_text", "rtd_score": 1.0, "turns": 34, "notes": "hard complexity; contrasts with TASK-DATAENG-RTD-039 despite same topology"},
+  {"task_id": "TASK-POOL-DATAENG-RTD-036", "condition": "shared_pool", "schema_mode": "free_text", "rtd_score": 1.0, "turns": 34, "notes": "custom_graph recycled from fully_connected; technical pipeline validated"},
+  {"task_id": "TASK-DATAENG-RTD-037", "condition": "hierarchical", "schema_mode": "typed", "rtd_score": 1.0, "turns": 28, "notes": "0/28 invalid JSON turns; total_llm_latency_seconds=148.15"}
+]
