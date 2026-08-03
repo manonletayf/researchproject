@@ -1,0 +1,249 @@
+diff --git a/agentcollabbench/harness/provider.py b/agentcollabbench/harness/provider.py
+index d9281b0..96b7380 100644
+--- a/agentcollabbench/harness/provider.py
++++ b/agentcollabbench/harness/provider.py
+@@ -67,6 +67,12 @@ class LLMProvider(ABC):
+         Args:
+             messages: List of Message objects (system, user, assistant).
+             **kwargs: Provider-specific parameters (temperature, max_tokens, etc.).
++                response_schema: Optional dict with keys ``name`` and ``schema``
++                    (JSON Schema). When provided, providers that support native
++                    structured output (OpenAI, OpenRouter) constrain generation
++                    to that schema. Providers without native support silently
++                    ignore this kwarg — callers relying on RQ2's schema_mode
++                    should therefore pair it with a provider that honors it.
+ 
+         Returns:
+             LLMResponse with the assistant's reply.
+@@ -79,6 +85,80 @@ class LLMProvider(ABC):
+         ...
+ 
+ 
++# ---------------------------------------------------------------------------
++# RQ2 typed-schema support (topology x message-schema experiment)
++# ---------------------------------------------------------------------------
++
++#: Default structured-output schema for the "typed" condition of RQ2.
++#: `findings` is the designated free-text field: RTD tracer/anchor strings
++#: must land here so that `str(content)`-based detection in rtd.py still
++#: finds them after JSON serialization.
++RQ2_TYPED_RESPONSE_SCHEMA: dict[str, Any] = {
++    "name": "agent_turn_response",
++    "schema": {
++        "type": "object",
++        "properties": {
++            "reasoning": {
++                "type": "string",
++                "description": "Brief reasoning for this turn's contribution.",
++            },
++            "findings": {
++                "type": "string",
++                "description": (
++                    "The substantive content of this turn: analysis, evidence, "
++                    "proposed edits, or answer text. Preserve any identifiers, "
++                    "constraints, or references mentioned earlier in the "
++                    "conversation verbatim."
++                ),
++            },
++            "decision": {
++                "type": "string",
++                "description": "This agent's concrete decision or recommendation, if any.",
++            },
++            "confidence": {
++                "type": ["number", "null"],
++                "description": (
++                    "Self-reported confidence in [0, 1], or null if the agent "
++                    "does not have a meaningful confidence estimate for this turn."
++                ),
++            },
++        },
++        "required": ["reasoning", "findings", "decision", "confidence"],
++        "additionalProperties": False,
++    },
++}
++
++#: Provider identifiers known to honor `response_schema` natively. Used only
++#: for a best-effort warning in TaskRunner — instantiating schema_mode="typed"
++#: with a provider outside this set will NOT raise, it will silently produce
++#: free-text content, contaminating the "typed" condition. Extend this set
++#: as more providers gain native json_schema/strict support.
++SCHEMA_MODE_SUPPORTED_PROVIDERS: set[str] = {"openai", "openrouter"}
++
++
++def build_openai_compatible_response_format(response_schema: dict[str, Any]) -> dict[str, Any]:
++    """Build a Chat-Completions-style `response_format` payload from a schema.
++
++    Shared by any OpenAI-compatible provider (OpenAI itself, OpenRouter,
++    and OpenAI-compatible gateways) that supports the `json_schema`
++    structured-output mode.
++
++    Args:
++        response_schema: dict with `name` (str) and `schema` (JSON Schema dict).
++
++    Returns:
++        A `response_format` dict ready to pass to `chat.completions.create`.
++    """
++    return {
++        "type": "json_schema",
++        "json_schema": {
++            "name": response_schema.get("name", "agent_turn_response"),
++            "schema": response_schema["schema"],
++            "strict": True,
++        },
++    }
++
++
+ class OpenAIProvider(LLMProvider):
+     """OpenAI chat completion provider."""
+ 
+@@ -103,12 +183,19 @@ class OpenAIProvider(LLMProvider):
+ 
+         api_messages = [{"role": m.role, "content": m.content} for m in messages]
+ 
+-        response = self._client.chat.completions.create(
+-            model=model,
+-            messages=api_messages,
+-            temperature=temperature,
+-            max_tokens=max_tokens,
+-        )
++        request_kwargs: dict[str, Any] = {
++            "model": model,
++            "messages": api_messages,
++            "temperature": temperature,
++            "max_tokens": max_tokens,
++        }
++        response_schema = kwargs.get("response_schema")
++        if response_schema:
++            request_kwargs["response_format"] = build_openai_compatible_response_format(
++                response_schema
++            )
++
++        response = self._client.chat.completions.create(**request_kwargs)
+ 
+         choice = response.choices[0]
+         usage = response.usage
+@@ -458,6 +545,16 @@ class OpenRouterProvider(LLMProvider):
+         if provider_routing:
+             request_kwargs["extra_body"] = {"provider": provider_routing}
+ 
++        response_schema = kwargs.get("response_schema")
++        if response_schema:
++            # Note: not every OpenRouter-routed model honors json_schema mode.
++            # Unsupported models typically ignore the field or degrade to
++            # plain text; check the model's OpenRouter capability page if
++            # typed-mode outputs come back unstructured.
++            request_kwargs["response_format"] = build_openai_compatible_response_format(
++                response_schema
++            )
++
+         rate_limit_retries = int(
+             kwargs.get("rate_limit_retries", os.environ.get("OPENROUTER_RATE_LIMIT_RETRIES", 60))
+         )
+diff --git a/agentcollabbench/harness/runner.py b/agentcollabbench/harness/runner.py
+index 8d157ff..9837600 100644
+--- a/agentcollabbench/harness/runner.py
++++ b/agentcollabbench/harness/runner.py
+@@ -15,7 +15,12 @@ from agentcollabbench.harness.injector import (
+     build_idr_system_prompt_patch,
+     build_injection_prompt,
+ )
+-from agentcollabbench.harness.provider import LLMProvider, Message
++from agentcollabbench.harness.provider import (
++    RQ2_TYPED_RESPONSE_SCHEMA,
++    SCHEMA_MODE_SUPPORTED_PROVIDERS,
++    LLMProvider,
++    Message,
++)
+ from agentcollabbench.metrics.rtd.topology import DAGTopology
+ 
+ logger = logging.getLogger(__name__)
+@@ -62,16 +67,44 @@ class TaskRunner:
+         provider: LLMProvider,
+         metric: str = "rtd",
+         verbose: bool = False,
++        schema_mode: str = "free_text",
++        response_schema: dict[str, Any] | None = None,
+     ):
+         """
+         Args:
+             provider: The LLM provider to use for all agents.
+             metric: Which metric injection to apply (default "rtd").
+             verbose: If True, log agent messages to stdout.
++            schema_mode: "free_text" (default, unchanged behavior) or "typed".
++                In "typed" mode, every agent turn is requested as structured
++                JSON conforming to `response_schema` via the provider's
++                native structured-output support (see provider.py). Use
++                "free_text" and "typed" as the two levels of RQ2's message
++                schema factor.
++            response_schema: JSON-schema dict (with "name"/"schema" keys)
++                used when schema_mode == "typed". Defaults to
++                RQ2_TYPED_RESPONSE_SCHEMA, whose "findings" field is the
++                designated free-text carrier for RTD tracers/anchors.
+         """
++        if schema_mode not in ("free_text", "typed"):
++            raise ValueError(
++                f"schema_mode must be 'free_text' or 'typed', got {schema_mode!r}"
++            )
+         self.provider = provider
+         self.metric = metric
+         self.verbose = verbose
++        self.schema_mode = schema_mode
++        self.response_schema = response_schema or RQ2_TYPED_RESPONSE_SCHEMA
++
++        if self.schema_mode == "typed" and provider.provider_name() not in SCHEMA_MODE_SUPPORTED_PROVIDERS:
++            logger.warning(
++                "schema_mode='typed' requested with provider '%s', which is not "
++                "known to enforce response_schema natively. Calls will likely "
++                "silently return free text, contaminating the 'typed' condition "
++                "of RQ2. Supported providers: %s",
++                provider.provider_name(),
++                sorted(SCHEMA_MODE_SUPPORTED_PROVIDERS),
++            )
+ 
+     def run_task(self, task: dict[str, Any]) -> RunResult:
+         """Execute a single task and return the result.
+@@ -151,6 +184,19 @@ class TaskRunner:
+             "timestamps": {
+                 "start": handoffs[0].timestamp if handoffs else 0,
+                 "end": handoffs[-1].timestamp if handoffs else 0,
++                # NOTE: _run_speaking_order executes agents strictly in
++                # sequence regardless of topology (fully_connected /
++                # branching_tree / custom_graph all go through the same
++                # `for agent_id in speaking_order` loop). This sum is
++                # therefore total sequential LLM compute time, not a measure
++                # of concurrency benefit — a decentralised topology will not
++                # show lower total_llm_latency_seconds than a hierarchical
++                # one purely from parallelism, since none occurs here. Treat
++                # it as "compute cost", and treat end-start above as wall
++                # clock span, when writing up coordination latency.
++                "total_llm_latency_seconds": round(
++                    sum(c.get("latency_seconds", 0.0) for c in api_calls), 4
++                ),
+             },
+             "errors": [],
+         }
+@@ -264,7 +310,14 @@ class TaskRunner:
+             if self.verbose:
+                 logger.info("[%s (%s)] Calling LLM...", agent_id, config.get("role", ""))
+ 
+-            response = self.provider.chat(messages)
++            call_kwargs: dict[str, Any] = {}
++            if self.schema_mode == "typed":
++                call_kwargs["response_schema"] = self.response_schema
++
++            call_start = time.perf_counter()
++            response = self.provider.chat(messages, **call_kwargs)
++            llm_call_latency_seconds = time.perf_counter() - call_start
++
+             agent_output = response.content
+             agent_outputs[agent_id] = agent_output
+             timestamp = time.time()
+@@ -292,6 +345,8 @@ class TaskRunner:
+                     "model": response.model,
+                     "input_tokens": response.input_tokens,
+                     "output_tokens": response.output_tokens,
++                    "latency_seconds": round(llm_call_latency_seconds, 4),
++                    "schema_mode": self.schema_mode,
+                 }
+             )
+ 
