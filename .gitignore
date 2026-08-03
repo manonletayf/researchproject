@@ -1,0 +1,4 @@
+AgentCollabBench/
+scripts/__pycache__/
+*.pyc
+.env
