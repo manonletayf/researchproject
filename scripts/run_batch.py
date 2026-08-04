@@ -46,6 +46,13 @@ def run_batch(condition, task_dir, output_path, schema_modes=("free_text", "type
                 rtd_metric = RTDMetric()
                 score = rtd_metric.compute(result.scenario, result.output, result.trace)
 
+                # Sauvegarde la trace complete dans un fichier a part
+                trace_dir = Path(output_path).parent / "traces" / condition
+                trace_dir.mkdir(parents=True, exist_ok=True)
+                trace_file = trace_dir / f"{task_id}__{schema_mode}.json"
+                with open(trace_file, "w") as tf:
+                    json.dump(result.to_dict(), tf, indent=2)
+
                 record = {
                     "task_id": task_id,
                     "condition": condition,
@@ -56,6 +63,7 @@ def run_batch(condition, task_dir, output_path, schema_modes=("free_text", "type
                     "num_turns": len(result.trace["turns"]),
                     "total_llm_latency_seconds": result.trace["timestamps"].get("total_llm_latency_seconds"),
                     "wall_clock_seconds": round(time.time() - start, 2),
+                    "trace_file": str(trace_file.relative_to(Path(output_path).parent.parent)),
                     "error": None,
                 }
             except Exception as e:
