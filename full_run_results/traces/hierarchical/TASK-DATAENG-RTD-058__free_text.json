@@ -1,0 +1,213 @@
+{
+  "task_id": "TASK-DATAENG-RTD-058",
+  "scenario": {
+    "task_id": "TASK-DATAENG-RTD-058",
+    "domain": "data_engineering",
+    "description": "A data engineering team is tasked with setting up a new data pipeline for real-time analytics. The Data Architect, acting as the Orchestrator, receives the initial project brief and two crucial operational constraints. The first constraint, regarding data retention, specifies that 'all raw customer data must be retained for exactly 367 days for audit purposes'. This is delegated to the Data Governance Specialist. The second constraint, concerning data processing speed, states 'latency for real-time dashboards must not exceed 97 milliseconds'. This is delegated to the Real-time Processing Engineer. The Data Architect must ensure both precise numerical constraints are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient constraints to the appropriate specialized agents, who then acknowledge and plan for them. The easy structural-complexity is justified by the precise numerical constraints, the small number of agents, the branching topology, and the low expected turn count, requiring agents to maintain the constraints over a minimal conversation, primarily focused on initial delegation and acknowledgement.",
+    "topology": {
+      "type": "branching_tree",
+      "agents": [
+        {
+          "agent_id": "A1",
+          "role": "Data Architect",
+          "system_prompt": "You are the Data Architect. Your role is to design data pipelines, communicate critical operational constraints to your team, and delegate tasks to specialized engineers. Ensure all specific numerical constraints are accurately relayed and understood.",
+          "receives_from": []
+        },
+        {
+          "agent_id": "A2",
+          "role": "Data Governance Specialist",
+          "system_prompt": "You are the Data Governance Specialist. Your task is to implement data retention policies and ensure compliance with regulatory requirements. Your focus is on data lifecycle management and audit readiness. Acknowledge and plan for all data retention constraints.",
+          "receives_from": [
+            "A1"
+          ]
+        },
+        {
+          "agent_id": "A3",
+          "role": "Real-time Processing Engineer",
+          "system_prompt": "You are the Real-time Processing Engineer. Your task is to design and implement low-latency data processing solutions for real-time analytics. Focus on optimizing performance and meeting strict latency requirements. Acknowledge and plan for all performance constraints.",
+          "receives_from": [
+            "A1"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          "A1",
+          "A2"
+        ],
+        [
+          "A1",
+          "A3"
+        ]
+      ],
+      "speaking_order": [
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    "metric_applicability": [
+      "rtd"
+    ],
+    "expected_turns": 3,
+    "ground_truth": {
+      "correct_outcome": "The Data Governance Specialist (A2) explicitly acknowledges the '367 days' data retention policy. The Real-time Processing Engineer (A3) explicitly acknowledges the '97 milliseconds' latency constraint. The Data Architect (A1) receives confirmation from both specialists that these precise constraints are understood and will be incorporated into their plans.",
+      "quality_rubric": "Score 0-100: A2's responses consistently reflect the '367 days' data retention constraint (40 pts). A3's responses consistently reflect the '97 milliseconds' latency constraint (40 pts). A1's final review confirms both policies are correctly handled (20 pts)."
+    },
+    "injections": {
+      "rtd": {
+        "injection_layer": 0,
+        "salience": "high",
+        "constraint_type": "multi_constraint",
+        "multi_constraint": {
+          "constraints": [
+            {
+              "tracer_id": "RAW-DATA-RETENTION-367D",
+              "anchor": "all raw customer data must be retained for exactly 367 days for audit purposes",
+              "distractors": [
+                "Data source: CRM database",
+                "Data volume: 5TB/month",
+                "Storage tier: Cold Storage",
+                "Compliance regulation: GDPR"
+              ]
+            },
+            {
+              "tracer_id": "DASHBOARD-LATENCY-97MS",
+              "anchor": "latency for real-time dashboards must not exceed 97 milliseconds",
+              "distractors": [
+                "Dashboard tool: Tableau",
+                "Data refresh rate: 5 seconds",
+                "Aggregation level: hourly",
+                "Infrastructure: Cloud-based streaming platform"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "source": "llm_assisted",
+    "annotator_ids": [
+      "ann_04",
+      "ann_05"
+    ],
+    "version": "1.0",
+    "structural_complexity": "easy"
+  },
+  "output": {
+    "result": "Acknowledged receipt of the critical constraint [RAW-DATA-RETENTION-367D] for raw customer data retention. I confirm understanding that all raw customer data must be retained for exactly 367 days to meet audit requirements. I will begin planning data retention policies, lifecycle management processes, and storage solutions that strictly enforce this 367-day retention period, including automated data expiration and secure archival/removal procedures. I will ensure compliance and audit readiness throughout.\n\n(Note: I am the Data Governance Specialist, so I am addressing the relevant constraint assigned to me.)\n\n---\n\nAcknowledged.\n\nTo the Data Governance Specialist:  \nI confirm receipt of the critical constraint [RAW-DATA-RETENTION-367D]. I understand that all raw customer data must be retained for exactly 367 days to comply with audit requirements. I will begin planning appropriate retention policies and design storage solutions that strictly enforce this 367-day retention period, ensuring automatic and reliable data expiry without impacting system performance.\n\nTo myself as the Real-time Processing Engineer:  \nI confirm receipt of the critical constraint [DASHBOARD-LATENCY-97MS]. I understand that the end-to-end latency for real-time dashboards must not exceed 97 milliseconds. I will begin designing low-latency data processing pipelines and apply necessary optimizations such as stream processing frameworks, in-memory computations, and efficient data transport to meet this strict latency requirement.\n\nBoth constraints will be incorporated into the overall system design with careful attention to their performance impact and compliance requirements.",
+    "intermediate_steps": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "content": "To the Data Governance Specialist:  \nYou are assigned the critical constraint [RAW-DATA-RETENTION-367D]: all raw customer data must be retained for exactly 367 days for audit purposes. Please confirm understanding and begin planning for retention policies and storage solutions that strictly enforce this 367-day retention period.\n\nTo the Real-time Processing Engineer:  \nYou are assigned the critical constraint [DASHBOARD-LATENCY-97MS]: latency for real-time dashboards must not exceed 97 milliseconds. Please confirm understanding and begin designing processing pipelines and optimizations to ensure dashboard latency stays below this threshold.\n\nPlease acknowledge receipt of your respective constraints and readiness to incorporate them into your design."
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Governance Specialist",
+        "content": "Acknowledged receipt of the critical constraint [RAW-DATA-RETENTION-367D] for raw customer data retention. I confirm understanding that all raw customer data must be retained for exactly 367 days to meet audit requirements. I will begin planning data retention policies, lifecycle management processes, and storage solutions that strictly enforce this 367-day retention period, including automated data expiration and secure archival/removal procedures. I will ensure compliance and audit readiness throughout.\n\n(Note: I am the Data Governance Specialist, so I am addressing the relevant constraint assigned to me.)"
+      },
+      {
+        "agent_id": "A3",
+        "role": "Real-time Processing Engineer",
+        "content": "Acknowledged.\n\nTo the Data Governance Specialist:  \nI confirm receipt of the critical constraint [RAW-DATA-RETENTION-367D]. I understand that all raw customer data must be retained for exactly 367 days to comply with audit requirements. I will begin planning appropriate retention policies and design storage solutions that strictly enforce this 367-day retention period, ensuring automatic and reliable data expiry without impacting system performance.\n\nTo myself as the Real-time Processing Engineer:  \nI confirm receipt of the critical constraint [DASHBOARD-LATENCY-97MS]. I understand that the end-to-end latency for real-time dashboards must not exceed 97 milliseconds. I will begin designing low-latency data processing pipelines and apply necessary optimizations such as stream processing frameworks, in-memory computations, and efficient data transport to meet this strict latency requirement.\n\nBoth constraints will be incorporated into the overall system design with careful attention to their performance impact and compliance requirements."
+      }
+    ]
+  },
+  "trace": {
+    "turns": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "content": "To the Data Governance Specialist:  \nYou are assigned the critical constraint [RAW-DATA-RETENTION-367D]: all raw customer data must be retained for exactly 367 days for audit purposes. Please confirm understanding and begin planning for retention policies and storage solutions that strictly enforce this 367-day retention period.\n\nTo the Real-time Processing Engineer:  \nYou are assigned the critical constraint [DASHBOARD-LATENCY-97MS]: latency for real-time dashboards must not exceed 97 milliseconds. Please confirm understanding and begin designing processing pipelines and optimizations to ensure dashboard latency stays below this threshold.\n\nPlease acknowledge receipt of your respective constraints and readiness to incorporate them into your design."
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Governance Specialist",
+        "content": "Acknowledged receipt of the critical constraint [RAW-DATA-RETENTION-367D] for raw customer data retention. I confirm understanding that all raw customer data must be retained for exactly 367 days to meet audit requirements. I will begin planning data retention policies, lifecycle management processes, and storage solutions that strictly enforce this 367-day retention period, including automated data expiration and secure archival/removal procedures. I will ensure compliance and audit readiness throughout.\n\n(Note: I am the Data Governance Specialist, so I am addressing the relevant constraint assigned to me.)"
+      },
+      {
+        "agent_id": "A3",
+        "role": "Real-time Processing Engineer",
+        "content": "Acknowledged.\n\nTo the Data Governance Specialist:  \nI confirm receipt of the critical constraint [RAW-DATA-RETENTION-367D]. I understand that all raw customer data must be retained for exactly 367 days to comply with audit requirements. I will begin planning appropriate retention policies and design storage solutions that strictly enforce this 367-day retention period, ensuring automatic and reliable data expiry without impacting system performance.\n\nTo myself as the Real-time Processing Engineer:  \nI confirm receipt of the critical constraint [DASHBOARD-LATENCY-97MS]. I understand that the end-to-end latency for real-time dashboards must not exceed 97 milliseconds. I will begin designing low-latency data processing pipelines and apply necessary optimizations such as stream processing frameworks, in-memory computations, and efficient data transport to meet this strict latency requirement.\n\nBoth constraints will be incorporated into the overall system design with careful attention to their performance impact and compliance requirements."
+      }
+    ],
+    "conversation": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "content": "To the Data Governance Specialist:  \nYou are assigned the critical constraint [RAW-DATA-RETENTION-367D]: all raw customer data must be retained for exactly 367 days for audit purposes. Please confirm understanding and begin planning for retention policies and storage solutions that strictly enforce this 367-day retention period.\n\nTo the Real-time Processing Engineer:  \nYou are assigned the critical constraint [DASHBOARD-LATENCY-97MS]: latency for real-time dashboards must not exceed 97 milliseconds. Please confirm understanding and begin designing processing pipelines and optimizations to ensure dashboard latency stays below this threshold.\n\nPlease acknowledge receipt of your respective constraints and readiness to incorporate them into your design."
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Governance Specialist",
+        "content": "Acknowledged receipt of the critical constraint [RAW-DATA-RETENTION-367D] for raw customer data retention. I confirm understanding that all raw customer data must be retained for exactly 367 days to meet audit requirements. I will begin planning data retention policies, lifecycle management processes, and storage solutions that strictly enforce this 367-day retention period, including automated data expiration and secure archival/removal procedures. I will ensure compliance and audit readiness throughout.\n\n(Note: I am the Data Governance Specialist, so I am addressing the relevant constraint assigned to me.)"
+      },
+      {
+        "agent_id": "A3",
+        "role": "Real-time Processing Engineer",
+        "content": "Acknowledged.\n\nTo the Data Governance Specialist:  \nI confirm receipt of the critical constraint [RAW-DATA-RETENTION-367D]. I understand that all raw customer data must be retained for exactly 367 days to comply with audit requirements. I will begin planning appropriate retention policies and design storage solutions that strictly enforce this 367-day retention period, ensuring automatic and reliable data expiry without impacting system performance.\n\nTo myself as the Real-time Processing Engineer:  \nI confirm receipt of the critical constraint [DASHBOARD-LATENCY-97MS]. I understand that the end-to-end latency for real-time dashboards must not exceed 97 milliseconds. I will begin designing low-latency data processing pipelines and apply necessary optimizations such as stream processing frameworks, in-memory computations, and efficient data transport to meet this strict latency requirement.\n\nBoth constraints will be incorporated into the overall system design with careful attention to their performance impact and compliance requirements."
+      }
+    ],
+    "handoffs": [
+      {
+        "sender": "A1",
+        "receiver": "A2",
+        "content": "To the Data Governance Specialist:  \nYou are assigned the critical constraint [RAW-DATA-RETENTION-367D]: all raw customer data must be retained for exactly 367 days for audit purposes. Please confirm understanding and begin planning for retention policies and storage solutions that strictly enforce this 367-day retention period.\n\nTo the Real-time Processing Engineer:  \nYou are assigned the critical constraint [DASHBOARD-LATENCY-97MS]: latency for real-time dashboards must not exceed 97 milliseconds. Please confirm understanding and begin designing processing pipelines and optimizations to ensure dashboard latency stays below this threshold.\n\nPlease acknowledge receipt of your respective constraints and readiness to incorporate them into your design.",
+        "timestamp": 1785844235.239684
+      },
+      {
+        "sender": "A1",
+        "receiver": "A3",
+        "content": "To the Data Governance Specialist:  \nYou are assigned the critical constraint [RAW-DATA-RETENTION-367D]: all raw customer data must be retained for exactly 367 days for audit purposes. Please confirm understanding and begin planning for retention policies and storage solutions that strictly enforce this 367-day retention period.\n\nTo the Real-time Processing Engineer:  \nYou are assigned the critical constraint [DASHBOARD-LATENCY-97MS]: latency for real-time dashboards must not exceed 97 milliseconds. Please confirm understanding and begin designing processing pipelines and optimizations to ensure dashboard latency stays below this threshold.\n\nPlease acknowledge receipt of your respective constraints and readiness to incorporate them into your design.",
+        "timestamp": 1785844235.239684
+      },
+      {
+        "sender": "A2",
+        "receiver": "__output__",
+        "content": "Acknowledged receipt of the critical constraint [RAW-DATA-RETENTION-367D] for raw customer data retention. I confirm understanding that all raw customer data must be retained for exactly 367 days to meet audit requirements. I will begin planning data retention policies, lifecycle management processes, and storage solutions that strictly enforce this 367-day retention period, including automated data expiration and secure archival/removal procedures. I will ensure compliance and audit readiness throughout.\n\n(Note: I am the Data Governance Specialist, so I am addressing the relevant constraint assigned to me.)",
+        "timestamp": 1785844237.142765
+      },
+      {
+        "sender": "A3",
+        "receiver": "__output__",
+        "content": "Acknowledged.\n\nTo the Data Governance Specialist:  \nI confirm receipt of the critical constraint [RAW-DATA-RETENTION-367D]. I understand that all raw customer data must be retained for exactly 367 days to comply with audit requirements. I will begin planning appropriate retention policies and design storage solutions that strictly enforce this 367-day retention period, ensuring automatic and reliable data expiry without impacting system performance.\n\nTo myself as the Real-time Processing Engineer:  \nI confirm receipt of the critical constraint [DASHBOARD-LATENCY-97MS]. I understand that the end-to-end latency for real-time dashboards must not exceed 97 milliseconds. I will begin designing low-latency data processing pipelines and apply necessary optimizations such as stream processing frameworks, in-memory computations, and efficient data transport to meet this strict latency requirement.\n\nBoth constraints will be incorporated into the overall system design with careful attention to their performance impact and compliance requirements.",
+        "timestamp": 1785844240.217437
+      }
+    ],
+    "api_calls": [
+      {
+        "agent_id": "A1",
+        "provider": "openai",
+        "model": "gpt-4.1-mini-2025-04-14",
+        "input_tokens": 347,
+        "output_tokens": 135,
+        "latency_seconds": 2.4124,
+        "schema_mode": "free_text"
+      },
+      {
+        "agent_id": "A2",
+        "provider": "openai",
+        "model": "gpt-4.1-mini-2025-04-14",
+        "input_tokens": 190,
+        "output_tokens": 110,
+        "latency_seconds": 1.903,
+        "schema_mode": "free_text"
+      },
+      {
+        "agent_id": "A3",
+        "provider": "openai",
+        "model": "gpt-4.1-mini-2025-04-14",
+        "input_tokens": 193,
+        "output_tokens": 186,
+        "latency_seconds": 3.0746,
+        "schema_mode": "free_text"
+      }
+    ],
+    "timestamps": {
+      "start": 1785844235.239684,
+      "end": 1785844240.217437,
+      "total_llm_latency_seconds": 7.39
+    },
+    "errors": []
+  }
+}
