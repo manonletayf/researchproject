@@ -79,6 +79,14 @@ def run_batch(condition, task_dir, output_path, schema_modes=("free_text", "type
             status = "OK" if record["error"] is None else "FAILED"
             print(f"   -> {status} | RTD={record['rtd_score']} | {record['wall_clock_seconds']}s")
 
+            # Garde-fou : signale un écart suspect entre latence LLM et temps mur
+            # (indice possible de rate limit / retry absorbé silencieusement)
+            if record["error"] is None and record["total_llm_latency_seconds"] is not None:
+                gap = record["wall_clock_seconds"] - record["total_llm_latency_seconds"]
+                if gap > 30:
+                    print(f"   !! ATTENTION: ecart wall-clock/latence de {gap:.1f}s "
+                          f"(possible rate limit absorbe silencieusement)")
+
     print(f"\nTerminé: {done}/{total} runs traités (voir {output_path})")
 
 if __name__ == "__main__":
