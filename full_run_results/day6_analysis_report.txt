@@ -1,0 +1,115 @@
+
+======================================================================
+JOUR 6 - ANALYSE STATISTIQUE RQ2
+======================================================================
+Dataset: 108 runs, 3 conditions x 2 modes
+
+======================================================================
+METRIQUE 1: PERTE D'INFORMATION (RTD)
+======================================================================
+
+--- Kruskal-Wallis: RTD par topologie ---
+H=23.217, p=0.000009, eta^2 approx=0.202
+-> SIGNIFICATIF (seuil 0.05)
+
+Moyennes par condition:
+                 mean  median     std
+condition                            
+decentralized  0.5532  0.7083  0.4664
+hierarchical   0.9306  1.0000  0.2122
+shared_pool    0.4375  0.1250  0.4758
+
+--- Mann-Whitney: RTD par schema (toutes conditions confondues) ---
+U=1291.5, p=0.246651
+-> non significatif (seuil 0.05)
+Moyenne free_text: 0.6003 | Moyenne typed: 0.6806
+
+--- Mann-Whitney: RTD par schema, DANS CHAQUE condition (verification interaction) ---
+  hierarchical    typed-free_text=+0.0278  p=0.3532  (n.s.)
+  decentralized   typed-free_text=+0.1991  p=0.1641  (n.s.)
+  shared_pool     typed-free_text=+0.0139  p=0.9581  (n.s.)
+
+--- ANOVA factorielle 2 facteurs: RTD (ANOVA classique malgre non-normalite, a titre indicatif) ---
+                               sum_sq     df         F   PR(>F)
+C(condition)                  4.78639    2.0  14.57686  0.00000
+C(schema_mode)                0.17387    1.0   1.05902  0.30587
+C(condition):C(schema_mode)   0.19149    2.0   0.58317  0.55998
+Residual                     16.74614  102.0       NaN      NaN
+
+-> Interaction topologie x schema: p=0.5600 (non significative)
+
+======================================================================
+METRIQUE 2: LATENCE DE COORDINATION
+======================================================================
+
+--- Kruskal-Wallis: Latence par topologie ---
+H=1.773, p=0.412045, eta^2 approx=-0.002
+-> non significatif (seuil 0.05)
+
+Moyennes par condition:
+                   mean    median       std
+condition                                  
+decentralized  186.6410  137.9409  149.5284
+hierarchical   128.4085  131.2360   82.0576
+shared_pool    149.0199  101.0513  130.3478
+
+--- Mann-Whitney: Latence par schema (toutes conditions confondues) ---
+U=1718.0, p=0.110827
+-> non significatif (seuil 0.05)
+Moyenne free_text: 184.7971 | Moyenne typed: 124.5825
+
+--- Mann-Whitney: Latence par schema, DANS CHAQUE condition (verification interaction) ---
+  hierarchical    typed-free_text=-22.1711  p=0.4383  (n.s.)
+  decentralized   typed-free_text=-92.2376  p=0.2114  (n.s.)
+  shared_pool     typed-free_text=-66.2351  p=0.2482  (n.s.)
+
+--- ANOVA factorielle 2 facteurs: Latence ---
+(variable log-transformee: log(x+1))
+                               sum_sq     df        F   PR(>F)
+C(condition)                  1.96728    2.0  1.19989  0.30544
+C(schema_mode)                2.08642    1.0  2.54511  0.11373
+C(condition):C(schema_mode)   0.35706    2.0  0.21778  0.80468
+Residual                     83.61705  102.0      NaN      NaN
+
+-> Interaction topologie x schema: p=0.8047 (non significative)
+
+======================================================================
+METRIQUE 3: COUVERTURE SUBSTANTIELLE DU RAISONNEMENT
+======================================================================
+
+--- Kruskal-Wallis: Couverture substantielle par topologie ---
+H=15.380, p=0.000457, eta^2 approx=0.127
+-> SIGNIFICATIF (seuil 0.05)
+
+Moyennes par condition:
+                 mean  median     std
+condition                            
+decentralized  0.5178  0.6169  0.3457
+hierarchical   0.2291  0.1515  0.2432
+shared_pool    0.5048  0.4444  0.3329
+
+--- Mann-Whitney: Couverture substantielle par schema (toutes conditions confondues) ---
+U=1478.0, p=0.904208
+-> non significatif (seuil 0.05)
+Moyenne free_text: 0.4204 | Moyenne typed: 0.4140
+
+--- Mann-Whitney: Couverture substantielle par schema, DANS CHAQUE condition (verification interaction) ---
+  hierarchical    typed-free_text=-0.0046  p=0.9873  (n.s.)
+  decentralized   typed-free_text=-0.0218  p=0.7745  (n.s.)
+  shared_pool     typed-free_text=+0.0072  p=0.9494  (n.s.)
+
+--- ANOVA factorielle 2 facteurs: Couverture substantielle (ANOVA classique malgre non-normalite, a titre indicatif) ---
+                               sum_sq     df        F   PR(>F)
+C(condition)                  1.91431    2.0  9.63965  0.00015
+C(schema_mode)                0.00111    1.0  0.01115  0.91613
+C(condition):C(schema_mode)   0.00384    2.0  0.01932  0.98087
+Residual                     10.12797  102.0      NaN      NaN
+
+-> Interaction topologie x schema: p=0.9809 (non significative)
+
+======================================================================
+RAPPEL - CORRECTION POUR COMPARAISONS MULTIPLES
+======================================================================
+3 metriques testees independamment (Kruskal-Wallis topologie).
+Seuil Bonferroni ajuste: 0.05 / 3 = 0.0167
+A appliquer lors de l'interpretation finale des p-values ci-dessus.
