@@ -41,7 +41,14 @@ def score_trace(trace_data, expected_points, task_json):
     topo = DAGTopology(task_json["topology"])
     depth = topo.dag_depth
 
-    root_content = turns[0]["content"]
+    root_layer_parts = []
+    for t in turns:
+        try:
+            if topo.agent_layer(t["agent_id"]) == 0:
+                root_layer_parts.append(t["content"])
+        except KeyError:
+            continue
+    root_content = " ".join(root_layer_parts)
 
     final_layer_parts = []
     for t in turns:
