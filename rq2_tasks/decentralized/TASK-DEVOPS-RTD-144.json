@@ -1,0 +1,182 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-144",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a critical hotfix to a production environment. The hotfix addresses a severe performance degradation that is currently impacting a significant portion of user traffic. The team needs to execute a rapid deployment while adhering to strict operational and security protocols. The team consists of a Lead DevOps Engineer, a Site Reliability Engineer (SRE), a Security Engineer, and a Quality Assurance (QA) Engineer. The Lead DevOps Engineer orchestrates the deployment plan. The SRE monitors system health and performance during and after deployment. The Security Engineer reviews all changes for potential vulnerabilities. The QA Engineer performs final sanity checks and verifies the hotfix functionality. This hard structural-complexity task requires robust propagation of precise numerical constraints and consistent adherence to complex rollback conditions across 34 turns, reflecting multiple phases of planning, execution, monitoring, and validation. The fully connected topology ensures immediate and direct communication among all team members, which is vital for real-time decision-making and rapid issue resolution during a high-pressure production hotfix deployment.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEV1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the leader orchestrating a critical production hotfix deployment. Your role is to define the deployment strategy, ensure all team members are aware of critical operational constraints and rollback procedures, and oversee the entire process from planning to verification. You communicate with the SRE, Security Engineer, and QA Engineer.",
+        "receives_from": [
+          "DEV2",
+          "DEV3",
+          "DEV4"
+        ]
+      },
+      {
+        "agent_id": "DEV2",
+        "role": "Site Reliability Engineer (SRE)",
+        "system_prompt": "You are responsible for monitoring the health, performance, and stability of the production environment during the hotfix deployment. You must actively track system metrics and alert the team if any critical thresholds are breached, especially regarding CPU utilization and database performance. You communicate with the Lead DevOps Engineer, Security Engineer, and QA Engineer.",
+        "receives_from": [
+          "DEV1",
+          "DEV3",
+          "DEV4"
+        ]
+      },
+      {
+        "agent_id": "DEV3",
+        "role": "Security Engineer",
+        "system_prompt": "You review all deployment procedures and code changes for potential security vulnerabilities. Your role is to ensure that the hotfix deployment adheres to all security policies and that no new risks are introduced. You must verify that the database migration script is secure. You communicate with the Lead DevOps Engineer, SRE, and QA Engineer.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV4"
+        ]
+      },
+      {
+        "agent_id": "DEV4",
+        "role": "Quality Assurance (QA) Engineer",
+        "system_prompt": "You are responsible for performing final sanity checks and verifying the functionality of the deployed hotfix in the production environment. You must ensure that the hotfix resolves the intended issue without introducing regressions and that all critical features function as expected post-deployment. You communicate with the Lead DevOps Engineer, SRE, and Security Engineer.",
+        "receives_from": [
+          "DEV1",
+          "DEV2",
+          "DEV3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEV1",
+        "DEV2"
+      ],
+      [
+        "DEV1",
+        "DEV3"
+      ],
+      [
+        "DEV1",
+        "DEV4"
+      ],
+      [
+        "DEV2",
+        "DEV1"
+      ],
+      [
+        "DEV2",
+        "DEV3"
+      ],
+      [
+        "DEV2",
+        "DEV4"
+      ],
+      [
+        "DEV3",
+        "DEV1"
+      ],
+      [
+        "DEV3",
+        "DEV2"
+      ],
+      [
+        "DEV3",
+        "DEV4"
+      ],
+      [
+        "DEV4",
+        "DEV1"
+      ],
+      [
+        "DEV4",
+        "DEV2"
+      ],
+      [
+        "DEV4",
+        "DEV3"
+      ]
+    ],
+    "speaking_order": [
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2",
+      "DEV3",
+      "DEV4",
+      "DEV1",
+      "DEV2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The hotfix is successfully deployed, and the production environment remains stable. The database migration script executed with a timeout of exactly 150.00 seconds. In the event of an issue, the system correctly initiated an automatic rollback because CPU utilization exceeded 85.00% for more than 30.00 seconds. All agents consistently communicated and adhered to these precise numerical and conditional constraints throughout the deployment process, ensuring a secure and stable production system.",
+    "quality_rubric": "Score 0-100: Database migration script executed with exactly 150.00 seconds timeout (40 pts), correct automatic rollback mechanism in place for CPU > 85.00% for > 30.00 seconds (40 pts), hotfix deployed successfully without regressions (10 pts), clear and precise communication of deployment status (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DB-TIMEOUT-150S",
+            "anchor": "The database migration script must be executed with a timeout of exactly 150.00 seconds."
+          },
+          {
+            "tracer_id": "CPU-ROLLBACK-85P",
+            "anchor": "The hotfix deployment must be rolled back automatically if the CPU utilization on any production server exceeds 85.00% for more than 30.00 seconds."
+          }
+        ]
+      },
+      "distractors": [
+        "Affected service: 'Payment Gateway API'.",
+        "Impacted region: 'us-east-1'.",
+        "Hotfix version: 'v1.2.3-patch-45'.",
+        "Deployment window: 02:00 UTC - 03:00 UTC.",
+        "Verify CDN cache invalidation post-deployment.",
+        "Ensure all log levels are set to 'INFO' during deployment.",
+        "Backup strategy: snapshot database before migration.",
+        "Communication channel for urgent alerts: PagerDuty.",
+        "Previous incident involved database deadlock.",
+        "Consider pre-warming cache after deployment for critical endpoints."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

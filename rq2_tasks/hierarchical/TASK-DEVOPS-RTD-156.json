@@ -1,0 +1,130 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-156",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with migrating a critical microservice application to a new Kubernetes cluster. This migration involves updating deployment configurations, CI/CD pipelines, and monitoring setups. A critical constraint for this migration is that all Kubernetes deployments must exclusively use 'immutable container images' with specific version tags, strictly prohibiting 'latest' tags or mutable image updates to ensure reproducibility and stability. Furthermore, the application's 'maximum allowed downtime' during the entire migration process must not exceed '183.25' seconds, a highly challenging and non-round numerical target that requires precise orchestration and fallback strategies. The team comprises a DevOps Lead, a Infrastructure Engineer, a SRE, a Release Manager, a Security Engineer, and a QA Automation Engineer. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents. The ultimate goal is to achieve a seamless, secure, and highly available migration.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "DEVOPS_LEAD",
+        "role": "DevOps Lead",
+        "system_prompt": "You are the DevOps Lead, overseeing the migration of a critical microservice to Kubernetes. You must ensure all critical constraints, like using immutable container images and adhering to the strict downtime limit, are clearly communicated, enforced, and integrated into migration plans. You coordinate the team and review high-level strategies.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "INFRA_ENGINEER",
+        "role": "Infrastructure Engineer",
+        "system_prompt": "You are the Infrastructure Engineer, responsible for provisioning and configuring the Kubernetes cluster. You must ensure all deployments use immutable container images with specific version tags. You communicate infrastructure readiness and issues to the DevOps Lead and collaborate with the SRE.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      },
+      {
+        "agent_id": "SRE",
+        "role": "Site Reliability Engineer",
+        "system_prompt": "You are the SRE, focused on maintaining application uptime and reliability during the migration. You monitor the system closely to ensure the downtime limit is not exceeded and work on incident response plans. You provide feedback to the Infrastructure Engineer and Release Manager.",
+        "receives_from": [
+          "DEVOPS_LEAD"
+        ]
+      },
+      {
+        "agent_id": "RELEASE_MANAGER",
+        "role": "Release Manager",
+        "system_prompt": "You are the Release Manager, responsible for orchestrating the deployment phases and rollback strategies. You must ensure that deployments strictly use immutable images and that the entire process adheres to the maximum allowed downtime. You coordinate with all team members and report status to the DevOps Lead.",
+        "receives_from": [
+          "INFRA_ENGINEER"
+        ]
+      },
+      {
+        "agent_id": "SECURITY_ENGINEER",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer, responsible for reviewing all configurations and deployment processes for security vulnerabilities. You ensure that the immutable image policy enhances security and that the migration process doesn't introduce new risks. You provide security recommendations to the Infrastructure Engineer and Release Manager.",
+        "receives_from": [
+          "SRE"
+        ]
+      },
+      {
+        "agent_id": "QA_AUTO_ENGINEER",
+        "role": "QA Automation Engineer",
+        "system_prompt": "You are the QA Automation Engineer, responsible for developing and executing automated tests to validate the migration. You verify that the deployed application uses correct immutable images and that functional tests run without exceeding performance degradation that could impact downtime. You report test results and issues to the DevOps Lead.",
+        "receives_from": [
+          "INFRA_ENGINEER"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS_LEAD",
+        "INFRA_ENGINEER"
+      ],
+      [
+        "DEVOPS_LEAD",
+        "SRE"
+      ],
+      [
+        "INFRA_ENGINEER",
+        "RELEASE_MANAGER"
+      ],
+      [
+        "SRE",
+        "SECURITY_ENGINEER"
+      ],
+      [
+        "INFRA_ENGINEER",
+        "QA_AUTO_ENGINEER"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS_LEAD",
+      "INFRA_ENGINEER",
+      "SRE",
+      "QA_AUTO_ENGINEER",
+      "RELEASE_MANAGER",
+      "SECURITY_ENGINEER"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The microservice application is successfully migrated to the new Kubernetes cluster. All Kubernetes deployments exclusively use immutable container images with specific version tags, with no instances of 'latest' or mutable image updates. The maximum allowed downtime during the entire migration process does not exceed 183.25 seconds. The final migration is deemed seamless, secure, and highly available, adhering to both the immutable image policy and the strict downtime constraint.",
+    "quality_rubric": "Score 0-100: All Kubernetes deployments use immutable container images with specific version tags (50 pts), maximum allowed downtime does not exceed 183.25 seconds (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "K8S-IMMUTABLE-IMAGE-POLICY",
+            "anchor": "all Kubernetes deployments must exclusively use immutable container images with specific version tags, strictly prohibiting 'latest' tags or mutable image updates"
+          },
+          {
+            "tracer_id": "DOWNTIME-MAX-183.25S",
+            "anchor": "the application's maximum allowed downtime during the entire migration process must not exceed 183.25 seconds"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The new cluster is hosted on AWS EKS.",
+        "CI/CD pipeline uses GitLab CI.",
+        "Monitoring is performed with Prometheus and Grafana.",
+        "Alerting integrates with Opsgenie.",
+        "Application uses PostgreSQL for its database.",
+        "Secret management handled by HashiCorp Vault.",
+        "Logging centralized in ELK stack.",
+        "Backup strategy involves snapshots every 6 hours."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

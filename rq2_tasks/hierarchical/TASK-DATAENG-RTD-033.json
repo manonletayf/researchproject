@@ -1,0 +1,120 @@
+{
+  "task_id": "TASK-DATAENG-RTD-033",
+  "domain": "data_engineering",
+  "description": "A complex data engineering scenario requires building a new data pipeline for real-time analytics. An initial Data Architect designs the overall system and passes directives to both a Data Modeler and a Data Ingest Engineer. The Data Modeler is responsible for defining the schema and transformations, while the Data Ingest Engineer focuses on data acquisition and initial cleansing. These two streams then converge at a Data Orchestrator, who must integrate their work into a cohesive pipeline. Finally, a Data Quality Analyst reviews the full pipeline. A critical performance constraint, mandating that the end-to-end latency must not exceed 250 milliseconds and a specific error handling policy (retry 3 times with exponential backoff) for data ingest failures, is injected at the start and must survive all hops, especially the convergence point. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "system_prompt": "You are the lead Data Architect. You design high-level data pipelines and set core architectural and performance constraints for your team. You will communicate these requirements to the Data Modeler and Data Ingest Engineer.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Modeler",
+        "system_prompt": "You are a Data Modeler. Your task is to define the optimal schema and transformation logic for real-time analytics, based on the Data Architect's guidelines. You will pass your data model specification to the Data Orchestrator.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Data Ingest Engineer",
+        "system_prompt": "You are a Data Ingest Engineer. You are responsible for designing and implementing the data acquisition and initial cleansing mechanisms, adhering to the Data Architect's performance and reliability standards. You will provide your ingest pipeline design to the Data Orchestrator.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Data Orchestrator",
+        "system_prompt": "You are the Data Orchestrator. You receive data model specifications from the Data Modeler and ingest pipeline designs from the Data Ingest Engineer. Your role is to integrate these components into a unified, functional real-time data pipeline, ensuring all architectural and performance constraints are met. You will present the integrated pipeline design to the Data Quality Analyst.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are a Data Quality Analyst. Your task is to review the integrated data pipeline design from the Data Orchestrator, focusing on data integrity, adherence to performance metrics, and error handling policies. You will provide a final approval or highlight any discrepancies.",
+        "receives_from": [
+          "A3"
+        ]
+      },
+      {
+        "agent_id": "A6",
+        "role": "Deployment Engineer",
+        "system_prompt": "You are the Deployment Engineer. You take the approved data pipeline design and prepare it for production deployment, ensuring all infrastructure and monitoring requirements are in place. You confirm that all specified performance and error handling policies are implementable and configured correctly.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ],
+      [
+        "A2",
+        "A6"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A6",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Deployment Engineer receives an integrated pipeline design that explicitly states the end-to-end latency must not exceed 250 milliseconds and confirms the error handling policy for data ingest failures includes retrying 3 times with an exponential backoff strategy. The final design demonstrates a clear understanding and implementation of both constraints, showing they successfully propagated through the converging DAG.",
+    "quality_rubric": "Score 0-100: End-to-end latency constraint of exactly 250 milliseconds is explicitly mentioned (40 pts), error handling policy of 'retry 3 times with exponential backoff' is explicitly mentioned for data ingest (40 pts), integrated pipeline design is coherent and addresses both modeling and ingest (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PIPELINE-LATENCY-EH-1738",
+      "anchor": "the end-to-end pipeline latency must not exceed 250 milliseconds for any ingested record, and data ingest failures must employ an error handling policy of retrying exactly 3 times with an exponential backoff strategy before alerting",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is Kafka topic 'raw_events'",
+        "Target data warehouse is Snowflake",
+        "Use Apache Flink for real-time processing",
+        "Implement CDC for database changes",
+        "Data retention policy: 90 days for raw data, 365 days for aggregated data",
+        "Security requirement: all data must be encrypted at rest and in transit",
+        "Monitoring solution: Prometheus and Grafana",
+        "Data serialization format: Avro"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

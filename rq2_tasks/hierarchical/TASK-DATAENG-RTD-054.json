@@ -1,0 +1,130 @@
+{
+  "task_id": "TASK-DATAENG-RTD-054",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with designing and implementing a complex real-time data streaming platform for financial transaction analysis. This platform needs to handle high throughput and low latency, processing millions of transactions per second. A critical constraint for this project is that all microservice communication must exclusively use 'gRPC with Protobuf' for serialization and transport, explicitly prohibiting REST or other protocols to ensure maximum efficiency and strict schema enforcement. Furthermore, the maximum acceptable end-to-end processing latency, from ingestion to analytics store, must not exceed '150.75' milliseconds, a non-trivial numerical target. The team consists of a Lead Architect, a Streaming Engineer, a Data Modeler, a Backend Developer, a QA Engineer, and a Security Specialist. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents. The goal is to build a robust, high-performance, and secure real-time data platform.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "LEAD_ARCHITECT",
+        "role": "Lead Architect",
+        "system_prompt": "You are the Lead Architect, responsible for the overall design and strategic direction of the real-time data streaming platform. You must ensure all critical constraints, like gRPC with Protobuf for communication and the strict latency limit, are clearly communicated, enforced, and integrated into architectural decisions. You coordinate the team and review high-level designs.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "STREAMING_ENGINEER",
+        "role": "Streaming Engineer",
+        "system_prompt": "You are the Streaming Engineer, responsible for implementing the data ingestion and stream processing components. You must ensure all data flows adhere to the gRPC with Protobuf communication standard and optimize for the lowest possible latency. You report progress and challenges to the Lead Architect and collaborate with the Data Modeler.",
+        "receives_from": [
+          "LEAD_ARCHITECT"
+        ]
+      },
+      {
+        "agent_id": "DATA_MODELER",
+        "role": "Data Modeler",
+        "system_prompt": "You are the Data Modeler, responsible for defining the data schemas using Protobuf for efficient serialization. You work closely with the Streaming Engineer and Backend Developer to ensure data consistency and schema evolution, always considering the gRPC requirement.",
+        "receives_from": [
+          "LEAD_ARCHITECT"
+        ]
+      },
+      {
+        "agent_id": "BACKEND_DEVELOPER",
+        "role": "Backend Developer",
+        "system_prompt": "You are the Backend Developer, responsible for implementing the microservices that consume and process the streaming data. You must strictly use gRPC with Protobuf for all inter-service communication and optimize your code to meet the end-to-end latency constraint. You provide code to the QA Engineer and receive feedback from the Security Specialist.",
+        "receives_from": [
+          "STREAMING_ENGINEER"
+        ]
+      },
+      {
+        "agent_id": "QA_ENGINEER",
+        "role": "QA Engineer",
+        "system_prompt": "You are the QA Engineer, responsible for testing the entire streaming platform. You verify that all microservice communications use gRPC with Protobuf and that the end-to-end processing latency does not exceed 150.75 milliseconds. You report test results and issues to the Lead Architect and provide feedback to the Backend Developer.",
+        "receives_from": [
+          "DATA_MODELER"
+        ]
+      },
+      {
+        "agent_id": "SECURITY_SPECIALIST",
+        "role": "Security Specialist",
+        "system_prompt": "You are the Security Specialist, responsible for reviewing the platform's architecture and code for security vulnerabilities. You ensure that the use of gRPC and Protobuf is implemented securely and that data integrity is maintained throughout the streaming pipeline. You provide security recommendations to the Backend Developer and report overall security posture to the Lead Architect.",
+        "receives_from": [
+          "STREAMING_ENGINEER"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LEAD_ARCHITECT",
+        "STREAMING_ENGINEER"
+      ],
+      [
+        "LEAD_ARCHITECT",
+        "DATA_MODELER"
+      ],
+      [
+        "STREAMING_ENGINEER",
+        "BACKEND_DEVELOPER"
+      ],
+      [
+        "DATA_MODELER",
+        "QA_ENGINEER"
+      ],
+      [
+        "STREAMING_ENGINEER",
+        "SECURITY_SPECIALIST"
+      ]
+    ],
+    "speaking_order": [
+      "LEAD_ARCHITECT",
+      "DATA_MODELER",
+      "STREAMING_ENGINEER",
+      "QA_ENGINEER",
+      "BACKEND_DEVELOPER",
+      "SECURITY_SPECIALIST"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The real-time data streaming platform is successfully designed, implemented, and validated. All microservice communication throughout the platform exclusively uses gRPC with Protobuf, eliminating any other protocols. The end-to-end processing latency consistently meets the stringent requirement, not exceeding 150.75 milliseconds. The final platform adheres to both the gRPC/Protobuf communication protocol and the precise latency constraint, demonstrating a high-performance and compliant solution.",
+    "quality_rubric": "Score 0-100: All microservice communication uses gRPC with Protobuf (50 pts), end-to-end processing latency does not exceed 150.75 milliseconds (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "COMM-GRPC-PROTOBUF-REQ",
+            "anchor": "all microservice communication must exclusively use gRPC with Protobuf for serialization and transport"
+          },
+          {
+            "tracer_id": "LATENCY-MAX-150.75MS",
+            "anchor": "the maximum acceptable end-to-end processing latency must not exceed 150.75 milliseconds"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The platform should be deployable on Kubernetes.",
+        "Data persistence layer uses Apache Cassandra.",
+        "Monitoring with Grafana and Prometheus is required.",
+        "Fault tolerance must be designed for zone failures.",
+        "Authentication uses OAuth2 with JWTs.",
+        "Continuous delivery pipeline uses Jenkins.",
+        "Performance benchmarks need to be run weekly.",
+        "Team utilizes Confluence for documentation."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

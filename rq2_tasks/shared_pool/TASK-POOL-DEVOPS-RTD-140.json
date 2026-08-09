@@ -1,0 +1,112 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-140",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new microservice into a production Kubernetes cluster. The objective is to ensure the deployment is smooth, adheres to security best practices, and minimizes downtime. The team consists of a Lead DevOps Engineer, a Security Engineer, and a Cloud Architect. The Lead DevOps Engineer oversees the entire deployment process, coordinating tasks. The Security Engineer reviews all configurations for vulnerabilities and compliance. The Cloud Architect designs and validates the infrastructure components. A critical constraint is that the new microservice's deployment must exclusively use Kubernetes Deployments for orchestration, strictly avoiding StatefulSets, DaemonSets, or any direct Pod creation. Additionally, the service must listen only on port 8443 for HTTPS traffic. The fully connected topology facilitates constant and direct communication between all three agents, which is essential for quickly resolving issues and maintaining strict adherence to these specific deployment and networking constraints in an easy structural-complexity task with an expected 8 turns. The focus is on verifying that these precise technical requirements are propagated and maintained across all team discussions and the final deployment plan.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DVE1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead DevOps Engineer, responsible for orchestrating the microservice deployment. You must ensure all team members adhere to specified deployment and security constraints.",
+        "receives_from": [
+          "DVE2",
+          "DVE3"
+        ]
+      },
+      {
+        "agent_id": "DVE2",
+        "role": "Security Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Security Engineer, tasked with reviewing all deployment configurations for security compliance and adherence to specified standards. You must ensure the service uses approved orchestration methods and ports.",
+        "receives_from": [
+          "DVE1",
+          "DVE3"
+        ]
+      },
+      {
+        "agent_id": "DVE3",
+        "role": "Cloud Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Cloud Architect, responsible for designing and validating the infrastructure for the microservice. You must ensure the proposed solutions align with architectural principles, including specific deployment types and networking configurations.",
+        "receives_from": [
+          "DVE1",
+          "DVE2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DVE1",
+        "DVE2"
+      ],
+      [
+        "DVE1",
+        "DVE3"
+      ],
+      [
+        "DVE2",
+        "DVE1"
+      ],
+      [
+        "DVE2",
+        "DVE3"
+      ],
+      [
+        "DVE3",
+        "DVE1"
+      ],
+      [
+        "DVE3",
+        "DVE2"
+      ]
+    ],
+    "speaking_order": [
+      "DVE1",
+      "DVE2",
+      "DVE3",
+      "DVE1",
+      "DVE2",
+      "DVE3",
+      "DVE1",
+      "DVE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The DevOps team produces a deployment plan and configuration that explicitly uses Kubernetes Deployments for orchestration and specifies that the microservice listens only on port 8443 for HTTPS traffic. All agents consistently communicate and confirm these exact technical constraints throughout their discussions, demonstrating perfect information flow and adherence in the fully connected network.",
+    "quality_rubric": "Score 0-100: Uses Kubernetes Deployments exclusively (40 pts), service listens only on port 8443 for HTTPS (40 pts), clear and executable deployment plan (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEPLOY-ARCH-K8S",
+      "anchor": "the new microservice's deployment must exclusively use Kubernetes Deployments (avoiding StatefulSets, DaemonSets, or direct Pod creation)",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "architectural",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "NET-PORT-8443",
+            "anchor": "the service must listen only on port 8443 for HTTPS traffic"
+          }
+        ]
+      },
+      "distractors": [
+        "Image repository: mycompany/microservice-v1.2",
+        "Resource limits: 500m CPU, 1Gi RAM",
+        "Health checks: /healthz endpoint via HTTP GET",
+        "Logging: stdout/stderr directed to Loki",
+        "Monitoring: Prometheus metrics exposed on /metrics"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

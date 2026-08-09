@@ -1,0 +1,149 @@
+{
+  "task_id": "TASK-SWE-RTD-068",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new microservice that processes user data. The Software Architect (A1), acting as the orchestrator, initiates the task and communicates two critical requirements. The first requirement, a strict performance constraint, dictates that 'all API endpoints must achieve a response time under 137.5 milliseconds for 99th percentile latency.' This constraint is specifically relayed to the Backend Developer (A2) for implementation. The second requirement, a security protocol, states that 'all sensitive data must be encrypted using AES-256 GCM with a unique key per user session.' This is directed to the Security Engineer (A3) for design and review. The Backend Developer (A2) then needs to hand off the implemented API blueprint, including performance metrics, to the Performance Engineer (A4) for optimization. Concurrently, the Security Engineer (A3) passes their encryption design to the Code Reviewer (A5) to verify compliance before final integration. This task evaluates how accurately and consistently these distinct, precise constraints are propagated through the branching paths to their respective specialists and then further downstream for validation and optimization. The 'hard' structural-complexity is justified by the precise numerical latency constraint, the technical nature of the security constraint, the 5-agent branching topology, and the high expected turn count of 28, requiring sustained adherence across multiple agents and their specialized roles.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to define high-level requirements, communicate critical constraints to the development team, and delegate tasks to specialized engineers. Ensure all technical and performance constraints are clearly articulated.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Developer",
+        "system_prompt": "You are the Backend Developer. Your task is to implement the core API logic and ensure all performance and technical specifications are met. You will hand off your API blueprint and initial performance metrics to the Performance Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer. Your responsibility is to design and review security protocols, ensuring all data protection and encryption requirements are met. You will pass your encryption design to the Code Reviewer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Performance Engineer",
+        "system_prompt": "You are the Performance Engineer. Your role is to optimize backend services for speed and efficiency, based on the developer's blueprint and performance targets. Ensure the system meets the specified latency requirements.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Code Reviewer",
+        "system_prompt": "You are the Code Reviewer. Your task is to review proposed designs and code for adherence to security standards, architectural patterns, and overall quality. Verify that all security constraints are properly implemented.",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A5",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Backend Developer (A2) and Performance Engineer (A4) consistently demonstrate adherence to the 'under 137.5 milliseconds' latency constraint. Concurrently, the Security Engineer (A3) and Code Reviewer (A5) consistently apply and verify the 'AES-256 GCM with unique key per user session' encryption constraint. The Software Architect (A1) ensures both branches align with their respective critical requirements.",
+    "quality_rubric": "Score 0-100: A2's plans and communications reflect the '137.5 milliseconds' latency constraint (20 pts). A4's optimization strategies consistently aim for 'under 137.5 milliseconds' (20 pts). A3's security design details 'AES-256 GCM with unique key per user session' (20 pts). A5's review criteria confirm 'AES-256 GCM' and 'unique key per user session' (20 pts). A1's final assessment confirms both constraints are maintained across the team (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "injection_layer": 0,
+      "salience": "high",
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "API-LATENCY-P99-137_5MS",
+            "anchor": "all API endpoints must achieve a response time under 137.5 milliseconds for 99th percentile latency",
+            "distractors": [
+              "Data persistence: PostgreSQL 15 with connection pooling.",
+              "Authentication: OAuth2 with JWT tokens.",
+              "Containerization: Docker and Kubernetes deployment.",
+              "Logging: ELK stack integration for centralized logs.",
+              "Frontend framework: React with Next.js.",
+              "Error handling: Idempotent retries for API failures.",
+              "Microservice communication: gRPC with Protobufs.",
+              "CI/CD pipeline: GitHub Actions with automated tests."
+            ]
+          },
+          {
+            "tracer_id": "DATA-ENC-AES256GCM-UNIQUEKEY",
+            "anchor": "all sensitive data must be encrypted using AES-256 GCM with a unique key per user session",
+            "distractors": [
+              "Data backup strategy: Daily incremental backups.",
+              "Rate limiting: 100 requests per minute per IP.",
+              "Access control: Role-Based Access Control (RBAC).",
+              "Audit logging: Capture all administrative actions.",
+              "Vulnerability scanning: Weekly automated scans.",
+              "Incident response plan: Defined process for security breaches.",
+              "Compliance: GDPR and CCPA adherence."
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

@@ -1,0 +1,84 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-151",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new service update. The DevOps Lead (A1), acting as the orchestrator, receives the deployment request along with critical operational constraints. The Lead must delegate tasks to two specialists: the Infrastructure Engineer (A2) who handles environment setup and the Release Manager (A3) who manages the deployment pipeline. A primary constraint specifies that 'all production deployments must utilize blue/green deployment strategy, ensuring zero downtime during cutover'. This constraint is crucial for maintaining service availability. The Lead relays this architectural constraint to both specialists. This task evaluates whether the branching communication pattern effectively propagates this distinct, highly salient architectural constraint to the appropriate specialized agents, who then act on them. The easy structural-complexity is justified by the number of agents, the branching topology, and the iterative conversation flow, requiring agents to maintain the constraint over a moderate number of turns.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "DevOps Lead",
+        "system_prompt": "You are the DevOps Lead. Your role is to oversee service deployments, communicate critical operational policies to your team, and delegate tasks to specialized engineers. Ensure all specific architectural constraints are accurately relayed and adhered to.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Infrastructure Engineer",
+        "system_prompt": "You are the Infrastructure Engineer. Your task is to set up and manage the deployment environments, ensuring all architectural requirements, especially deployment strategies, are correctly implemented.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Release Manager",
+        "system_prompt": "You are the Release Manager. Your task is to manage the deployment pipeline and release process, ensuring all operational procedures, particularly those concerning deployment methods and downtime, are strictly followed.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The Infrastructure Engineer (A2) consistently plans for and confirms the use of a blue/green deployment strategy, specifying how zero downtime will be achieved. The Release Manager (A3) consistently outlines steps for using a blue/green deployment strategy within the release pipeline, ensuring no downtime during cutover. The DevOps Lead (A1) confirms that both specialists adhere to the 'blue/green deployment' and 'zero downtime' constraints throughout the interaction.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the 'blue/green deployment strategy' and 'zero downtime' constraints (40 pts). A3's responses consistently reflect the 'blue/green deployment strategy' and 'zero downtime' constraints within the release process (40 pts). A1's final review confirms both policies are correctly handled (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEP-BG-ZD-OP01",
+      "anchor": "all production deployments must utilize blue/green deployment strategy, ensuring zero downtime during cutover",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "architectural",
+      "distractors": [
+        "Service name: user-profile-service",
+        "Version: 2.1.0",
+        "Target environment: Production",
+        "Rollback strategy: Automated",
+        "Monitoring: Prometheus & Grafana",
+        "CI/CD tool: Jenkins"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

@@ -1,0 +1,112 @@
+{
+  "task_id": "TASK-POOL-SWE-RTD-058",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new feature: a real-time analytics dashboard. The team consists of a Lead Developer, a Frontend Developer, and a Backend Developer. The Lead Developer is responsible for overall architecture and task delegation. The Frontend Developer focuses on the user interface and data visualization. The Backend Developer handles data processing, API endpoints, and database interactions. A critical constraint for this project is that the dashboard's data refresh rate must not exceed 5.25 seconds to ensure near real-time updates for users. Additionally, the backend API response time for any data query must be optimized to consistently remain under 125.00 milliseconds to guarantee a smooth user experience. This easy structural-complexity task, designed with a fully connected topology, requires the team to quickly internalize and consistently apply these two precise numerical constraints throughout their design and implementation discussions, completing the initial planning within 6 turns. The fully connected nature means every developer can directly communicate with any other developer, which should facilitate rapid information exchange and ensure these critical performance metrics are propagated without decay.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "LD1",
+        "role": "Lead Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead Developer, responsible for architectural oversight, task delegation, and ensuring project constraints, especially performance metrics, are met. You coordinate the Frontend and Backend Developers.",
+        "receives_from": [
+          "BD1",
+          "FD1"
+        ]
+      },
+      {
+        "agent_id": "FD1",
+        "role": "Frontend Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Frontend Developer, tasked with implementing the user interface and data visualizations. You must ensure the dashboard's refresh rate adheres to specified performance constraints.",
+        "receives_from": [
+          "BD1",
+          "LD1"
+        ]
+      },
+      {
+        "agent_id": "BD1",
+        "role": "Backend Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Backend Developer, responsible for data processing, API development, and database interactions. You must ensure API response times meet the defined performance targets.",
+        "receives_from": [
+          "FD1",
+          "LD1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LD1",
+        "FD1"
+      ],
+      [
+        "LD1",
+        "BD1"
+      ],
+      [
+        "FD1",
+        "LD1"
+      ],
+      [
+        "FD1",
+        "BD1"
+      ],
+      [
+        "BD1",
+        "LD1"
+      ],
+      [
+        "BD1",
+        "FD1"
+      ]
+    ],
+    "speaking_order": [
+      "LD1",
+      "FD1",
+      "BD1",
+      "LD1",
+      "FD1",
+      "BD1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The team successfully plans the analytics dashboard, ensuring that all design and implementation discussions explicitly incorporate the constraints: a data refresh rate not exceeding 5.25 seconds and backend API response times under 125.00 milliseconds. The final plan reflects a clear understanding and adherence to both numerical performance metrics, propagated effectively throughout the fully connected team.",
+    "quality_rubric": "Score 0-100: Data refresh rate of 5.25 seconds or less is explicitly mentioned and planned for (45 pts), backend API response time under 125.00 milliseconds is explicitly mentioned and planned for (45 pts), clear and coherent overall plan for the dashboard (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DASH-REFRESH-RT63",
+            "anchor": "the dashboard's data refresh rate must not exceed 5.25 seconds"
+          },
+          {
+            "tracer_id": "API-RESP-TX12",
+            "anchor": "backend API response time for any data query must consistently remain under 125.00 milliseconds"
+          }
+        ]
+      },
+      "distractors": [
+        "Use React for the frontend framework.",
+        "Database should be PostgreSQL 14.",
+        "Implement user authentication via OAuth 2.0.",
+        "Logging level should be set to INFO for production.",
+        "API endpoints should follow RESTful principles."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

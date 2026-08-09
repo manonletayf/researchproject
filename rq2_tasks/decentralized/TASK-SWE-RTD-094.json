@@ -1,0 +1,242 @@
+{
+  "task_id": "TASK-SWE-RTD-094",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with designing and implementing a new microservice for processing real-time financial transactions. This microservice needs to be highly available, secure, and performant. The team consists of a Lead Architect, a Backend Developer, a Frontend Developer, a DevOps Engineer, and a Security Engineer. The Lead Architect oversees the overall design and ensures architectural consistency. The Backend Developer implements the core transaction logic. The Frontend Developer integrates the service with the user interface. The DevOps Engineer handles deployment, monitoring, and infrastructure. The Security Engineer ensures all security protocols are met. A critical, non-negotiable constraint is that the microservice must achieve an average transaction processing time of exactly 150.75 milliseconds per request, and it must use end-to-end encryption with AES-256-GCM. The fully connected topology ensures every agent can directly communicate with any other agent at any time, which is essential for maintaining consistency and adherence to these precise performance and security requirements in a high-pressure, complex development environment. This hard structural-complexity task will evaluate how well the precise performance metric and security protocol are propagated and integrated over 40 turns of intense collaboration.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "SWE1",
+        "role": "Lead Architect",
+        "system_prompt": "You are the Lead Architect. Your role is to design the microservice, define its architecture, and ensure all non-functional requirements, especially performance and security, are meticulously met. You guide the team and ensure adherence to critical constraints.",
+        "receives_from": [
+          "SWE2",
+          "SWE3",
+          "SWE4",
+          "SWE5"
+        ]
+      },
+      {
+        "agent_id": "SWE2",
+        "role": "Backend Developer",
+        "system_prompt": "You are the Backend Developer. You implement the core logic for financial transactions, focusing on efficiency and robustness. You must ensure your code adheres to all architectural, performance, and security constraints provided by the Lead Architect and Security Engineer.",
+        "receives_from": [
+          "SWE1",
+          "SWE3",
+          "SWE4",
+          "SWE5"
+        ]
+      },
+      {
+        "agent_id": "SWE3",
+        "role": "Frontend Developer",
+        "system_prompt": "You are the Frontend Developer. You integrate the transaction microservice with the user interface, ensuring a seamless user experience. You need to be aware of the performance characteristics and security implications of the backend service.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE4",
+          "SWE5"
+        ]
+      },
+      {
+        "agent_id": "SWE4",
+        "role": "DevOps Engineer",
+        "system_prompt": "You are the DevOps Engineer. You are responsible for deploying, monitoring, and scaling the microservice infrastructure. You must ensure the environment supports the required performance (e.g., latency) and security (e.g., encryption protocols) constraints.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3",
+          "SWE5"
+        ]
+      },
+      {
+        "agent_id": "SWE5",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer. Your primary responsibility is to design and implement security measures for the microservice, including encryption, authentication, and authorization. You must ensure strict adherence to all specified security protocols.",
+        "receives_from": [
+          "SWE1",
+          "SWE2",
+          "SWE3",
+          "SWE4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "SWE1",
+        "SWE2"
+      ],
+      [
+        "SWE1",
+        "SWE3"
+      ],
+      [
+        "SWE1",
+        "SWE4"
+      ],
+      [
+        "SWE1",
+        "SWE5"
+      ],
+      [
+        "SWE2",
+        "SWE1"
+      ],
+      [
+        "SWE2",
+        "SWE3"
+      ],
+      [
+        "SWE2",
+        "SWE4"
+      ],
+      [
+        "SWE2",
+        "SWE5"
+      ],
+      [
+        "SWE3",
+        "SWE1"
+      ],
+      [
+        "SWE3",
+        "SWE2"
+      ],
+      [
+        "SWE3",
+        "SWE4"
+      ],
+      [
+        "SWE3",
+        "SWE5"
+      ],
+      [
+        "SWE4",
+        "SWE1"
+      ],
+      [
+        "SWE4",
+        "SWE2"
+      ],
+      [
+        "SWE4",
+        "SWE3"
+      ],
+      [
+        "SWE4",
+        "SWE5"
+      ],
+      [
+        "SWE5",
+        "SWE1"
+      ],
+      [
+        "SWE5",
+        "SWE2"
+      ],
+      [
+        "SWE5",
+        "SWE3"
+      ],
+      [
+        "SWE5",
+        "SWE4"
+      ]
+    ],
+    "speaking_order": [
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5",
+      "SWE1",
+      "SWE2",
+      "SWE3",
+      "SWE4",
+      "SWE5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The microservice design and implementation clearly reflect both the performance target of exactly 150.75 milliseconds average transaction processing time and the security requirement of end-to-end AES-256-GCM encryption. All agent communications consistently reference and integrate these precise constraints, demonstrating robust information flow and adherence throughout the fully connected team's collaborative process.",
+    "quality_rubric": "Score 0-100: Explicit inclusion of 150.75ms average transaction time (35 pts), explicit inclusion of AES-256-GCM encryption (35 pts), coherent microservice design (20 pts), clear responsibilities and tasks assigned (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PERF-SEC-JOINED-T6X9",
+      "anchor": "The microservice must achieve an average transaction processing time of exactly 150.75 milliseconds per request, AND it must use end-to-end encryption with AES-256-GCM. This is a crucial joint requirement.",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "PERF-RT-42",
+            "anchor": "The microservice must achieve an average transaction processing time of exactly 150.75 milliseconds per request."
+          },
+          {
+            "tracer_id": "SEC-ENC-77",
+            "anchor": "The microservice must use end-to-end encryption with AES-256-GCM."
+          }
+        ]
+      },
+      "distractors": [
+        "Use GoLang for backend development.",
+        "Implement a circuit breaker pattern for external API calls.",
+        "Database choice: distributed SQL (e.g., CockroachDB).",
+        "Logging level should be 'WARN' in production.",
+        "Containerization with Docker and orchestration with Kubernetes.",
+        "Frontend framework: React with Next.js.",
+        "API Gateway for request routing and rate limiting.",
+        "Consider serverless functions for non-critical batch processing.",
+        "Automated integration tests are mandatory.",
+        "Documentation to be updated in Confluence.",
+        "Implement comprehensive unit tests for all new code.",
+        "Adhere to RESTful API principles for all endpoints.",
+        "Utilize a CDN for static assets to improve load times.",
+        "Plan for disaster recovery and business continuity.",
+        "Conduct regular code reviews following the four-eyes principle."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

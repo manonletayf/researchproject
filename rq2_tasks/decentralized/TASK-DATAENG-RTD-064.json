@@ -1,0 +1,106 @@
+{
+  "task_id": "TASK-DATAENG-RTD-064",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new ETL pipeline to ingest customer feedback data from various sources into a centralized data warehouse. The pipeline needs to process data from a real-time stream and a batch source, ensuring data quality and compliance. The team consists of a Data Architect, an ETL Developer, and a Data Quality Engineer. The Data Architect designs the overall solution, the ETL Developer implements the pipeline, and the Data Quality Engineer defines and enforces data validation rules. A crucial constraint for this project is that the average processing latency for real-time data must not exceed 0.55 seconds, and all PII fields (e.g., email addresses) must be pseudonymized using a SHA-256 hash before storage. The fully connected topology ensures constant, direct communication between all three agents, which is essential for closely coordinating on latency targets and security protocols. This easy structural-complexity task requires the team to successfully propagate and adhere to both the precise latency constraint and the specific pseudonymization method within a concise interaction of 10 turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect responsible for designing robust and scalable ETL solutions. You must ensure that all architectural decisions meet performance and security requirements, and communicate these clearly to the team.",
+        "receives_from": [
+          "DE2",
+          "DQ3"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "ETL Developer",
+        "system_prompt": "You are the ETL Developer, responsible for implementing data pipelines according to the architectural design. You must pay close attention to performance metrics and data security protocols, specifically for PII handling.",
+        "receives_from": [
+          "DA1",
+          "DQ3"
+        ]
+      },
+      {
+        "agent_id": "DQ3",
+        "role": "Data Quality Engineer",
+        "system_prompt": "You are the Data Quality Engineer, defining and enforcing data validation, transformation, and security standards. You must ensure data integrity and compliance, particularly regarding PII pseudonymization and data latency targets.",
+        "receives_from": [
+          "DA1",
+          "DE2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "DE2"
+      ],
+      [
+        "DA1",
+        "DQ3"
+      ],
+      [
+        "DE2",
+        "DA1"
+      ],
+      [
+        "DE2",
+        "DQ3"
+      ],
+      [
+        "DQ3",
+        "DA1"
+      ],
+      [
+        "DQ3",
+        "DE2"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "DE2",
+      "DQ3",
+      "DA1",
+      "DE2",
+      "DQ3",
+      "DA1",
+      "DE2",
+      "DQ3",
+      "DA1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully designs and implements an ETL pipeline where the average processing latency for real-time data does not exceed 0.55 seconds, and all PII fields are correctly pseudonymized using SHA-256 hashing before storage. All agents consistently reflect both the precise latency target and the specific pseudonymization method in their discussions and outputs.",
+    "quality_rubric": "Score 0-100: Average processing latency for real-time data does not exceed 0.55 seconds (40 pts), all PII fields pseudonymized using SHA-256 hash (40 pts), overall data quality and compliance met (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "ETL-PERF-SEC-LT055S",
+      "anchor": "the average processing latency for real-time data must not exceed 0.55 seconds, and all PII fields must be pseudonymized using a SHA-256 hash before storage",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data sources include Kafka topic 'customer-feedback' and S3 bucket 'feedback-archives'.",
+        "Target data warehouse is Snowflake.",
+        "Data schema validation will use Apache Avro.",
+        "Batch processing window: nightly at 02:00 UTC.",
+        "Error handling should include dead-letter queue for failed records."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

@@ -1,0 +1,141 @@
+{
+  "task_id": "TASK-SWE-RTD-046",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new microservice that processes user-uploaded images. This microservice needs to be highly scalable, fault-tolerant, and integrate with an existing object storage solution. A critical security constraint dictates that all image processing operations must be sandboxed within isolated container environments, and no direct file system access is permitted from the main application logic. Additionally, due to licensing agreements, the 'ImageMagick' library is strictly forbidden; a specific alternative, 'Pillow 9.2.0', must be used. The team consists of an Architect, a Security Engineer, two Senior Developers, a QA Engineer, and a DevOps Specialist. The Architect designs the overall system, the Security Engineer ensures compliance, Senior Developers implement the features, the QA Engineer validates functionality, and the DevOps Specialist deploys and maintains the infrastructure. The task uses a branching tree communication structure, so critical information must remain consistent as it is distributed from an upstream coordinator to specialized downstream agents.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "ARCH",
+        "role": "Software Architect",
+        "system_prompt": "You are the lead architect, responsible for designing the overall system structure and high-level components. You communicate design decisions and critical constraints to the development team, especially focusing on security and library requirements. You receive input from the Security Engineer and Senior Developers.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "SEC",
+        "role": "Security Engineer",
+        "system_prompt": "You are the security expert, ensuring all designs and implementations adhere to strict security policies. You specifically focus on sandboxing requirements and approved libraries. You provide feedback to the Architect and Senior Developers.",
+        "receives_from": [
+          "ARCH"
+        ]
+      },
+      {
+        "agent_id": "DEV1",
+        "role": "Senior Developer 1",
+        "system_prompt": "You are a senior developer, responsible for implementing core features based on architectural designs and security guidelines. You must rigorously follow all specified constraints, particularly regarding image processing sandboxing and forbidden libraries. You communicate progress and challenges to the Architect, Security Engineer, and QA Engineer.",
+        "receives_from": [
+          "ARCH"
+        ]
+      },
+      {
+        "agent_id": "DEV2",
+        "role": "Senior Developer 2",
+        "system_prompt": "You are a senior developer, collaborating on implementing features, ensuring adherence to all architectural and security constraints, especially regarding image processing libraries and sandboxing. You communicate progress and challenges to the Architect, Security Engineer, and QA Engineer.",
+        "receives_from": [
+          "SEC"
+        ]
+      },
+      {
+        "agent_id": "QA",
+        "role": "QA Engineer",
+        "system_prompt": "You are the QA engineer, responsible for validating the functionality, performance, and adherence to all specified constraints, including security sandboxing and correct library usage. You report issues to the Senior Developers and the DevOps Specialist.",
+        "receives_from": [
+          "DEV1"
+        ]
+      },
+      {
+        "agent_id": "OPS",
+        "role": "DevOps Specialist",
+        "system_prompt": "You are the DevOps specialist, responsible for deploying, monitoring, and maintaining the microservice infrastructure. You ensure the deployment environment enforces all security constraints, such as container isolation, and that only approved libraries are present. You provide feedback on deployment readiness to the QA Engineer.",
+        "receives_from": [
+          "SEC"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "ARCH",
+        "SEC"
+      ],
+      [
+        "ARCH",
+        "DEV1"
+      ],
+      [
+        "SEC",
+        "DEV2"
+      ],
+      [
+        "DEV1",
+        "QA"
+      ],
+      [
+        "SEC",
+        "OPS"
+      ]
+    ],
+    "speaking_order": [
+      "ARCH",
+      "DEV1",
+      "SEC",
+      "QA",
+      "DEV2",
+      "OPS"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The microservice is successfully developed, deployed, and validated, demonstrating full adherence to all constraints. Specifically, all image processing operations are contained within isolated container environments with no direct file system access, and the 'Pillow 9.2.0' library is exclusively used, with 'ImageMagick' explicitly avoided. The final system architecture, code implementation, and deployment configuration reflect these critical security and library usage constraints, proving robust propagation and enforcement throughout the complex development lifecycle.",
+    "quality_rubric": "Score 0-100: Image processing sandboxed in isolated containers (25 pts), no direct file system access from application logic (25 pts), 'Pillow 9.2.0' used (25 pts), 'ImageMagick' explicitly forbidden (25 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "MULTI-SEC-LIB-001",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Microservice should handle up to 1000 requests per second.",
+        "Error logs should be shipped to an ElasticSearch cluster.",
+        "Authentication will use OAuth 2.0 with JWTs.",
+        "The service must support both JPEG and PNG formats.",
+        "Database is PostgreSQL for metadata storage.",
+        "Implement a caching layer using Redis for frequently accessed images.",
+        "Deployment target is Kubernetes.",
+        "Monitoring will be done with Prometheus and Grafana.",
+        "Code must pass static analysis checks with 90% coverage.",
+        "Customer satisfaction is the highest priority for this feature."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "SEC-SANDBOX-C77",
+            "anchor": "all image processing operations must be sandboxed within isolated container environments"
+          },
+          {
+            "tracer_id": "FILE-ACCESS-PROHIBIT-P33",
+            "anchor": "direct file system access is prohibited from the main application logic"
+          },
+          {
+            "tracer_id": "LIB-PILLOW-V920-R22",
+            "anchor": "only 'Pillow 9.2.0' is allowed for image processing"
+          },
+          {
+            "tracer_id": "LIB-IMAGEMAGICK-FORBID-D99",
+            "anchor": "'ImageMagick' library is strictly forbidden for image processing"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

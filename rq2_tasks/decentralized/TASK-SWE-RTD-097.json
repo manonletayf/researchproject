@@ -1,0 +1,102 @@
+{
+  "task_id": "TASK-SWE-RTD-097",
+  "domain": "swe",
+  "description": "A small software development team is tasked with implementing a new user authentication module. The module needs to be highly secure and integrate seamlessly with existing services. The team consists of a Lead Developer, a Security Architect, and a Junior Developer. The Lead Developer is responsible for overall design and task delegation. The Security Architect ensures all security protocols are met and reviews implementation details. The Junior Developer implements the core logic. A critical constraint is that the authentication API must use asymmetric encryption with a key length of exactly 2048 bits for all token generation, and the maximum allowed latency for any authentication request cannot exceed 100.00 milliseconds. This easy-structural-complexity task, with a fully connected topology, aims to evaluate how effectively these precise security and performance constraints are propagated and maintained throughout a rapid 6-turn development cycle. The direct communication channels among the three agents are intended to simplify constraint adherence, making it a good test of basic information retention.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "LD1",
+        "role": "Lead Developer",
+        "system_prompt": "You are the Lead Developer. Your role is to design the authentication module, delegate tasks, and ensure all critical specifications, particularly security and performance constraints, are met by the team. You coordinate the Security Architect and Junior Developer.",
+        "receives_from": [
+          "JD1",
+          "SA1"
+        ]
+      },
+      {
+        "agent_id": "SA1",
+        "role": "Security Architect",
+        "system_prompt": "You are the Security Architect. Your primary responsibility is to define and enforce security protocols, review implementation for vulnerabilities, and confirm compliance with all security-related constraints, such as encryption standards. You receive information from the Lead Developer and Junior Developer.",
+        "receives_from": [
+          "JD1",
+          "LD1"
+        ]
+      },
+      {
+        "agent_id": "JD1",
+        "role": "Junior Developer",
+        "system_prompt": "You are the Junior Developer. You implement the core logic for the authentication module. You must strictly adhere to all technical specifications and constraints, especially those related to security and performance, as communicated by the Lead Developer and Security Architect.",
+        "receives_from": [
+          "LD1",
+          "SA1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LD1",
+        "SA1"
+      ],
+      [
+        "LD1",
+        "JD1"
+      ],
+      [
+        "SA1",
+        "LD1"
+      ],
+      [
+        "SA1",
+        "JD1"
+      ],
+      [
+        "JD1",
+        "LD1"
+      ],
+      [
+        "JD1",
+        "SA1"
+      ]
+    ],
+    "speaking_order": [
+      "LD1",
+      "SA1",
+      "JD1",
+      "LD1",
+      "SA1",
+      "JD1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The team successfully designs and implements an authentication module that explicitly uses asymmetric encryption with a 2048-bit key length for token generation, and achieves a maximum authentication request latency of 100.00 milliseconds. All agents consistently reflect both the precise key length and the latency cap in their internal discussions and proposed solutions.",
+    "quality_rubric": "Score 0-100: Asymmetric encryption with exactly 2048-bit key length used (45 pts), authentication latency not exceeding 100.00 milliseconds (45 pts), clear and functional module design (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-SEC-LAT-2KBITS",
+      "anchor": "the authentication API must use asymmetric encryption with a key length of exactly 2048 bits for all token generation, and the maximum allowed latency for any authentication request cannot exceed 100.00 milliseconds",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Preferred language is Python 3.9.",
+        "Use FastAPI for the API framework.",
+        "Database is PostgreSQL 14.",
+        "Integrate with existing user management system via OAuth2.",
+        "Logging level for security events: CRITICAL."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

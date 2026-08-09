@@ -1,0 +1,190 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-109",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new ETL pipeline to ingest customer interaction data from various sources into a central data lake. The objective is to design, implement, and validate the pipeline, ensuring data quality and compliance with regulatory requirements. The team consists of a Data Architect, an ETL Developer, a Data Quality Analyst, and a DevOps Engineer. The Data Architect designs the overall structure and technology stack. The ETL Developer implements the transformations and loading processes. The Data Quality Analyst defines and tests data validation rules. The DevOps Engineer is responsible for deployment, monitoring, and infrastructure. A critical constraint is that the pipeline must process data with an end-to-end latency not exceeding 15.50 seconds and maintain a data accuracy rate of at least 99.99%. The fully connected topology ensures that all agents can communicate directly and instantaneously, which is essential for coordinating intricate technical details and maintaining strict adherence to performance and quality metrics in this hard structural-complexity scenario. The task requires at least 40 turns to allow for extensive design discussions, iterative implementation, and rigorous validation.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Data Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Data Architect responsible for designing the overall ETL pipeline architecture, selecting technologies, and defining data flow. You must ensure that design choices support critical performance and quality constraints, such as latency and accuracy. You communicate with all other team members to align on design and implementation.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "ETL Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the ETL Developer. Your role is to implement the data extraction, transformation, and loading logic based on the architect's design. You must ensure that your code adheres to the specified latency and data accuracy requirements. You report progress and challenges to the team.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Data Quality Analyst. Your responsibility is to define data validation rules, develop testing strategies, and ensure the pipeline achieves the required data accuracy rate. You provide feedback on data quality issues and work to resolve them with the developer. You confirm all accuracy targets are met.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the DevOps Engineer. Your role involves deploying the ETL pipeline, setting up monitoring, and managing the underlying infrastructure. You must ensure the deployed pipeline meets the latency requirements and is robust. You provide operational insights and help troubleshoot infrastructure-related performance issues.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The ETL pipeline is successfully designed, implemented, and deployed, consistently achieving an end-to-end latency not exceeding 15.50 seconds and a data accuracy rate of at least 99.99%. All agents' communications and final outputs explicitly mention and adhere to both the precise latency and accuracy constraints throughout the entire process, demonstrating seamless and consistent information flow across the fully connected team.",
+    "quality_rubric": "Score 0-100: ETL pipeline designed and implemented (30 pts), end-to-end latency not exceeding 15.50 seconds (30 pts), data accuracy rate of at least 99.99% (30 pts), robust deployment and monitoring (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "ETL-ACLR-J9W3",
+      "anchor": "the pipeline must process data with an end-to-end latency not exceeding 15.50 seconds and maintain a data accuracy rate of at least 99.99%",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "LATENCY-P5Q8",
+            "anchor": "end-to-end latency must not exceed 15.50 seconds"
+          },
+          {
+            "tracer_id": "ACCURACY-K2T7",
+            "anchor": "data accuracy rate must be at least 99.99%"
+          }
+        ]
+      },
+      "distractors": [
+        "Data sources include CRM, ERP, and marketing automation systems.",
+        "Target data lake format is Parquet with Snappy compression.",
+        "Authentication uses AWS IAM roles.",
+        "Data governance policy requires masking PII fields.",
+        "Daily ingestion volume is estimated at 500GB.",
+        "Backup strategy: S3 cross-region replication.",
+        "Preferred language for ETL scripts: Python with PySpark.",
+        "Reporting tools: Tableau and Power BI.",
+        "Team will conduct bi-weekly sync meetings.",
+        "Consider using Apache Kafka for real-time streaming components."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

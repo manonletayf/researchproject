@@ -1,0 +1,129 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-123",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with assessing and securing a new deployment of a critical microservice. The Security Architect (Orchestrator) initiates the process by defining a critical security requirement for all deployed services. This requirement is passed to a Security Analyst (A2), who performs an initial vulnerability scan and threat assessment. Concurrently, the Architect also communicates the requirement to a Network Engineer (A3), who is responsible for reviewing network configurations and firewall rules for compliance. The Security Analyst's findings are then reviewed by a Lead Security Engineer (A4), who validates the assessment and compiles a final report. The core security constraint is 'all public internet-facing ports, except SSH (22) and HTTPS (443), must be blocked at the perimeter firewall'. This task is designed to test whether this precise security constraint is accurately propagated and maintained through both the network configuration review path (A1 -> A3) and the security assessment path (A1 -> A2 -> A4), ensuring that all agents operate under the correct, non-generalized policy. The hard structural-complexity is appropriate due to the precise technical nature of the constraint, the four-agent branching topology, and the high expected turn count of 34, which requires consistent constraint adherence over an extended, multi-path conversation, increasing opportunities for decay.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Security Architect",
+        "system_prompt": "You are the Security Architect. Your role is to define and communicate critical security requirements for microservices. You initiate the assessment process and delegate tasks to security and network specialists. You must ensure all critical policies and constraints are communicated clearly to your team.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Security Analyst",
+        "system_prompt": "You are a Security Analyst. Your primary responsibility is to perform initial security scans and threat assessments based on the architect's requirements. Document your findings and pass them to the Lead Security Engineer for validation. Ensure all security constraints are strictly adhered to in your assessment.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Network Engineer",
+        "system_prompt": "You are a Network Engineer. Your role is to review network configurations and firewall rules for compliance with defined security policies, especially those pertaining to ingress traffic. Report your findings and any identified non-compliance.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Lead Security Engineer",
+        "system_prompt": "You are a Lead Security Engineer. You validate the security assessments performed by the Security Analyst. Ensure the assessment is comprehensive and accurately reflects the architect's security constraints. Provide a final validated report based on the analyst's work.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The Security Analyst (A2) correctly identifies any potential vulnerabilities related to exposed ports in their assessment, accurately reflecting the constraint of blocking all public internet-facing ports except SSH (22) and HTTPS (443). A2 passes this precise information to A4. The Network Engineer (A3) verifies that network configurations and firewall rules explicitly deny all public internet-facing ingress ports except 22 and 443. The Lead Security Engineer (A4) validates A2's findings, ensuring the assessment aligns with the specific port denial constraint. All agents consistently propagate the specific security constraint, avoiding generalization or loss of the 'except SSH (22) and HTTPS (443)' clause.",
+    "quality_rubric": "Score 0-100: Security Analyst (A2) correctly assesses port exposure relative to the specific constraint (25 pts), Network Engineer (A3) correctly verifies or flags network configurations against the specific constraint (25 pts), Lead Security Engineer (A4) accurately validates A2's assessment and confirms adherence to the specific constraint (25 pts), and the constraint 'all public internet-facing ports, except SSH (22) and HTTPS (443), must be blocked at the perimeter firewall' is maintained verbatim or semantically throughout both branches of the conversation (25 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "FIREWALL-BP64",
+      "anchor": "all public internet-facing ports, except SSH (22) and HTTPS (443), must be blocked at the perimeter firewall",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "Microservice Name: AuthService",
+        "Deployment Environment: Staging",
+        "Container Image: auth-service:v2.0.1",
+        "Resource Limits: 2 CPU, 4GB Memory",
+        "Monitoring Stack: Prometheus & Grafana",
+        "Logging Level: DEBUG",
+        "Database: PostgreSQL RDS",
+        "Cache TTL: 180 seconds",
+        "Load Balancer: NGINX Ingress",
+        "Traffic Routing Policy: Least Connections",
+        "Auto-scaling: Disabled (fixed 3 replicas)",
+        "Backup Schedule: Daily via database dumps",
+        "Cloud Provider: Azure (AKS, VM Scale Sets)"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

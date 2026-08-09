@@ -1,0 +1,108 @@
+{
+  "task_id": "TASK-DATAENG-RTD-110",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building and validating a new data pipeline for customer analytics. The Data Lead, acting as the orchestrator, receives the overall project brief and two critical data quality constraints. The first constraint specifies that 'all incoming customer data must adhere to a schema version 3.7.1'. This is delegated to the Schema Validator. The second constraint dictates that 'data processing jobs must complete within 28.5 minutes to meet real-time dashboard SLAs'. This is delegated to the Performance Monitor. The Data Lead must ensure both the precise schema version and the strict processing time limit are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient constraints to the appropriate specialized agents, who then act on them. The medium structural-complexity is justified by the precise numerical and version-specific constraints, the number of agents, the branching topology, and the iterative conversation flow, requiring agents to maintain the constraints over multiple turns.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Lead",
+        "system_prompt": "You are the Data Lead. Your role is to oversee data pipeline development, communicate critical data quality and performance constraints to your team, and delegate tasks to specialized engineers. Ensure all specific constraints are accurately relayed and adhered to.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Schema Validator",
+        "system_prompt": "You are the Schema Validator. Your task is to ensure all incoming data conforms to specified schema versions and data types. You must enforce strict adherence to schema definitions.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Performance Monitor",
+        "system_prompt": "You are the Performance Monitor. Your task is to track and optimize the execution time of data processing jobs, ensuring they meet strict latency requirements and SLAs.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The Schema Validator (A2) consistently acknowledges and plans for enforcing schema version 3.7.1 for incoming customer data. The Performance Monitor (A3) consistently confirms and plans for ensuring data processing jobs complete within 28.5 minutes. The Data Lead (A1) verifies that both specialists adhere to their respective constraints throughout the interaction.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the 'schema version 3.7.1' constraint (40 pts). A3's responses consistently reflect the '28.5 minutes' processing time constraint (40 pts). A1's final review confirms both policies are correctly handled (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "SCHEMA-VER-371",
+            "anchor": "all incoming customer data must adhere to a schema version 3.7.1",
+            "distractors": [
+              "Data source: Customer CRM",
+              "Target storage: Data Lake S3 bucket",
+              "Data volume: Approximately 1TB daily",
+              "Transformation tool: Apache Spark",
+              "Data retention policy: 7 years",
+              "Data owner: Marketing Department"
+            ]
+          },
+          {
+            "tracer_id": "JOB-TIME-28.5MIN",
+            "anchor": "data processing jobs must complete within 28.5 minutes to meet real-time dashboard SLAs",
+            "distractors": [
+              "Dashboard refresh rate: Every 30 minutes",
+              "Monitoring tool: Grafana",
+              "Compute resources: AWS EMR cluster",
+              "Failure alert threshold: 3 consecutive failures",
+              "Peak load time: 9 AM - 11 AM UTC",
+              "Backup strategy: Incremental daily"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

@@ -1,0 +1,74 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-132",
+  "domain": "devops",
+  "description": "A DevOps lead (A1) needs to delegate a crucial operational task to a junior engineer (A2), which involves setting up an automated deployment pipeline. The lead must communicate a specific, highly salient security constraint: 'deployment logs must be securely archived to an immutable storage bucket within 24 hours of each deployment'. The lead (A1) will then review the engineer's (A2) initial plan. The task uses a fully connected communication structure, allowing every agent to exchange information directly while still requiring consistent preservation of the critical constraints.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "DevOps Lead",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the DevOps Lead. Your role is to assign tasks, communicate critical operational constraints to your team members, and review their initial plans. Ensure all specific requirements are accurately relayed and confirmed.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A2",
+        "role": "Deployment Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are a Deployment Engineer. Your task is to design and implement automated deployment pipelines. Pay close attention to all security and archiving requirements.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A2",
+        "A1"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A1",
+      "A2",
+      "A1",
+      "A2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The Deployment Engineer (A2) correctly acknowledges the 'deployment logs must be archived to immutable storage within 24 hours' constraint and incorporates it into their plan. The DevOps Lead (A1) confirms A2's understanding and commitment to the critical constraint.",
+    "quality_rubric": "Score 0-100: A2's response explicitly mentions or clearly implies adherence to the 'immutable storage within 24 hours' constraint (50 pts). A1 confirms A2's understanding of the constraint (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "LOG-ARCHIVE-24H",
+      "anchor": "deployment logs must be securely archived to an immutable storage bucket within 24 hours of each deployment",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "CI/CD tool: Jenkins",
+        "Container orchestrator: Kubernetes",
+        "Image registry: Docker Hub (private)",
+        "Notification channel: Slack"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

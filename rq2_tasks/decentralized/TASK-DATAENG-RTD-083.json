@@ -1,0 +1,115 @@
+{
+  "task_id": "TASK-DATAENG-RTD-083",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a critical ETL pipeline that processes sensitive customer data for a financial services client. The goal is to reduce processing time while strictly adhering to data privacy regulations and maintaining data integrity. The team consists of a Data Architect, an ETL Developer, and a Data Quality Analyst. The Data Architect designs the overall solution, the ETL Developer implements the changes, and the Data Quality Analyst validates the output. A crucial constraint is that all PII (Personally Identifiable Information) must be masked using SHA-256 hashing, and the entire optimization process, from design to deployment, must not exceed 4.75 hours to meet a service level agreement. The fully connected topology facilitates direct and instantaneous communication among all three agents, which is essential for ensuring that the precise masking requirement and the strict time limit are consistently communicated and implemented. This medium-structural-complexity task assesses the team's ability to maintain these critical constraints over 18 turns, allowing for iterative refinement and cross-functional validation, crucial for data integrity and regulatory compliance.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You design robust and scalable data solutions, ensuring compliance with all data governance policies. Your role is to define the technical approach, making sure that critical constraints like data masking and project timelines are clearly communicated and integrated into the design.",
+        "receives_from": [
+          "DQA3",
+          "ETL2"
+        ]
+      },
+      {
+        "agent_id": "ETL2",
+        "role": "ETL Developer",
+        "system_prompt": "You implement data pipelines and transformations. You must adhere strictly to the architectural designs and all specified constraints, especially regarding data privacy (e.g., masking techniques) and project timelines. You provide implementation details and challenges.",
+        "receives_from": [
+          "DA1",
+          "DQA3"
+        ]
+      },
+      {
+        "agent_id": "DQA3",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You validate data output and ensure data integrity and compliance. You must verify that all data masking requirements are correctly applied and that the overall solution meets quality standards within the specified project timeline. You report on data quality metrics and issues.",
+        "receives_from": [
+          "DA1",
+          "ETL2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "ETL2"
+      ],
+      [
+        "DA1",
+        "DQA3"
+      ],
+      [
+        "ETL2",
+        "DA1"
+      ],
+      [
+        "ETL2",
+        "DQA3"
+      ],
+      [
+        "DQA3",
+        "DA1"
+      ],
+      [
+        "DQA3",
+        "ETL2"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The optimized ETL pipeline successfully processes customer data. All PII is correctly masked using SHA-256 hashing, and the entire optimization, design to deployment, is completed within 4.75 hours. The team's communication consistently reflects both the SHA-256 masking requirement and the 4.75-hour deadline, demonstrating robust information flow and adherence in the fully connected topology.",
+    "quality_rubric": "Score 0-100: All PII masked with SHA-256 hashing (40 pts), optimization process completed within 4.75 hours (30 pts), data integrity maintained (20 pts), clear and concise documentation of changes (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DATA-MASK-SHA256-TIME-475HR",
+      "anchor": "all PII (Personally Identifiable Information) must be masked using SHA-256 hashing, and the entire optimization process must not exceed 4.75 hours",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is an S3 bucket named 'customer-fin-data-prod'.",
+        "Target database is a Snowflake instance.",
+        "ETL tool: Apache Airflow.",
+        "Monitor pipeline latency with Grafana dashboards.",
+        "Perform a daily data reconciliation check.",
+        "Client contact: Jane Doe (jdoe@example.com)."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

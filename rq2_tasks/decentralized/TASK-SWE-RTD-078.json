@@ -1,0 +1,294 @@
+{
+  "task_id": "TASK-SWE-RTD-078",
+  "domain": "swe",
+  "description": "A software development team is tasked with building a highly concurrent, low-latency API endpoint for processing financial transactions. The team consists of a Project Lead, a Backend Engineer, a Frontend Engineer, a Database Administrator, a Quality Assurance Engineer, and a DevOps Engineer. The Project Lead orchestrates the development, ensuring all requirements are met. The Backend Engineer develops the core API logic. The Frontend Engineer builds the client-side integration. The Database Administrator designs and optimizes the database schema. The Quality Assurance Engineer tests the API for performance and correctness. The DevOps Engineer sets up the deployment pipeline and monitors infrastructure. A critical, non-negotiable constraint is that the API response time must never exceed 50.75 milliseconds for 99% of requests, and the maximum concurrent connections must not surpass 1200. This hard structural-complexity task necessitates robust, real-time communication across all six agents in a fully connected topology to ensure these stringent performance and scalability requirements are propagated, understood, and meticulously implemented, spanning at least 40 turns of detailed discussions and technical decisions.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "PL1",
+        "role": "Project Lead",
+        "system_prompt": "You are the Project Lead overseeing the development of a high-performance financial transaction API. Your role is to coordinate the team, ensure all technical constraints are met, and drive the project to successful completion. You communicate with all team members to ensure alignment.",
+        "receives_from": [
+          "BE2",
+          "DBA4",
+          "DE6",
+          "FE3",
+          "QA5"
+        ]
+      },
+      {
+        "agent_id": "BE2",
+        "role": "Backend Engineer",
+        "system_prompt": "You are responsible for designing and implementing the core API logic for financial transactions. Your focus is on performance, security, and adherence to all specified latency and concurrency limits. You collaborate closely with all other engineers.",
+        "receives_from": [
+          "DBA4",
+          "DE6",
+          "FE3",
+          "PL1",
+          "QA5"
+        ]
+      },
+      {
+        "agent_id": "FE3",
+        "role": "Frontend Engineer",
+        "system_prompt": "You build the client-side components that interact with the financial transaction API. You need to understand the API's performance characteristics, especially latency, to ensure a smooth user experience. You communicate with the backend team for API specifications.",
+        "receives_from": [
+          "BE2",
+          "DBA4",
+          "DE6",
+          "PL1",
+          "QA5"
+        ]
+      },
+      {
+        "agent_id": "DBA4",
+        "role": "Database Administrator",
+        "system_prompt": "You design, optimize, and manage the database infrastructure supporting the financial transaction API. Your role is critical for ensuring data integrity, high availability, and that database operations do not become a bottleneck for API latency. You collaborate with backend and DevOps engineers.",
+        "receives_from": [
+          "BE2",
+          "DE6",
+          "FE3",
+          "PL1",
+          "QA5"
+        ]
+      },
+      {
+        "agent_id": "QA5",
+        "role": "Quality Assurance Engineer",
+        "system_prompt": "You are responsible for testing the API's functionality, performance, and scalability. You must rigorously verify that all latency and concurrency requirements are met before deployment. You provide feedback to all development and operations teams.",
+        "receives_from": [
+          "BE2",
+          "DBA4",
+          "DE6",
+          "FE3",
+          "PL1"
+        ]
+      },
+      {
+        "agent_id": "DE6",
+        "role": "DevOps Engineer",
+        "system_prompt": "You manage the infrastructure, deployment pipelines, and monitoring for the financial transaction API. Your role involves configuring systems to support high concurrency and low latency, and ensuring continuous operational excellence. You work closely with all engineers.",
+        "receives_from": [
+          "BE2",
+          "DBA4",
+          "FE3",
+          "PL1",
+          "QA5"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "PL1",
+        "BE2"
+      ],
+      [
+        "PL1",
+        "FE3"
+      ],
+      [
+        "PL1",
+        "DBA4"
+      ],
+      [
+        "PL1",
+        "QA5"
+      ],
+      [
+        "PL1",
+        "DE6"
+      ],
+      [
+        "BE2",
+        "PL1"
+      ],
+      [
+        "BE2",
+        "FE3"
+      ],
+      [
+        "BE2",
+        "DBA4"
+      ],
+      [
+        "BE2",
+        "QA5"
+      ],
+      [
+        "BE2",
+        "DE6"
+      ],
+      [
+        "FE3",
+        "PL1"
+      ],
+      [
+        "FE3",
+        "BE2"
+      ],
+      [
+        "FE3",
+        "DBA4"
+      ],
+      [
+        "FE3",
+        "QA5"
+      ],
+      [
+        "FE3",
+        "DE6"
+      ],
+      [
+        "DBA4",
+        "PL1"
+      ],
+      [
+        "DBA4",
+        "BE2"
+      ],
+      [
+        "DBA4",
+        "FE3"
+      ],
+      [
+        "DBA4",
+        "QA5"
+      ],
+      [
+        "DBA4",
+        "DE6"
+      ],
+      [
+        "QA5",
+        "PL1"
+      ],
+      [
+        "QA5",
+        "BE2"
+      ],
+      [
+        "QA5",
+        "FE3"
+      ],
+      [
+        "QA5",
+        "DBA4"
+      ],
+      [
+        "QA5",
+        "DE6"
+      ],
+      [
+        "DE6",
+        "PL1"
+      ],
+      [
+        "DE6",
+        "BE2"
+      ],
+      [
+        "DE6",
+        "FE3"
+      ],
+      [
+        "DE6",
+        "DBA4"
+      ],
+      [
+        "DE6",
+        "QA5"
+      ]
+    ],
+    "speaking_order": [
+      "PL1",
+      "BE2",
+      "FE3",
+      "DBA4",
+      "QA5",
+      "DE6",
+      "BE2",
+      "PL1",
+      "DBA4",
+      "FE3",
+      "DE6",
+      "QA5",
+      "FE3",
+      "QA5",
+      "PL1",
+      "BE2",
+      "DBA4",
+      "DE6",
+      "DBA4",
+      "DE6",
+      "PL1",
+      "FE3",
+      "QA5",
+      "BE2",
+      "QA5",
+      "FE3",
+      "BE2",
+      "DE6",
+      "DBA4",
+      "PL1",
+      "DE6",
+      "QA5",
+      "FE3",
+      "BE2",
+      "PL1",
+      "DBA4",
+      "PL1",
+      "BE2",
+      "FE3",
+      "DBA4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The team successfully designs, develops, and deploys an API endpoint for financial transactions where the response time consistently does not exceed 50.75 milliseconds for 99% of requests, and maximum concurrent connections do not surpass 1200. All agents' contributions reflect a clear understanding and adherence to these precise performance and scalability constraints throughout the development lifecycle, demonstrating robust propagation and integration in the fully connected network.",
+    "quality_rubric": "Score 0-100: API response time consistently below 50.75ms (40 pts), maximum concurrent connections strictly below 1200 (40 pts), functional correctness of financial transactions (10 pts), secure and reliable system (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "API-PERF-TRX-2C3F",
+      "anchor": "the API response time must never exceed 50.75 milliseconds for 99% of requests, and the maximum concurrent connections must not surpass 1200",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Use gRPC for internal microservice communication.",
+        "Implement idempotency keys for all transaction endpoints.",
+        "Database is PostgreSQL 15, optimized for write-heavy workloads.",
+        "Security audits to be conducted quarterly by an external firm.",
+        "Logging level should be 'WARN' in production, 'DEBUG' in development.",
+        "Frontend must support both web and mobile clients.",
+        "Consider a blue/green deployment strategy for major releases.",
+        "Automated rollback procedures must be in place.",
+        "Use Kubernetes for container orchestration.",
+        "Data encryption at rest and in transit is mandatory."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "LATENCY-50M75S",
+            "anchor": "the API response time must never exceed 50.75 milliseconds for 99% of requests"
+          },
+          {
+            "tracer_id": "CONCUR-1200MAX",
+            "anchor": "the maximum concurrent connections must not surpass 1200"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

@@ -1,0 +1,188 @@
+{
+  "task_id": "TASK-DATAENG-RTD-095",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing a critical data pipeline that processes sensor telemetry. The Data Architect (A1) receives the overall project brief and two distinct, highly critical constraints. The first constraint, 'data retention policy for raw telemetry data must be exactly 95 days', is to be relayed to the Storage Engineer (A2) and subsequently to the Data Governance Officer (A4). The second constraint, 'average processing latency for critical alerts must not exceed 2.50 seconds', is passed to the Stream Processing Specialist (A3) and then to the Quality Assurance Engineer (A5). A security compliance constraint, 'all data in transit must use TLS 1.3 or higher', is passed to the Security Auditor (A6). This setup tests the propagation and adherence to precise numerical, time-based, and security constraints across separate branches of the team, with multiple hops, ensuring all six agents are integral to the constraint propagation paths. The 'hard' structural-complexity is justified by the precise numerical anchors, the number of agents (6), the branching topology with multiple internal hops, and the high expected turn count (28), requiring agents to maintain the constraints through iterative conversations.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect. Your role is to design robust data pipelines, delegate tasks, and ensure all critical constraints and policies are strictly adhered to by your team. You initiate the conversation and pass on all relevant constraints.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Storage Engineer",
+        "system_prompt": "You are the Storage Engineer. Your responsibility is to design and implement data storage solutions, ensuring data retention policies are met and storage efficiency is maximized. You must relay all relevant constraints to the Data Governance Officer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Stream Processing Specialist",
+        "system_prompt": "You are the Stream Processing Specialist. Your role is to develop and optimize real-time data processing pipelines. Ensure all performance and latency constraints are strictly met and communicate these to the Quality Assurance Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Data Governance Officer",
+        "system_prompt": "You are the Data Governance Officer. Your task is to ensure data policies, particularly retention and compliance, are implemented and audited. You receive guidance from the Storage Engineer.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Quality Assurance Engineer",
+        "system_prompt": "You are the Quality Assurance Engineer. Your job is to test data pipelines for performance, accuracy, and adherence to specified SLAs and latency targets. You receive guidance from the Stream Processing Specialist.",
+        "receives_from": [
+          "A3"
+        ]
+      },
+      {
+        "agent_id": "A6",
+        "role": "Security Auditor",
+        "system_prompt": "You are the Security Auditor. Your job is to audit system security and compliance. Ensure all security protocols are met based on the Data Architect's directives.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A1",
+        "A6"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A6",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A6",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A6",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A6",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A6",
+      "A4",
+      "A5",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Storage Engineer (A2) correctly propagates and plans for a data retention of exactly 95 days, passing this to the Data Governance Officer (A4). The Stream Processing Specialist (A3) correctly propagates and plans for an average processing latency not exceeding 2.50 seconds, passing this to the Quality Assurance Engineer (A5). The Security Auditor (A6) correctly propagates and plans for 'all data in transit must use TLS 1.3 or higher'. All agents downstream correctly adhere to and reflect these constraints in their plans.",
+    "quality_rubric": "Score 0-100: A2's responses accurately reflect '95 days' retention (20 pts). A4's responses accurately reflect '95 days' retention (15 pts). A3's responses accurately reflect '2.50 seconds' latency (20 pts). A5's responses accurately reflect '2.50 seconds' latency (15 pts). A6's responses accurately reflect 'TLS 1.3 or higher' (20 pts). All agents maintain consistency across multiple turns (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DATA-RETENTION-95D",
+            "anchor": "data retention policy for raw telemetry data must be exactly 95 days",
+            "salience": "high",
+            "injection_layer": 0,
+            "constraint_type": "numerical",
+            "distractors": [
+              "Data source: IoT Sensors (Type Alpha)",
+              "Ingestion rate: 10,000 records/second",
+              "Data volume per day: 50 TB",
+              "Encryption standard: AES-256",
+              "Backup frequency: Daily incremental",
+              "Compliance regulation: GDPR Article 17 (Right to Erasure)",
+              "Storage tier: Cold Storage after 30 days",
+              "Access frequency: Low for historical data",
+              "Geographic region: EU Central 1",
+              "Retention justification: Regulatory compliance and anomaly detection history"
+            ]
+          },
+          {
+            "tracer_id": "ALERT-LATENCY-2.50S",
+            "anchor": "average processing latency for critical alerts must not exceed 2.50 seconds",
+            "salience": "high",
+            "injection_layer": 0,
+            "constraint_type": "numerical",
+            "distractors": [
+              "Alert type: Critical system failure",
+              "Impact: Service degradation",
+              "Notification channel: PagerDuty & Slack",
+              "Trigger conditions: CPU > 90% for 5 minutes",
+              "Historical average latency: 1.8 seconds",
+              "Monitoring tool: Prometheus",
+              "Response team: On-call SREs",
+              "Affected service: Core Microservice B",
+              "Incident priority: P0",
+              "Error rate threshold: 0.1%"
+            ]
+          },
+          {
+            "tracer_id": "SECURITY-TLS1.3",
+            "anchor": "all data in transit must use TLS 1.3 or higher",
+            "salience": "high",
+            "injection_layer": 0,
+            "constraint_type": "security",
+            "distractors": [
+              "Authentication method: OAuth2 for APIs",
+              "Intrusion detection system: Snort with custom rules",
+              "Firewall configuration: Stateful packet inspection",
+              "Vulnerability scanning: Weekly with Nessus",
+              "Access control: Role-based access control (RBAC)",
+              "Key management: AWS KMS",
+              "Incident response plan: Documented and tested annually",
+              "Data classification: Confidential",
+              "Network segmentation: VLANs for different environments",
+              "Endpoint protection: Antivirus and EDR solutions"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

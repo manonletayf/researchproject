@@ -1,0 +1,78 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-098",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with reconfiguring a critical API gateway for external traffic and updating internal service configurations. The Orchestrator initiates the process, providing instructions to two distinct roles: a Network Engineer and a Security Auditor. The critical constraint specifies that all external API traffic must be routed exclusively through an 'azure_firewall_pro' instance, specifically identified by ID 'FW-AZ-003', for advanced threat protection. The Network Engineer is responsible for implementing the external routing configuration based on these instructions. Simultaneously, a Security Auditor must verify that the specified firewall ID is correctly integrated and that no other firewall is used for external traffic. This setup aims to test whether the critical 'FW-AZ-003' ID is accurately propagated and utilized by the Network Engineer, and then correctly identified and confirmed by the Security Auditor, ensuring the specific ID survives the communication chain. The Orchestrator also provides a separate, non-critical detail about internal service mesh configuration, which should use 'service_mesh_gateway_03'.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Orchestrator",
+        "system_prompt": "You are the Orchestrator. Your role is to define and distribute critical API gateway routing rules and security policies to your team. Ensure all constraints, especially specific firewall IDs for external traffic, are clearly communicated to the relevant engineers (Network Engineer and Security Auditor).",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Network Engineer",
+        "system_prompt": "You are the Network Engineer. Based on the Orchestrator's instructions, configure the external API traffic routing rules. Pay close attention to specified firewall instances and IDs for security, ensuring all external traffic passes through the designated firewall. You do not need to address internal mesh configuration.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Auditor",
+        "system_prompt": "You are the Security Auditor. Based on the Orchestrator's instructions, verify the external API traffic routing rules. Your primary task is to confirm that the specific firewall ID provided for external traffic is correctly implemented and that no other firewall is being used.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The Network Engineer produces a configuration for external API traffic using 'azure_firewall_pro' (ID: FW-AZ-003) and the Security Auditor confirms the correct use of 'FW-AZ-003'. The specific ID 'FW-AZ-003' is present in both the Network Engineer's and Security Auditor's outputs.",
+    "quality_rubric": "Score 0-100: Network Engineer correctly identifies external firewall and its ID (50 pts). Security Auditor correctly confirms the use of the specified firewall ID (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "API-ROUTE-GY24",
+      "anchor": "all external API traffic must be routed through 'azure_firewall_pro' instance with ID 'FW-AZ-003'",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "Internal microservice communication uses 'service_mesh_gateway_03'.",
+        "API version: v2.2 for external endpoints.",
+        "Logging level: TRACE for troubleshooting external routing.",
+        "Deployment region: us-east-2 for primary external services.",
+        "Monitoring dashboard: Datadog instance ID DD-PROD-002."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

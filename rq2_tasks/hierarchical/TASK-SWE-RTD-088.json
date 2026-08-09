@@ -1,0 +1,80 @@
+{
+  "task_id": "TASK-SWE-RTD-088",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new user authentication module. The Software Architect, acting as the Orchestrator, receives the core requirements along with a critical security constraint. This constraint specifies that 'all user passwords must be hashed using Argon2id with a minimum memory cost of 12MB'. The Architect delegates the task to two agents: a Backend Developer, who will implement the hashing logic, and a Security Auditor, who will review the implementation for compliance. The Architect must ensure this precise technical and security constraint is relayed accurately and explicitly to both the Backend Developer and the Security Auditor. This task evaluates how a critical security constraint, particularly one with specific technical parameters like 'Argon2id' and '12MB memory cost', is propagated through a branching communication structure to ensure both implementation and review phases adhere to the strict requirement.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to design software systems, communicate core requirements and critical constraints to your team, and delegate tasks to specialized developers. Ensure all specific technical and security constraints are accurately relayed.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Developer",
+        "system_prompt": "You are a Backend Developer. Your task is to implement server-side logic and APIs according to design specifications. Pay close attention to security constraints, especially regarding data handling and authentication mechanisms.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Auditor",
+        "system_prompt": "You are a Security Auditor. Your task is to review software implementations for compliance with security policies and best practices. Identify any deviations from specified security constraints.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The Backend Developer (A2) acknowledges the requirement to use 'Argon2id' with '12MB memory cost' for password hashing and outlines a plan to implement it. The Security Auditor (A3) also acknowledges these specific details and confirms they will audit against these parameters. The Software Architect (A1) then confirms that both agents have understood and committed to the security constraint.",
+    "quality_rubric": "Score 0-100: A2's response explicitly mentions 'Argon2id' (25 pts) and '12MB memory cost' (25 pts) for password hashing. A3's response explicitly mentions 'Argon2id' (25 pts) and '12MB memory cost' (25 pts) in their auditing plan."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-HASH-ARGON2ID-12MB",
+      "anchor": "all user passwords must be hashed using Argon2id with a minimum memory cost of 12MB",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "API endpoint for authentication: /api/v1/auth",
+        "Frontend framework: React v18",
+        "Database type: PostgreSQL",
+        "Session management: JWT tokens"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

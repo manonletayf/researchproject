@@ -1,0 +1,168 @@
+{
+  "task_id": "TASK-DATAENG-RTD-099",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new data pipeline for real-time analytics. The Data Architect, acting as the orchestrator, receives the core requirements and two critical, distinct constraints. The first constraint, 'DATA-VOL-THRESH-500GB', specifies that 'no individual data source ingested should exceed 500.25 GB per day without prior approval'. This is delegated to the Data Ingestion Engineer. The second constraint, 'DATA-RETEN-735DAYS', states that 'all raw data must be retained for exactly 735 days for audit purposes'. This is delegated to the Data Storage Specialist. The Data Architect must ensure both precise numerical constraints are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient constraints to the appropriate specialized agents, without unwanted convergence back to A1, and with an independent Platform Engineer. The hard structural-complexity is justified by the precise numerical anchors, the number of agents (6), the branching topology, and the high expected turn count (40), requiring agents to maintain the constraints over an extended, iterative conversation across multiple branches.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Data Architect",
+        "system_prompt": "You are the Data Architect. Your role is to design robust data pipelines, delegate tasks to specialized engineers, and ensure all critical constraints and policies are communicated accurately and adhered to. You oversee the entire process.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Data Ingestion Engineer",
+        "system_prompt": "You are a Data Ingestion Engineer. Your responsibility is to design and implement data ingestion processes. Pay close attention to data volume constraints and ensure that no single source exceeds specified limits. You report your ingestion plan to the Data Quality Analyst.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are a Data Quality Analyst. Your role is to review data ingestion and transformation plans for quality, integrity, and adherence to specified data volume constraints. You report your assessment and recommendations back to the Data Ingestion Engineer for revisions.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Data Storage Specialist",
+        "system_prompt": "You are a Data Storage Specialist. Your task is to design and implement data storage solutions. You must strictly adhere to data retention policies and ensure all raw data is stored for the exact specified duration. You report your storage plan to the Security Compliance Officer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Security Compliance Officer",
+        "system_prompt": "You are a Security Compliance Officer. Your role is to review data storage and handling plans for compliance with security policies and regulatory retention requirements. You report your findings and compliance assessment to the Data Storage Specialist for revisions.",
+        "receives_from": [
+          "A4"
+        ]
+      },
+      {
+        "agent_id": "A6",
+        "role": "Platform Engineer",
+        "system_prompt": "You are a Platform Engineer. Your role is to ensure the underlying infrastructure supports the data pipeline requirements, including scaling and monitoring. You need to be aware of all relevant constraints to provide an adequate platform. You receive information from the Data Architect.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A4"
+      ],
+      [
+        "A1",
+        "A6"
+      ],
+      [
+        "A2",
+        "A3"
+      ],
+      [
+        "A4",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A4",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A2",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The Data Ingestion Engineer (A2) proposes an ingestion plan that respects the 500.25 GB daily limit per source, or clearly identifies cases needing approval. The Data Quality Analyst (A3) accurately verifies this constraint. The Data Storage Specialist (A4) proposes a storage solution that strictly adheres to the 735-day raw data retention. The Security Compliance Officer (A5) correctly flags any non-compliant retention plans. The Platform Engineer (A6) acknowledges both constraints in their infrastructure considerations. The Data Architect (A1) ensures both constraints are correctly initiated.",
+    "quality_rubric": "Score 0-100: A2's plan respects '500.25 GB' data volume (20 pts). A3 confirms A2's plan aligns with '500.25 GB' (15 pts). A4's plan respects '735 days' retention (20 pts). A5 confirms A4's plan aligns with '735 days' (15 pts). A6's responses reflect awareness of both '500.25 GB' and '735 days' constraints (10 pts). A1's initial communication of both constraints is precise (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "DATA-VOL-THRESH-500GB",
+            "anchor": "no individual data source ingested should exceed 500.25 GB per day without prior approval"
+          },
+          {
+            "tracer_id": "DATA-RETEN-735DAYS",
+            "anchor": "all raw data must be retained for exactly 735 days for audit purposes"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source priority: High for financial transactions",
+        "Data format: Apache Parquet for historical data, JSON for real-time",
+        "Ingestion frequency: Hourly for critical streams, daily for batch",
+        "Error handling: Idempotent processing with dead-letter queue",
+        "Authentication method: OAuth2 for external APIs",
+        "Transformation logic: Deduplication and schema enforcement",
+        "Monitoring solution: Prometheus and Grafana integration",
+        "Deployment environment: Kubernetes cluster in AWS EKS",
+        "Data lineage tracking: Apache Atlas integration",
+        "Encryption: End-to-end encryption for all data in transit and at rest",
+        "Alerting threshold: 90% utilization of compute resources triggers alert",
+        "Backup strategy: Incremental backups every 6 hours"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

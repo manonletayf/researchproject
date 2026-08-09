@@ -1,0 +1,94 @@
+{
+  "task_id": "TASK-SWE-RTD-026",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new API for managing user preferences. The Project Lead initiates the task by outlining critical requirements, including a strict performance metric for a specific database query. This performance constraint is simultaneously communicated to a Backend Architect and a Performance Engineer via a branching topology. The Backend Architect then designs the database schema and queries, passing the design to a Senior Developer for implementation. Concurrently, the Performance Engineer independently drafts a test plan to validate the performance requirements. The challenge lies in ensuring the specific numerical performance constraint survives both the architectural design-to-implementation path and the independent performance testing path, without loss of precision.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Project Lead",
+        "system_prompt": "You are the Project Lead. Your role is to define the core requirements and constraints for the user preferences API, and communicate them clearly to the Backend Architect and Performance Engineer. Do not implement any code, focus on high-level directives.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Architect",
+        "system_prompt": "You are the Backend Architect. Based on the Project Lead's requirements, design the database schema and query patterns for the user preferences API. Ensure all performance constraints are met in your design. Pass the design to the Senior Developer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Performance Engineer",
+        "system_prompt": "You are the Performance Engineer. Receive the project requirements from the Project Lead and independently create a detailed performance test plan to validate the API's compliance with specified metrics. Do not interact with the Backend Architect or Senior Developer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Senior Developer",
+        "system_prompt": "You are the Senior Developer. Implement the database schema and queries based on the Backend Architect's design. Pay close attention to all performance constraints and ensure the implemented solution adheres to them strictly.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The Backend Architect's design must explicitly state or imply adherence to the '237.5 ms' query latency. The Senior Developer's implementation details (e.g., pseudo-code, database index strategies) must reflect this target. The Performance Engineer's test plan must include a test case specifically targeting the 'preferences_by_user_id' query with an assertion for '237.5 ms' maximum latency.",
+    "quality_rubric": "Score 0-100: Backend Architect's design explicitly references 237.5 ms (30 pts), Senior Developer's implementation adheres to 237.5 ms (40 pts), Performance Engineer's test plan includes 237.5 ms assertion (30 pts). Partial credit for semantic matches that lose precision (e.g., 'under 250ms')."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "PERF-QP91",
+      "anchor": "the 'preferences_by_user_id' database query must consistently return results in no more than 237.5 ms",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "Data persistence: PostgreSQL 15 with TimescaleDB extension for time-series data",
+        "API endpoint: /api/v1/users/{user_id}/preferences",
+        "Authentication: OAuth2 token-based authentication with 1-hour expiry",
+        "Caching strategy: Redis cache with 5-minute TTL for user preferences",
+        "Error handling: Standardized JSON error responses for API failures",
+        "Logging: Structured logging to ELK stack with 'INFO' level by default",
+        "Deployment environment: Kubernetes cluster in AWS EKS",
+        "Frontend integration: React application consuming the API"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

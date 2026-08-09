@@ -1,0 +1,158 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-108",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with migrating a critical analytics pipeline to a new cloud provider while ensuring data integrity and minimizing downtime. The existing pipeline processes sensitive financial data, requiring stringent security and compliance measures. The team consists of a Lead Data Engineer, a Cloud Architect, a Database Administrator, and a Data Quality Analyst. The Lead Data Engineer oversees the migration, the Cloud Architect designs the new infrastructure, the Database Administrator handles schema migration and data synchronization, and the Data Quality Analyst validates the migrated data. A core constraint is that the new data warehouse must exclusively use 'BigQuery' for analytics, and all migrated data must be validated with a data quality score of exactly 0.99 or higher. The fully connected topology ensures constant, direct communication between all agents, which is vital for maintaining tight coordination and immediate feedback loops throughout the complex migration process, especially when dealing with precise technical and quality requirements. This medium-structural-complexity task requires the team to propagate and adhere to both the specific technology choice and the exact data quality threshold over 14 turns.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are leading the data pipeline migration. Your role is to coordinate the team, ensure accurate information flow regarding technology choices and data quality standards, and confirm that all project constraints are met.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Cloud Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for designing the cloud infrastructure for the new data warehouse. You must ensure all architectural decisions align with specified technology constraints and support high data quality. You provide architectural insights and recommendations.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Database Administrator",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the database aspects of the migration, including schema conversion and data synchronization. You must ensure data integrity is maintained throughout the process and report any deviations from data quality standards. You work closely with the Data Quality Analyst.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for defining, implementing, and validating data quality checks. You must confirm that all migrated data meets the specified quality threshold and report any issues. Your findings are critical for the successful completion of the migration.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The data analytics pipeline is successfully migrated to the new cloud provider. The new data warehouse is explicitly configured to use 'BigQuery' for all analytics, and all migrated data is thoroughly validated, achieving a data quality score of exactly 0.99 or higher. All agents consistently communicate and adhere to both the 'BigQuery' technology constraint and the '0.99 data quality score' numerical threshold throughout their discussions and the final implementation, demonstrating robust and precise information flow in the fully connected network.",
+    "quality_rubric": "Score 0-100: New data warehouse exclusively uses BigQuery (35 pts), migrated data achieves a quality score of exactly 0.99 or higher (35 pts), minimized downtime during migration (15 pts), thorough documentation of migration steps and validation results (15 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "TECH-BQ-99",
+            "anchor": "the new data warehouse must exclusively use 'BigQuery' for analytics"
+          },
+          {
+            "tracer_id": "DQ-SCORE-099",
+            "anchor": "all migrated data must be validated with a data quality score of exactly 0.99 or higher"
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Source database is PostgreSQL 14.",
+        "Target region for cloud provider is 'us-east-1'.",
+        "Migration window: 24 hours, starting Friday 10 PM UTC.",
+        "Primary contact for compliance review: Jane Doe.",
+        "Consider using Kafka for real-time data ingestion post-migration.",
+        "Budget for migration is $15,000 USD."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

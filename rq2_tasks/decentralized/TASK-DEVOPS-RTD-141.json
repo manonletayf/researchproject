@@ -1,0 +1,147 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-141",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new critical microservice to production. The deployment must strictly adhere to several security and performance policies to maintain system stability and compliance. The team consists of a Lead DevOps Engineer, a Security Engineer, a Performance Analyst, and an Infrastructure Engineer. The Lead DevOps Engineer oversees the entire deployment process, ensuring all agents are aligned. The Security Engineer is responsible for verifying all security configurations and compliance checks. The Performance Analyst monitors resource utilization and response times, ensuring the new service doesn't introduce bottlenecks. The Infrastructure Engineer provisions and configures the necessary cloud resources. A crucial, non-negotiable constraint is that the microservice must be deployed using Kubernetes version 1.28.3, and it must pass an automated security scan with exactly 0 critical vulnerabilities. Additionally, the new service must not exceed 250.00 MB of memory usage. The fully connected topology ensures constant, direct communication among all four agents, which is essential for rapidly sharing updates and coordinating efforts to meet the precise deployment requirements and maintain a secure and efficient production environment. This medium structural-complexity task requires agents to frequently exchange information over 14 turns.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the Lead DevOps Engineer. Your role is to orchestrate the deployment of a new microservice, ensuring all team members adhere to critical security, performance, and infrastructure constraints. You must coordinate efforts and ensure information flows effectively across the team.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer. Your primary responsibility is to ensure the microservice deployment meets all security policies, including vulnerability scanning results and compliance standards. You must verify that the deployment has exactly 0 critical vulnerabilities.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Performance Analyst",
+        "system_prompt": "You are the Performance Analyst. Your task is to monitor and analyze the microservice's resource utilization and performance metrics. You must ensure the service's memory usage does not exceed 250.00 MB.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "Infrastructure Engineer",
+        "system_prompt": "You are the Infrastructure Engineer. You are responsible for provisioning and configuring the underlying cloud infrastructure, including specifying the correct Kubernetes version. You must ensure the microservice is deployed using Kubernetes version 1.28.3.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The microservice is successfully deployed to production using Kubernetes version 1.28.3, passes an automated security scan with exactly 0 critical vulnerabilities, and does not exceed 250.00 MB of memory usage. All agents consistently communicate and adhere to these specific version, security, and performance constraints throughout the deployment process, ensuring a compliant and efficient outcome.",
+    "quality_rubric": "Score 0-100: Kubernetes version 1.28.3 used (30 pts), 0 critical vulnerabilities in security scan (30 pts), memory usage not exceeding 250.00 MB (30 pts), clear and coordinated communication among agents (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEP-POL-K8SVER-SEC0-MEM250MB",
+      "anchor": "the microservice must be deployed using Kubernetes version 1.28.3, pass an automated security scan with exactly 0 critical vulnerabilities, and not exceed 250.00 MB of memory usage",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Deployment target: 'us-east-1' region.",
+        "Primary programming language: GoLang.",
+        "Monitoring stack: Prometheus and Grafana.",
+        "CI/CD pipeline: Jenkins with custom integration tests.",
+        "Rollback strategy: Blue/Green deployment."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

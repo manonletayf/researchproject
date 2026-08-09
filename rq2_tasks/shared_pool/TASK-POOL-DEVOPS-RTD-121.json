@@ -1,0 +1,104 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-121",
+  "domain": "devops",
+  "description": "A small DevOps team is tasked with deploying a critical microservice update to production, ensuring zero downtime and strict adherence to a specific memory allocation. The update involves deploying a new version of the 'AuthService' microservice. The team consists of a Lead DevOps Engineer, a Cloud Infrastructure Specialist, and a Site Reliability Engineer (SRE). The Lead DevOps Engineer oversees the entire deployment process. The Cloud Infrastructure Specialist manages the underlying cloud resources and deployment pipelines. The SRE is responsible for monitoring the service post-deployment and ensuring its stability. A crucial constraint is that the 'AuthService' microservice must never exceed 512.75 MB of RAM utilization to prevent resource contention on shared hosts. This is an easy structural-complexity task designed to test the direct propagation of a precise numerical constraint within a fully connected team of 3 agents over 8 turns. The fully connected topology facilitates direct and immediate communication between all agents, which should ideally make it easy to maintain the exact memory constraint, but the challenge lies in ensuring this specific, non-round numerical value is not paraphrased or lost in translation as agents discuss deployment strategies, monitoring setup, and rollback plans.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead DevOps Engineer. Your role is to plan, coordinate, and oversee the deployment of new microservices, ensuring all critical requirements and constraints are met. You receive updates from the Cloud Infrastructure Specialist and the SRE.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Infrastructure Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You manage the cloud infrastructure, deployment pipelines, and resource allocation for microservices. You must ensure that all deployment configurations strictly adhere to specified resource constraints, like memory limits. You receive information from the Lead DevOps Engineer and the SRE.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Site Reliability Engineer (SRE)",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the SRE, responsible for monitoring the health, performance, and reliability of deployed services. You must verify that deployed microservices operate within their defined resource limits and raise alerts if any constraint is violated. You receive information from the Lead DevOps Engineer and the Cloud Infrastructure Specialist.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS1",
+      "DEVOPS2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The 'AuthService' microservice is successfully deployed without exceeding 512.75 MB of RAM utilization. All agents consistently communicate and acknowledge the exact '512.75 MB' memory constraint throughout their discussions, and the final deployment and monitoring configurations reflect this precise numerical limit. The SRE confirms the service operates within this bound post-deployment.",
+    "quality_rubric": "Score 0-100: AuthService deployed (20 pts), no downtime (20 pts), RAM utilization does not exceed 512.75 MB (40 pts), monitoring setup correctly reflects this limit (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "AUTH-SVC-MEM-512MB75",
+      "anchor": "the 'AuthService' microservice must never exceed 512.75 MB of RAM utilization",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "Deployment target: production cluster 'eu-west-1a'",
+        "Rollback strategy: canary deployment with 5% traffic",
+        "Database connection pooling should be optimized",
+        "Logging level: WARNING for production",
+        "Monitoring dashboard: integrate with Grafana"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

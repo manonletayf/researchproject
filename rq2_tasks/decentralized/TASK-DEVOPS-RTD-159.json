@@ -1,0 +1,102 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-159",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new critical microservice into a production environment. The deployment involves several stages: environment preparation, CI/CD pipeline configuration, service deployment, and post-deployment validation. The team consists of a Lead DevOps Engineer, a Cloud Infrastructure Specialist, and a Security Engineer. The Lead DevOps Engineer orchestrates the entire process, ensuring all phases are executed correctly. The Cloud Infrastructure Specialist provisions and configures the necessary cloud resources. The Security Engineer reviews and enforces security policies for the new service and infrastructure. A critical, non-negotiable constraint is that the deployed microservice must strictly use port 8443 for HTTPS traffic and never expose port 80. Additionally, all network traffic to the service must be routed through a specific Application Gateway instance, 'appgw-prod-europe-001'. This medium-structural-complexity task requires close coordination over 14 turns, where the fully connected topology allows direct, real-time communication among all team members. The primary goal is to assess how effectively the precise port number and mandatory Application Gateway routing constraint are maintained and verified throughout the deployment process, from initial planning to final configuration checks.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the Lead DevOps Engineer overseeing the deployment of a new microservice. Your responsibility is to coordinate the team, ensure all technical and security requirements are met, and confirm the service is deployed according to specified constraints.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Infrastructure Specialist",
+        "system_prompt": "You provision and configure cloud resources for microservices. You must ensure that all infrastructure settings, especially networking and port configurations, adhere to the specified architectural and security constraints.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Security Engineer",
+        "system_prompt": "You are responsible for defining and enforcing security policies for deployed services and infrastructure. You must rigorously review all configurations to ensure compliance with security constraints, particularly regarding network access and port usage.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The microservice is deployed successfully, configured to strictly use port 8443 for HTTPS traffic, with port 80 explicitly blocked or never exposed, and all network traffic is correctly routed through the 'appgw-prod-europe-001' Application Gateway instance. All agents consistently communicate and verify these precise constraints throughout the deployment process, demonstrating robust propagation and adherence in a fully connected environment.",
+    "quality_rubric": "Score 0-100: Microservice uses port 8443 for HTTPS (35 pts), port 80 is not exposed (25 pts), all traffic routes through 'appgw-prod-europe-001' (30 pts), clear communication and verification of these constraints by all agents (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "SEC-NET-PORTS-AGW-28X3",
+      "anchor": "the deployed microservice must strictly use port 8443 for HTTPS traffic and never expose port 80, and all network traffic to the service must be routed through the 'appgw-prod-europe-001' Application Gateway instance",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "security",
+      "distractors": [
+        "Service name: 'UserProfileAPI'",
+        "Container image: 'myrepo/user-profile-api:v1.2.3'",
+        "Region: 'West Europe'",
+        "Database type: 'PostgreSQL'",
+        "Monitoring solution: 'Prometheus'",
+        "Logging level: 'INFO'",
+        "Service owner: 'devteam-alpha'",
+        "Cost center: 'CC-4567'"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

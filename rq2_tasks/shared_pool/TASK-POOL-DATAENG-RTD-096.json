@@ -1,0 +1,188 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-096",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with designing a new streaming ETL pipeline to process real-time sensor data. The pipeline must be highly available, fault-tolerant, and capable of processing data at a high throughput, while adhering to strict data freshness and cost optimization targets. The team consists of a Lead Data Engineer, a Streaming Architect, a Cloud Cost Optimizer, and a Data Quality Specialist. The Lead Data Engineer oversees the project, the Streaming Architect designs the real-time processing components, the Cloud Cost Optimizer focuses on resource efficiency, and the Data Quality Specialist ensures the integrity of the streaming data. This hard structural-complexity task demands meticulous attention to detail and consistent information propagation over 40 turns, especially regarding a critical, conflicting set of constraints, in a fully connected topology. This allows for constant communication and negotiation to arrive at an optimal, compliant, and cost-efficient solution.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "LDE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the leader of the data engineering team. Your primary responsibility is to coordinate the team's efforts, ensure project goals are met, and all critical constraints are adhered to, especially concerning data freshness, cost, and system reliability. You oversee the design, implementation, and deployment of streaming data pipelines.",
+        "receives_from": [
+          "CCO3",
+          "DQS4",
+          "SRM2"
+        ]
+      },
+      {
+        "agent_id": "SRM2",
+        "role": "Streaming Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You design the overall architecture for real-time data ingestion and processing. Your focus is on scalability, fault tolerance, and high throughput, ensuring that architectural decisions support both data freshness and system resilience constraints. You provide guidance on optimal streaming technologies and data flow patterns.",
+        "receives_from": [
+          "CCO3",
+          "DQS4",
+          "LDE1"
+        ]
+      },
+      {
+        "agent_id": "CCO3",
+        "role": "Cloud Cost Optimizer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are responsible for ensuring that all cloud resources utilized by the streaming pipeline are optimized for cost efficiency without compromising performance or reliability. Your expertise is crucial for minimizing operational expenses and identifying opportunities for cost reduction. You must ensure all budgetary constraints are strictly followed.",
+        "receives_from": [
+          "DQS4",
+          "LDE1",
+          "SRM2"
+        ]
+      },
+      {
+        "agent_id": "DQS4",
+        "role": "Data Quality Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You validate the quality, accuracy, and completeness of streaming data throughout the pipeline. Your role involves designing real-time monitoring, identifying data discrepancies, and ensuring that all transformations adhere to specifications. You must confirm that data integrity is maintained at all stages and that the pipeline provides clean, reliable data.",
+        "receives_from": [
+          "CCO3",
+          "LDE1",
+          "SRM2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "LDE1",
+        "SRM2"
+      ],
+      [
+        "LDE1",
+        "CCO3"
+      ],
+      [
+        "LDE1",
+        "DQS4"
+      ],
+      [
+        "SRM2",
+        "LDE1"
+      ],
+      [
+        "SRM2",
+        "CCO3"
+      ],
+      [
+        "SRM2",
+        "DQS4"
+      ],
+      [
+        "CCO3",
+        "LDE1"
+      ],
+      [
+        "CCO3",
+        "SRM2"
+      ],
+      [
+        "CCO3",
+        "DQS4"
+      ],
+      [
+        "DQS4",
+        "LDE1"
+      ],
+      [
+        "DQS4",
+        "SRM2"
+      ],
+      [
+        "DQS4",
+        "CCO3"
+      ]
+    ],
+    "speaking_order": [
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4",
+      "LDE1",
+      "SRM2",
+      "CCO3",
+      "DQS4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team successfully designs and plans a streaming ETL pipeline that achieves a data freshness (end-to-end latency) of no more than 750 milliseconds and maintains cloud infrastructure costs below $1800 USD per month. The final design explicitly details how both the freshness target and the cost cap are met, showcasing a balanced solution that prioritizes real-time performance without exceeding the allocated budget. All internal discussions demonstrate consistent awareness and accurate propagation of both conflicting constraints.",
+    "quality_rubric": "Score 0-100: End-to-end data freshness below 750 milliseconds (40 pts), monthly cloud infrastructure costs below $1800 USD (40 pts), clear and robust streaming pipeline design (10 pts), comprehensive data quality and monitoring plan (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "STREAM-FRESH-K17",
+            "anchor": "The end-to-end data freshness (latency) for all sensor data must not exceed 750 milliseconds."
+          },
+          {
+            "tracer_id": "CLOUD-COST-X92",
+            "anchor": "The total monthly cloud infrastructure cost for the streaming pipeline must not exceed $1800.00 USD."
+          }
+        ]
+      },
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The upstream sensor array generates data at a rate of 50,000 events per second.",
+        "Data schema updates should be handled with Avro and schema registry.",
+        "Preferred cloud provider is AWS, using services like Kinesis, Lambda, and DynamoDB.",
+        "Alerting thresholds for data quality issues: 5% deviation from expected values.",
+        "The project is expected to reach production readiness in 10 weeks.",
+        " \u0641\u0631\u064a\u0642 \u0627\u0644\u0639\u0645\u0644 \u064a\u0641\u0636\u0644 \u0627\u0633\u062a\u062e\u062f\u0627\u0645 \u062d\u0644\u0648\u0644 \u0645\u0641\u062a\u0648\u062d\u0629 \u0627\u0644\u0645\u0635\u062f\u0631 \u0628\u0642\u062f\u0631 \u0627\u0644\u0625\u0645\u0643\u0627\u0646.",
+        "All processed data must be archived to S3 Glacier Deep Archive after 90 days.",
+        "A dedicated Grafana dashboard needs to be set up for real-time pipeline monitoring.",
+        "Security group rules must restrict ingress to specific IP ranges.",
+        "Automated deployment using Terraform is a mandatory requirement."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

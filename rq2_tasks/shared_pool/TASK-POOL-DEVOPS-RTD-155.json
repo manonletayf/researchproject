@@ -1,0 +1,104 @@
+{
+  "task_id": "TASK-POOL-DEVOPS-RTD-155",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with deploying a new critical microservice to production. The deployment requires careful coordination to ensure application stability, security compliance, and optimal resource utilization. The team consists of a Lead DevOps Engineer, a Cloud Infrastructure Specialist, and a Security Compliance Analyst. The Lead DevOps Engineer oversees the entire deployment process, ensuring all phases are executed correctly. The Cloud Infrastructure Specialist is responsible for provisioning and configuring the necessary cloud resources. The Security Compliance Analyst reviews all configurations for adherence to corporate security policies and regulatory requirements. A critical constraint is that all new deployments must use exactly 'us-east-2' as the AWS region, and the maximum allocated memory for the microservice must not exceed 2048 MB. The fully connected topology ensures every agent can directly communicate with any other agent, which is crucial for real-time information sharing and maintaining consistency across all aspects of the deployment in this easy structural-complexity scenario. The objective is to evaluate how well the precise region and memory allocation constraints are propagated and integrated into the team's collaborative output over 8 turns, ensuring rapid and accurate deployment.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Lead DevOps Engineer. Your role is to orchestrate the deployment of new microservices, ensuring all technical, security, and operational constraints are strictly followed. You receive input from all other team members and must ensure all critical parameters are communicated clearly to everyone.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Cloud Infrastructure Specialist",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Cloud Infrastructure Specialist. Your responsibility is to provision and configure AWS resources for microservice deployments. You must adhere to all specified region and resource allocation constraints. You receive input from all other team members and must communicate your plans and configurations to everyone.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Security Compliance Analyst",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Security Compliance Analyst. Your role is to review all cloud infrastructure configurations and deployment processes for security vulnerabilities and compliance with corporate policies and regulatory standards. You must ensure that constraints like approved regions and resource limits are met. You receive input from all other team members and must communicate your findings and recommendations to everyone.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS1",
+      "DEVOPS2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 8,
+  "ground_truth": {
+    "correct_outcome": "The microservice is successfully deployed to production using the 'us-east-2' AWS region, with its memory allocation strictly set at 2048 MB. All internal team communications and configuration outputs consistently reflect both the precise AWS region and the exact memory limit, demonstrating robust information flow and consistent adherence across the fully connected DevOps team.",
+    "quality_rubric": "Score 0-100: Microservice deployed to 'us-east-2' AWS region (40 pts), memory allocation does not exceed 2048 MB (40 pts), deployment plan is clear and executable (10 pts), security configurations are compliant (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DEVOPS-DEPLOY-CRITICAL-007",
+      "anchor": "all new deployments must use exactly 'us-east-2' as the AWS region, and the maximum allocated memory for the microservice must not exceed 2048 MB",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Microservice name: 'PaymentGatewayService'",
+        "Requires access to DynamoDB and SQS.",
+        "Deployment scheduled for 03:00 UTC.",
+        "Rollback strategy: Blue/Green deployment.",
+        "Logging level: production_verbose."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_06",
+    "ann_00"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

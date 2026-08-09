@@ -1,0 +1,120 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-101",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with reconfiguring the logging and monitoring stack for a critical microservice. The Orchestrator initiates the process by issuing a mandate that outlines a new log retention policy and a specific threshold for anomaly detection. This mandate is sent to a Log Architect and a Monitoring Specialist. The Log Architect then instructs a Log Administrator to implement the retention policy, while the Monitoring Specialist delegates the anomaly detection configuration to an Alert Engineer. The task tests how well a precise numerical log retention period and a specific anomaly detection threshold are preserved across multiple hops and parallel execution paths in a branching topology. This setup ensures that critical configuration parameters are correctly propagated down distinct implementation paths, requiring careful attention to detail from all agents.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Orchestrator",
+        "system_prompt": "You define the logging and monitoring policy for a critical microservice and distribute mandates to the Log Architect and Monitoring Specialist. Do not implement \u2014 only issue instructions.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Log Architect",
+        "system_prompt": "You receive log policy mandates from the Orchestrator and produce a concrete log retention plan for the Log Administrator. Ensure the numerical retention period is precisely relayed.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Monitoring Specialist",
+        "system_prompt": "You receive monitoring mandates from the Orchestrator and design the anomaly detection configuration for the Alert Engineer. Ensure the numerical threshold is precisely relayed.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Log Administrator",
+        "system_prompt": "You implement the log retention policy based on the Log Architect's plan. Apply all stated retention constraints precisely.",
+        "receives_from": [
+          "A2"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Alert Engineer",
+        "system_prompt": "You configure anomaly detection and alerting rules based on the Monitoring Specialist's design. Ensure all thresholds are applied accurately.",
+        "receives_from": [
+          "A3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ],
+      [
+        "A3",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "A logging configuration where all production logs are retained for exactly 367 days, and a monitoring setup with anomaly detection configured to alert if the error rate exceeds 0.035% over a 5-minute window. Both configurations must accurately reflect the numerical constraints.",
+    "quality_rubric": "Score 0-100: log retention policy of 367 days correctly configured by A4 (50 pts), anomaly detection threshold of 0.035% correctly configured by A5 (50 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Logging platform: Elasticsearch 7.17",
+        "Monitoring solution: Prometheus and Grafana",
+        "Data source: Kubernetes cluster 'prod-web-01'",
+        "Alert routing: PagerDuty critical incidents",
+        "Dashboard refresh rate: 15 seconds",
+        "Retention policy for test logs: 30 days",
+        "Encryption: AES-256 for data at rest"
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "LOGMON-ZX08-RETENTION",
+            "anchor": "all production logs must be retained for exactly 367 days",
+            "constraint_type": "numerical"
+          },
+          {
+            "tracer_id": "LOGMON-ZX08-ANOMALY",
+            "anchor": "anomaly detection must alert if the error rate exceeds 0.035% over a 5-minute window",
+            "constraint_type": "numerical"
+          }
+        ],
+        "conflict_scenario": "None \u2014 both constraints can be satisfied simultaneously. The challenge is dual survival across the branching topology, where one constraint (retention) flows through A2->A4 and the other (anomaly) flows through A3->A5.",
+        "joint_rtd_note": "RTD_joint = minimum RTD across both LOGMON-ZX08-RETENTION and LOGMON-ZX08-ANOMALY tracers. For example, if retention is set to 365 days, LOGMON-ZX08-RETENTION has decayed. If the anomaly threshold is 0.05%, LOGMON-ZX08-ANOMALY has decayed. Both branches must successfully propagate their respective constraints."
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

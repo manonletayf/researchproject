@@ -1,0 +1,199 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-167",
+  "domain": "devops",
+  "description": "A DevOps team is responsible for deploying a critical microservice update to production, requiring careful coordination to ensure zero downtime, robust monitoring, and secure access. The team consists of a Lead DevOps Engineer, a Release Manager, a Cloud Security Engineer, a Monitoring Specialist, and an Infrastructure Architect. The Lead DevOps Engineer orchestrates the deployment process. The Release Manager ensures all deployment steps are followed and version control is maintained. The Cloud Security Engineer reviews access policies and network configurations. The Monitoring Specialist sets up alerts and dashboards for post-deployment validation. The Infrastructure Architect designs and validates the underlying infrastructure changes. A crucial constraint is that the deployment must complete within exactly 45.00 minutes, and all new firewall rules must explicitly allow ingress traffic only from the IP range 10.0.0.0/16. The fully connected topology ensures every agent can directly communicate with any other, which is vital for real-time adjustments and maintaining strict adherence to both the deployment timeline and security mandates in this medium-structural-complexity scenario. The objective is to evaluate how effectively these precise, time-sensitive, and security-critical constraints are propagated and acted upon across the team's collaborative output over 18 turns, allowing for multiple rounds of iterative communication and decision-making.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DOE1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You lead the DevOps team for critical deployments. Your role involves orchestrating the entire process, ensuring smooth execution, and confirming all deployment constraints, especially timing and security, are strictly followed by the team.",
+        "receives_from": [
+          "DOE2",
+          "DOE3",
+          "DOE4",
+          "DOE5"
+        ]
+      },
+      {
+        "agent_id": "DOE2",
+        "role": "Release Manager",
+        "system_prompt": "You are responsible for managing the release pipeline and ensuring all deployment steps are meticulously followed. You must ensure version control is maintained and that any specific deployment timelines are adhered to.",
+        "receives_from": [
+          "DOE1",
+          "DOE3",
+          "DOE4",
+          "DOE5"
+        ]
+      },
+      {
+        "agent_id": "DOE3",
+        "role": "Cloud Security Engineer",
+        "system_prompt": "You specialize in cloud security. Your role is to review and implement firewall rules, access policies, and ensure the deployed microservice adheres to all security best practices and explicit ingress rules.",
+        "receives_from": [
+          "DOE1",
+          "DOE2",
+          "DOE4",
+          "DOE5"
+        ]
+      },
+      {
+        "agent_id": "DOE4",
+        "role": "Monitoring Specialist",
+        "system_prompt": "You design and implement monitoring solutions. Your responsibility is to ensure that comprehensive alerts and dashboards are in place to validate the post-deployment health and performance, identifying any deviations from expected behavior.",
+        "receives_from": [
+          "DOE1",
+          "DOE2",
+          "DOE3",
+          "DOE5"
+        ]
+      },
+      {
+        "agent_id": "DOE5",
+        "role": "Infrastructure Architect",
+        "system_prompt": "You are responsible for designing and validating the infrastructure components that support the microservice. You must ensure that any infrastructure changes align with architectural principles and support critical deployment and security constraints.",
+        "receives_from": [
+          "DOE1",
+          "DOE2",
+          "DOE3",
+          "DOE4"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DOE1",
+        "DOE2"
+      ],
+      [
+        "DOE1",
+        "DOE3"
+      ],
+      [
+        "DOE1",
+        "DOE4"
+      ],
+      [
+        "DOE1",
+        "DOE5"
+      ],
+      [
+        "DOE2",
+        "DOE1"
+      ],
+      [
+        "DOE2",
+        "DOE3"
+      ],
+      [
+        "DOE2",
+        "DOE4"
+      ],
+      [
+        "DOE2",
+        "DOE5"
+      ],
+      [
+        "DOE3",
+        "DOE1"
+      ],
+      [
+        "DOE3",
+        "DOE2"
+      ],
+      [
+        "DOE3",
+        "DOE4"
+      ],
+      [
+        "DOE3",
+        "DOE5"
+      ],
+      [
+        "DOE4",
+        "DOE1"
+      ],
+      [
+        "DOE4",
+        "DOE2"
+      ],
+      [
+        "DOE4",
+        "DOE3"
+      ],
+      [
+        "DOE4",
+        "DOE5"
+      ],
+      [
+        "DOE5",
+        "DOE1"
+      ],
+      [
+        "DOE5",
+        "DOE2"
+      ],
+      [
+        "DOE5",
+        "DOE3"
+      ],
+      [
+        "DOE5",
+        "DOE4"
+      ]
+    ],
+    "speaking_order": [
+      "DOE1",
+      "DOE2",
+      "DOE3",
+      "DOE4",
+      "DOE5",
+      "DOE1",
+      "DOE2",
+      "DOE3",
+      "DOE4",
+      "DOE5",
+      "DOE1",
+      "DOE2",
+      "DOE3",
+      "DOE4",
+      "DOE5",
+      "DOE1",
+      "DOE2",
+      "DOE3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 18,
+  "ground_truth": {
+    "correct_outcome": "The microservice is deployed successfully within exactly 45.00 minutes. All new firewall rules are correctly configured to allow ingress traffic only from the 10.0.0.0/16 IP range. Internal communications consistently reflect both the precise deployment timeline and the specific security IP range, demonstrating robust and accurate information flow across the fully connected DevOps team.",
+    "quality_rubric": "Score 0-100: Deployment completed within exactly 45.00 minutes (35 pts), all new firewall rules strictly adhere to 10.0.0.0/16 ingress (35 pts), zero downtime maintained (20 pts), comprehensive monitoring configured (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "UPDATE-TL78",
+      "anchor": "The deployment must complete within exactly 45.00 minutes and all new firewall rules must explicitly allow ingress traffic only from the IP range 10.0.0.0/16.",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "architectural",
+      "distractors": [
+        "Microservice version: v2.1.3",
+        "Deployment window: 02:00 UTC to 03:00 UTC",
+        "Rollback strategy: Blue/Green deployment",
+        "Affected region: us-east-1",
+        "Database migration scripts need to run post-deployment",
+        "Verify API endpoint health check every 5 seconds after deploy"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

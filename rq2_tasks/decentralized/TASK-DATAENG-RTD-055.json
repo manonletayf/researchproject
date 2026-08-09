@@ -1,0 +1,149 @@
+{
+  "task_id": "TASK-DATAENG-RTD-055",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with building a new real-time data ingestion pipeline for sensor data from IoT devices. The pipeline needs to process data at high velocity, ensuring data integrity and low latency, while also adhering to strict storage and processing cost limitations. The team consists of a Lead Data Engineer, a Data Architect, a Pipeline Developer, and a QA Engineer. The Lead Data Engineer oversees the project and orchestrates tasks. The Data Architect designs the overall system and ensures scalability. The Pipeline Developer implements the data flow components. The QA Engineer validates data quality and performance. A crucial constraint is that the average processing cost must not exceed $0.005 USD per GB, and the maximum end-to-end latency for any data point must be strictly less than 2.00 seconds. The team operates in a fully connected topology to facilitate rapid, iterative communication and immediate feedback, which is vital for balancing performance, cost, and latency in a real-time data environment. This medium structural-complexity task requires the team to consistently propagate these precise numerical constraints across 14 turns of interaction, ensuring they are reflected in the final pipeline design and implementation plan.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DE1",
+        "role": "Lead Data Engineer",
+        "system_prompt": "You are the leader of the data engineering team responsible for a real-time IoT data pipeline. Your role is to coordinate the team, ensure accurate information flow, and confirm that all critical performance, cost, and latency constraints are met in the final design and implementation plan.",
+        "receives_from": [
+          "DE2",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE2",
+        "role": "Data Architect",
+        "system_prompt": "You design the high-level architecture for data pipelines, focusing on scalability, reliability, and efficiency. You must ensure that proposed designs adhere to specified cost and latency targets while integrating seamlessly with existing infrastructure.",
+        "receives_from": [
+          "DE1",
+          "DE3",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE3",
+        "role": "Pipeline Developer",
+        "system_prompt": "You implement the data pipeline components based on architectural designs. Your code must optimize for performance, data integrity, and strictly comply with processing cost and latency constraints.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE4"
+        ]
+      },
+      {
+        "agent_id": "DE4",
+        "role": "QA Engineer",
+        "system_prompt": "You are responsible for testing and validating the data pipeline, ensuring data quality, performance, and adherence to all specified requirements. You must specifically verify that the pipeline meets the processing cost and end-to-end latency targets.",
+        "receives_from": [
+          "DE1",
+          "DE2",
+          "DE3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DE1",
+        "DE2"
+      ],
+      [
+        "DE1",
+        "DE3"
+      ],
+      [
+        "DE1",
+        "DE4"
+      ],
+      [
+        "DE2",
+        "DE1"
+      ],
+      [
+        "DE2",
+        "DE3"
+      ],
+      [
+        "DE2",
+        "DE4"
+      ],
+      [
+        "DE3",
+        "DE1"
+      ],
+      [
+        "DE3",
+        "DE2"
+      ],
+      [
+        "DE3",
+        "DE4"
+      ],
+      [
+        "DE4",
+        "DE1"
+      ],
+      [
+        "DE4",
+        "DE2"
+      ],
+      [
+        "DE4",
+        "DE3"
+      ]
+    ],
+    "speaking_order": [
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2",
+      "DE3",
+      "DE4",
+      "DE1",
+      "DE2"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 14,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team produces a comprehensive pipeline design and implementation plan that explicitly states the average processing cost will not exceed $0.005 USD per GB and guarantees a maximum end-to-end latency strictly less than 2.00 seconds. All internal discussions and final documentation consistently reflect these precise numerical constraints, demonstrating robust information flow and adherence across the fully connected team.",
+    "quality_rubric": "Score 0-100: Design ensures processing cost is \u2264 $0.005 USD/GB (35 pts), design ensures latency is < 2.00 seconds (35 pts), robust data integrity and scalability aspects (20 pts), clear and actionable implementation plan (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "IOT-PIPE-COST-LATENCY-P1R2",
+      "anchor": "the average processing cost must not exceed $0.005 USD per GB, and the maximum end-to-end latency for any data point must be strictly less than 2.00 seconds",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is 10,000 IoT sensors.",
+        "Volume is approximately 5 TB per day.",
+        "Primary storage: S3 Glacier Deep Archive.",
+        "Analytics platform: Apache Flink.",
+        "Security compliance: GDPR and CCPA.",
+        "Monitor dashboard using Grafana.",
+        "Team must consider future scaling to 50,000 sensors."
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_05",
+    "ann_06"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

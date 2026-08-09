@@ -1,0 +1,128 @@
+{
+  "task_id": "TASK-SWE-RTD-102",
+  "domain": "swe",
+  "description": "A software engineering team is tasked with developing a new microservice that processes user data. The Software Architect (A1), acting as the orchestrator, must convey two critical constraints to the development team. The Architect delegates the performance optimization aspect to the Backend Lead (A2), emphasizing a specific API response time. Concurrently, the Architect delegates the security implementation to the Security Engineer (A3), stating a precise user authentication token expiration policy. The Backend Lead then further assigns a database optimization task to the Database Specialist (A4), who needs to consider the performance constraint during implementation. This setup tests the branching communication pattern, ensuring both numerical and security constraints are accurately propagated down separate paths, and that the numerical constraint is maintained through an additional hop. The 'medium' structural-complexity is justified by the precise numerical and technical constraints, the 4-agent branching topology, and the iterative conversation flow involving 22 turns, requiring agents to maintain the constraints over multiple exchanges.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to define the technical vision, establish critical architectural and performance constraints, and delegate tasks to specialized leads. Ensure all specific constraints are accurately relayed and verified within your team members' iterative discussions.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Lead",
+        "system_prompt": "You are the Backend Lead. Your task is to manage the backend development, focusing on performance and scalability. You receive requirements from the Architect and delegate specific tasks to your team members, ensuring all performance constraints are met and actively discussed.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer. Your task is to design and implement security measures for the microservice. You receive security requirements from the Architect and must ensure all protocols, especially those concerning authentication and data protection, are strictly adhered to and confirmed in discussions.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Database Specialist",
+        "system_prompt": "You are the Database Specialist. Your task is to optimize database performance and design schemas. You receive specific database tasks from the Backend Lead and must implement solutions that align with overall system performance constraints, providing updates as needed.",
+        "receives_from": [
+          "A2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A2",
+        "A4"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A2",
+      "A4",
+      "A3",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A1",
+      "A2",
+      "A4",
+      "A3",
+      "A1",
+      "A2",
+      "A4",
+      "A3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The Backend Lead (A2) consistently acknowledges and plans for API responses within 215 milliseconds, passing this constraint to the Database Specialist (A4). The Security Engineer (A3) consistently confirms and plans for user authentication tokens to expire after 87 minutes of inactivity. The Database Specialist (A4) acknowledges and incorporates the 215-millisecond response time into their database optimization plan. The Software Architect (A1) verifies that both branches adhere to their respective constraints throughout the interaction.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the '215 milliseconds' performance constraint (30 pts). A3's responses consistently reflect the '87 minutes' token expiration constraint (30 pts). A4's responses consistently acknowledge and address the '215 milliseconds' constraint in database planning (20 pts). A1's final review confirms both policies are correctly handled across the team (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "MSVC-CONST-102",
+      "anchor": "The microservice must adhere to two critical constraints: all API responses must complete within 215 milliseconds, and user authentication tokens must expire after 87 minutes of inactivity.",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "API-RESP-215MS",
+            "anchor": "all API responses must complete within 215 milliseconds"
+          },
+          {
+            "tracer_id": "AUTH-TOKEN-87MIN",
+            "anchor": "user authentication tokens must expire after 87 minutes of inactivity"
+          }
+        ]
+      },
+      "distractors": [
+        "Primary database: PostgreSQL 15",
+        "Preferred language: Python 3.10",
+        "Deployment environment: Kubernetes on AWS EKS",
+        "Monitoring solution: Prometheus and Grafana",
+        "Logging level: WARNING",
+        "Error handling: Idempotent retries",
+        "Encryption standard: AES-256",
+        "Audit log retention: 365 days",
+        "Multi-factor authentication: Required for admin roles",
+        "Access control: Role-based (RBAC)",
+        "DDoS protection: Cloudflare WAF",
+        "Secrets management: HashiCorp Vault"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_01",
+    "ann_02"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

@@ -1,0 +1,116 @@
+{
+  "task_id": "TASK-SWE-RTD-054",
+  "domain": "swe",
+  "description": "A software development team is tasked with implementing a new user authentication module. The Software Architect (A1) defines the overall system requirements and two critical security constraints, each intended for a distinct development path. The first constraint, 'all password hashing must use Argon2id with a minimum of 4 iterations and a memory cost of 65536 KB', is specifically communicated to the Backend Developer (A2). The second constraint, stating that 'user session tokens must expire after 1440 minutes of inactivity and be invalidated on logout', is directed to the Frontend Developer (A3). The Architect must ensure both precise cryptographic and session management constraints are accurately communicated down their respective paths. This task evaluates whether the branching communication pattern effectively propagates distinct, highly salient security constraints to the appropriate specialized agents, who then plan for their implementation. The medium structural-complexity is justified by the precise technical nature of the constraints, the 3 agents in a branching topology, and the iterative conversation flow, requiring agents to maintain the constraints over multiple turns (22 expected turns).",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Software Architect",
+        "system_prompt": "You are the Software Architect. Your role is to design system components, define technical requirements, and communicate critical security constraints to your team. Ensure all specific implementation details and constraints are accurately relayed and adhered to.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Backend Developer",
+        "system_prompt": "You are the Backend Developer. Your task is to implement server-side logic and database interactions, ensuring all relevant security protocols, especially regarding password management and data storage, are strictly followed. Report your implementation plan.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Frontend Developer",
+        "system_prompt": "You are the Frontend Developer. Your task is to implement user interface logic and client-side interactions, ensuring all relevant security protocols, especially regarding session management and user experience, are correctly applied. Report your implementation plan.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1",
+      "A2",
+      "A3",
+      "A1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 22,
+  "ground_truth": {
+    "correct_outcome": "The Backend Developer (A2) consistently acknowledges and plans for implementing password hashing using 'Argon2id with a minimum of 4 iterations and a memory cost of 65536 KB'. The Frontend Developer (A3) consistently confirms and plans for user session tokens to 'expire after 1440 minutes of inactivity and be invalidated on logout'. The Software Architect (A1) verifies that both developers adhere to their respective constraints throughout the interaction and their proposed plans reflect these requirements.",
+    "quality_rubric": "Score 0-100: A2's responses consistently reflect the 'Argon2id, 4 iterations, 65536 KB memory cost' hashing constraint (40 pts). A3's responses consistently reflect the '1440 minutes inactivity, invalidate on logout' session token constraint (40 pts). A1's final review confirms both policies are correctly handled in the developers' plans (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "constraint_type": "multi_constraint",
+      "salience": "high",
+      "injection_layer": 0,
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "AUTH-ARGON2ID-65K",
+            "anchor": "all password hashing must use Argon2id with a minimum of 4 iterations and a memory cost of 65536 KB",
+            "distractors": [
+              "Database: PostgreSQL 15",
+              "Framework: Express.js",
+              "Cloud Provider: AWS",
+              "API Gateway: Nginx",
+              "Caching: Redis",
+              "Deployment Strategy: Docker containers"
+            ]
+          },
+          {
+            "tracer_id": "SESS-EXP-1440MIN",
+            "anchor": "user session tokens must expire after 1440 minutes of inactivity and be invalidated on logout",
+            "distractors": [
+              "Frontend Framework: React",
+              "State Management: Redux",
+              "Build Tool: Webpack",
+              "Styling: Tailwind CSS",
+              "Browser Support: Last 3 versions",
+              "Accessibility: WCAG 2.1 AA compliant"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_03",
+    "ann_04"
+  ],
+  "version": "1.0",
+  "structural_complexity": "medium"
+}

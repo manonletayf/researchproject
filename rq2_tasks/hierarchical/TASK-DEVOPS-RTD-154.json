@@ -1,0 +1,139 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-154",
+  "domain": "devops",
+  "description": "A DevOps team is tasked with implementing a critical security update across multiple production environments. The DevOps Lead, acting as the Orchestrator, receives the initial security directive and a critical constraint regarding the maximum allowable downtime. The Lead then delegates the task to two parallel agents: a Network Engineer and a Security Engineer. The Network Engineer is responsible for updating network configurations and firewall rules, while the Security Engineer focuses on patching application vulnerabilities and updating access control policies. An Observability Engineer is included to set up monitoring for the deployment. The primary constraint is that 'total service downtime for this update must not exceed 23.5 seconds across all affected regions'. This setup tests whether the precise downtime limit is maintained through both the network configuration path and the application security path, ensuring the Observability Engineer also adheres to the constraint in their monitoring setup, and the DevOps Lead can verify overall compliance from all branches. The hard structural-complexity is justified by the precise numerical anchor, the number of agents, the branching topology, and the high expected turn count, requiring agents to maintain the constraint over an extended, iterative conversation.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "DevOps Lead (Orchestrator)",
+        "system_prompt": "You are the DevOps Lead. Your role is to understand critical security directives, assign tasks to appropriate team members, and ensure all critical policies and constraints are communicated clearly. You orchestrate the process and provide oversight, including reviewing proposals from all branches and guiding the team towards a compliant solution.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Network Engineer",
+        "system_prompt": "You are a Network Engineer specializing in cloud infrastructure and security. Your primary responsibility is to implement network configuration changes and firewall updates, ensuring network stability and compliance with security policies. Always adhere strictly to downtime constraints. Report your proposed changes and estimated downtime to the DevOps Lead for review.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Security Engineer",
+        "system_prompt": "You are a Security Engineer focused on application and system patching. Your role is to identify and remediate vulnerabilities, update access control policies, and ensure security measures are robust. Pay close attention to any operational constraints like downtime. Report your proposed patch plan and estimated impact to the DevOps Lead for review.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Observability Engineer",
+        "system_prompt": "You are an Observability Engineer responsible for setting up monitoring and alerting. Your role is to ensure that all services are adequately monitored before, during, and after deployment, and that any operational constraints, especially downtime limits, are visibly tracked. Report your monitoring plan, including how downtime will be tracked, to the DevOps Lead for review.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Release Coordinator",
+        "system_prompt": "You are the Release Coordinator. Your role is to finalize documentation, ensure all pre-deployment checks are complete, and prepare the release for the DevOps Lead's final approval based on the gathered information. You confirm that all aspects of the update, including downtime constraints, have been addressed by the team. You receive the consolidated information from the DevOps Lead.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A1",
+        "A4"
+      ],
+      [
+        "A1",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A1",
+      "A5",
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 34,
+  "ground_truth": {
+    "correct_outcome": "The Network Engineer proposes changes with an estimated downtime. The Security Engineer similarly provides a plan respecting the constraint. The Observability Engineer outlines a monitoring plan that tracks the downtime. The DevOps Lead consolidates these estimates and plans, identifies any non-compliance with the 23.5-second limit, and either approves a compliant plan or requests revisions. The Release Coordinator then finalizes the documentation and confirms compliance for the overall release, ensuring the final plan respects the constraint.",
+    "quality_rubric": "Score 0-100: Network Engineer (A2) proposes changes within the downtime limit or flags non-compliance (20 pts), Security Engineer (A3) proposes changes within the downtime limit or flags non-compliance (20 pts), Observability Engineer (A4) includes downtime tracking in their monitoring plan (15 pts), DevOps Lead (A1) correctly consolidates feedback from A2, A3, and A4, flags non-compliance, and requests appropriate revisions (30 pts), Release Coordinator (A5) receives and understands the compliant plan for finalization (15 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "DNTM-23P5S",
+      "anchor": "total service downtime for this update must not exceed 23.5 seconds across all affected regions",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "numerical",
+      "distractors": [
+        "Affected systems: all production clusters",
+        "Deployment window: 02:00-04:00 AM UTC",
+        "Rollback strategy: automated snapshot restore",
+        "Monitoring: Prometheus & Grafana alerts configured",
+        "Impact: high severity, potential data exposure",
+        "Required approvals: Security and Architecture teams",
+        "Dependencies: upstream services to be notified",
+        "Communication channel: #ops-alerts Slack channel",
+        "Post-deployment checks: 5 key services validation",
+        "Ticket ID: SEC-UPDATE-2024-03-01",
+        "Severity Level: Critical"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

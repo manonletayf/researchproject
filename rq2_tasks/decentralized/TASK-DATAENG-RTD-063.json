@@ -1,0 +1,223 @@
+{
+  "task_id": "TASK-DATAENG-RTD-063",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with designing and implementing a new ETL pipeline for real-time analytics. The objective is to ensure data integrity, optimize processing speed, and adhere to strict compliance requirements for sensitive customer data. The Data Architect leads the design, collaborating with a Data Modeler for schema definition, an ETL Developer for implementation, a Data Quality Analyst for validation, and a Security Engineer for access control. A crucial constraint is that all PII data must be encrypted using AES-256 encryption, and the entire ETL process must complete within 12.75 minutes to meet real-time dashboard SLAs. The fully connected topology facilitates direct communication between all agents, which should ideally streamline information flow but requires careful coordination to maintain consistent adherence to the encryption standard and processing timeline. This hard structural-complexity task challenges the team to ensure both the specific encryption algorithm and the tight performance constraint are faithfully propagated and reflected in the final pipeline design and implementation plan, requiring a robust exchange of information over 28 turns to cover all aspects of design, development, and compliance.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You are the lead Data Architect. Your role is to design robust and scalable data pipelines, orchestrate the team's efforts, and ensure all critical architectural and compliance constraints, especially data encryption standards and performance SLAs, are correctly integrated into the design. You receive information from all other agents and also provide guidance to them.",
+        "receives_from": [
+          "DM2",
+          "DQA4",
+          "ED3",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "DM2",
+        "role": "Data Modeler",
+        "system_prompt": "You define data schemas and models. Your designs must incorporate all specified data types, relationships, and compliance requirements, ensuring that sensitive data is appropriately marked for encryption and that the schema supports efficient processing within defined timelines. You receive and provide information to all other agents.",
+        "receives_from": [
+          "DA1",
+          "DQA4",
+          "ED3",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "ED3",
+        "role": "ETL Developer",
+        "system_prompt": "You implement the ETL pipeline. Your code must strictly adhere to architectural designs, performance requirements, and data security standards, particularly regarding the encryption of PII and the overall processing time. You receive and provide information to all other agents.",
+        "receives_from": [
+          "DA1",
+          "DM2",
+          "DQA4",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "DQA4",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You are responsible for ensuring data quality and integrity within the pipeline. Your checks must validate that data is correctly transformed, and critically, that PII encryption is applied as specified without data loss or corruption. You also monitor performance against SLAs. You receive and provide information to all other agents.",
+        "receives_from": [
+          "DA1",
+          "DM2",
+          "ED3",
+          "SE5"
+        ]
+      },
+      {
+        "agent_id": "SE5",
+        "role": "Security Engineer",
+        "system_prompt": "You focus on data security and compliance. Your role is to ensure that all data handling processes, especially for PII, meet encryption standards (like AES-256) and regulatory requirements. You review the pipeline design and implementation for security vulnerabilities. You receive and provide information to all other agents.",
+        "receives_from": [
+          "DA1",
+          "DM2",
+          "DQA4",
+          "ED3"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "DM2"
+      ],
+      [
+        "DA1",
+        "ED3"
+      ],
+      [
+        "DA1",
+        "DQA4"
+      ],
+      [
+        "DA1",
+        "SE5"
+      ],
+      [
+        "DM2",
+        "DA1"
+      ],
+      [
+        "DM2",
+        "ED3"
+      ],
+      [
+        "DM2",
+        "DQA4"
+      ],
+      [
+        "DM2",
+        "SE5"
+      ],
+      [
+        "ED3",
+        "DA1"
+      ],
+      [
+        "ED3",
+        "DM2"
+      ],
+      [
+        "ED3",
+        "DQA4"
+      ],
+      [
+        "ED3",
+        "SE5"
+      ],
+      [
+        "DQA4",
+        "DA1"
+      ],
+      [
+        "DQA4",
+        "DM2"
+      ],
+      [
+        "DQA4",
+        "ED3"
+      ],
+      [
+        "DQA4",
+        "SE5"
+      ],
+      [
+        "SE5",
+        "DA1"
+      ],
+      [
+        "SE5",
+        "DM2"
+      ],
+      [
+        "SE5",
+        "ED3"
+      ],
+      [
+        "SE5",
+        "DQA4"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "DM2",
+      "ED3",
+      "DQA4",
+      "SE5",
+      "DA1",
+      "DM2",
+      "ED3",
+      "DQA4",
+      "SE5",
+      "DA1",
+      "DM2",
+      "ED3",
+      "DQA4",
+      "SE5",
+      "DA1",
+      "DM2",
+      "ED3",
+      "DQA4",
+      "SE5",
+      "DA1",
+      "DM2",
+      "ED3",
+      "DQA4",
+      "SE5",
+      "DA1",
+      "DM2",
+      "ED3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 28,
+  "ground_truth": {
+    "correct_outcome": "The data engineering team produces a design and implementation plan for the ETL pipeline that explicitly mandates AES-256 encryption for all PII data and guarantees an end-to-end processing time of 12.75 minutes or less. All agents consistently communicate and integrate these precise encryption and performance constraints throughout their internal discussions and final deliverables, demonstrating robust information flow and adherence in the fully connected network.",
+    "quality_rubric": "Score 0-100: Explicit mention of AES-256 encryption for PII (35 pts), commitment to 12.75 minutes ETL processing time (35 pts), comprehensive and viable pipeline design (20 pts), clear identification of PII data (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is a MongoDB replica set.",
+        "Target warehouse is Snowflake.",
+        "Use Apache Spark for data transformations.",
+        "Schema evolution must be handled gracefully.",
+        "Monitoring via Prometheus and Grafana.",
+        "Alerting threshold for data latency: 2.00 minutes.",
+        "Backup strategy: daily snapshots to S3.",
+        "Team must document all data lineage.",
+        "Consider using a data catalog solution.",
+        "Scalability requirement: handle 500GB/day data ingress."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "ENC-AES-256-KF9P",
+            "anchor": "all PII data must be encrypted using AES-256 encryption"
+          },
+          {
+            "tracer_id": "ETL-TIME-12.75M-XJ3S",
+            "anchor": "the entire ETL process must complete within 12.75 minutes"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_00",
+    "ann_01"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

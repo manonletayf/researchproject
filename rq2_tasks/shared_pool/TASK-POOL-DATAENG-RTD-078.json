@@ -1,0 +1,117 @@
+{
+  "task_id": "TASK-POOL-DATAENG-RTD-078",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with optimizing an ETL pipeline that processes sensitive customer data. The goal is to improve data loading speed while strictly adhering to data privacy regulations and maintaining data integrity. The team consists of a Data Architect, an ETL Developer, and a Data Quality Analyst. The Data Architect designs the overall data flow and ensures compliance. The ETL Developer implements the transformations and loading processes. The Data Quality Analyst monitors the data for accuracy and adherence to schemas. A crucial, non-negotiable constraint is that all customer-identifiable information (CII) must be pseudonymized using a SHA-256 hash, and the daily data load window must not exceed 2.75 hours. The fully connected topology ensures that all three agents can communicate directly and immediately, which is essential for closely coordinating changes to sensitive data pipelines and swiftly addressing any issues that might arise during optimization. This setup aims to evaluate how effectively precise security and performance constraints are propagated and maintained across all team members in an easy structural-complexity task with an expected 10 turns. The immediate, bidirectional communication between all agents in a fully connected graph means any critical constraint or update is instantly available to the entire team, reducing potential information silos and accelerating problem resolution.",
+  "topology": {
+    "type": "custom_graph",
+    "agents": [
+      {
+        "agent_id": "DA1",
+        "role": "Data Architect",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Data Architect responsible for designing robust and secure data pipelines. You ensure that all data processes comply with privacy regulations and maintain data integrity. You will oversee the ETL Developer and Data Quality Analyst.",
+        "receives_from": [
+          "DQA3",
+          "ETL2"
+        ]
+      },
+      {
+        "agent_id": "ETL2",
+        "role": "ETL Developer",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the ETL Developer, tasked with implementing and optimizing data extraction, transformation, and loading processes. Your work must strictly adhere to the data architecture guidelines, especially regarding data privacy and performance metrics.",
+        "receives_from": [
+          "DA1",
+          "DQA3"
+        ]
+      },
+      {
+        "agent_id": "DQA3",
+        "role": "Data Quality Analyst",
+        "system_prompt": "You post updates to and read from a SHARED TEAM WORKSPACE visible to all agents simultaneously, rather than messaging any single teammate directly. Before responding, review everything currently posted in the workspace and build on it. You are the Data Quality Analyst. Your role is to monitor data pipelines for accuracy, completeness, and compliance with defined data quality standards and privacy rules. You report any deviations to the Data Architect and ETL Developer.",
+        "receives_from": [
+          "DA1",
+          "ETL2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DA1",
+        "ETL2"
+      ],
+      [
+        "DA1",
+        "DQA3"
+      ],
+      [
+        "ETL2",
+        "DA1"
+      ],
+      [
+        "ETL2",
+        "DQA3"
+      ],
+      [
+        "DQA3",
+        "DA1"
+      ],
+      [
+        "DQA3",
+        "ETL2"
+      ]
+    ],
+    "speaking_order": [
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1",
+      "ETL2",
+      "DQA3",
+      "DA1"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 10,
+  "ground_truth": {
+    "correct_outcome": "The ETL pipeline is successfully optimized, ensuring all customer-identifiable information is pseudonymized using a SHA-256 hash, and the daily data load completes within exactly 2.75 hours. All agents consistently communicate and implement these precise privacy and performance constraints throughout their discussions and the final pipeline design.",
+    "quality_rubric": "Score 0-100: CII pseudonymized with SHA-256 hash (40 pts), daily data load window not exceeding 2.75 hours (40 pts), data integrity maintained (10 pts), improved data loading speed (10 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "Data source is a MongoDB replica set.",
+        "Target warehouse is Snowflake.",
+        "Use Apache Spark for data transformations.",
+        "Error logging should be routed to a centralized ELK stack.",
+        "Backfill operations for historical data are lower priority.",
+        "Data schema changes require a formal review process."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "PRIVACY-DP34",
+            "anchor": "Pseudonymize all CII using SHA-256 hash"
+          },
+          {
+            "tracer_id": "LOAD-WINDOW-LW77",
+            "anchor": "The daily data load window must not exceed 2.75 hours"
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}

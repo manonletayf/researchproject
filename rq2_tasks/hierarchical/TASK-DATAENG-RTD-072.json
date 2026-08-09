@@ -1,0 +1,107 @@
+{
+  "task_id": "TASK-DATAENG-RTD-072",
+  "domain": "data_engineering",
+  "description": "A data engineering team is tasked with migrating a legacy data warehouse to a new cloud-based solution. The Orchestrator initiates the project by detailing critical security and compliance constraints that must be maintained throughout the migration, particularly concerning data residency and encryption standards. Specifically, all customer data must remain within the EU region and must be encrypted at rest using AES-256 GCM with customer-managed keys (CMK), with a specific requirement that key rotation must occur every 90 days. The Solutions Architect receives these constraints and designs the new architecture, passing the detailed specifications to the Lead Engineer. The Lead Engineer then oversees the implementation by the Cloud Specialist, who configures the cloud services. Finally, the Compliance Auditor verifies that all implemented solutions adhere strictly to the initial data residency and encryption mandates, especially the precise key rotation frequency. The challenge is ensuring the specific key rotation period of '90 days' and the 'EU region' residency constraint are accurately and explicitly propagated through the entire five-agent chain, resisting any generalization or omission, as these are critical for regulatory compliance.",
+  "topology": {
+    "type": "branching_tree",
+    "agents": [
+      {
+        "agent_id": "A1",
+        "role": "Orchestrator",
+        "system_prompt": "You are the Data Migration Orchestrator. Your role is to define the high-level goals and critical compliance requirements for migrating a legacy data warehouse to the cloud. You must clearly articulate all data residency and encryption constraints to the Solutions Architect.",
+        "receives_from": []
+      },
+      {
+        "agent_id": "A2",
+        "role": "Solutions Architect",
+        "system_prompt": "You are the Solutions Architect for the data migration project. Based on the Orchestrator's constraints, you design the cloud architecture, including data storage, encryption, and key management strategies. Ensure all compliance mandates are accurately translated into the architectural specifications for the Lead Engineer.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A3",
+        "role": "Lead Engineer",
+        "system_prompt": "You are the Lead Engineer. You receive the architectural design from the Solutions Architect and oversee its implementation. You must ensure that the Cloud Specialist adheres to all specified data residency, encryption, and key rotation policies.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A4",
+        "role": "Cloud Specialist",
+        "system_prompt": "You are the Cloud Specialist. Your task is to configure the cloud infrastructure and services according to the Lead Engineer's instructions. Strict adherence to data residency, encryption, and key rotation policies is mandatory.",
+        "receives_from": [
+          "A1"
+        ]
+      },
+      {
+        "agent_id": "A5",
+        "role": "Compliance Auditor",
+        "system_prompt": "You are the Compliance Auditor. Your role is to review the implemented cloud data warehouse solution to ensure it meets all regulatory and internal compliance standards, including data residency, encryption algorithms, and key rotation frequencies. You must identify any deviations from the initial mandates.",
+        "receives_from": [
+          "A1"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "A1",
+        "A2"
+      ],
+      [
+        "A1",
+        "A3"
+      ],
+      [
+        "A1",
+        "A4"
+      ],
+      [
+        "A1",
+        "A5"
+      ]
+    ],
+    "speaking_order": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 40,
+  "ground_truth": {
+    "correct_outcome": "The Solutions Architect designs an architecture that specifies data storage in the EU region and encryption using AES-256 GCM with CMKs, explicitly stating the 90-day key rotation. The Lead Engineer and Cloud Specialist implement this design, confirming the EU region, AES-256 GCM, and 90-day key rotation. The Compliance Auditor verifies that all these specific parameters, especially the 90-day key rotation, are correctly applied in the final cloud setup.",
+    "quality_rubric": "Score 0-100: A2 explicitly mentions 'EU region', 'AES-256 GCM', 'CMK', and '90 days key rotation' (30 pts); A3 explicitly confirms these details for implementation (25 pts); A4's output reflects adherence to these specifics in configuration (25 pts); A5's audit report explicitly validates 'EU region', 'AES-256 GCM', 'CMK', and '90 days key rotation' (20 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "COMPLIANCE-KR90",
+      "anchor": "all customer data must reside in the EU region and be encrypted at rest using AES-256 GCM with customer-managed keys (CMK), with a strict key rotation policy of exactly 90 days",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "architectural",
+      "distractors": [
+        "Migrate 10 TB of historical data first",
+        "New data ingestion rate is 50 GB per day",
+        "Target RTO: 4 hours, Target RPO: 15 minutes",
+        "Use Serverless functions for transformation layer",
+        "Existing on-prem database: PostgreSQL 12",
+        "Budget for cloud services: $50,000 USD per month",
+        "Project deadline: 6 months from now",
+        "Team size: 8 engineers"
+      ]
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_04",
+    "ann_05"
+  ],
+  "version": "1.0",
+  "structural_complexity": "hard"
+}

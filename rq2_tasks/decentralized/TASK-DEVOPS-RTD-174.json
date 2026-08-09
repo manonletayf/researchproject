@@ -1,0 +1,123 @@
+{
+  "task_id": "TASK-DEVOPS-RTD-174",
+  "domain": "devops",
+  "description": "A DevOps team needs to configure a new microservice deployment on a Kubernetes cluster. The team must ensure the deployment adheres to specific resource limits, an exact image version, and a strict health check interval. The team consists of a Lead DevOps Engineer, a Kubernetes Specialist, and a Security Engineer. The Lead DevOps Engineer provides the initial requirements, the Kubernetes Specialist implements the deployment, and the Security Engineer reviews for compliance and security best practices. All agents need to communicate directly and frequently to ensure the precise resource limits, image version, and health check interval are consistently applied throughout the configuration process. This easy structural-complexity task focuses on confirming that the exact numerical and version constraints are accurately propagated and maintained across the fully connected team over 6 turns, ensuring no details are lost or misinterpreted in the rapid exchange of information.",
+  "topology": {
+    "type": "fully_connected",
+    "agents": [
+      {
+        "agent_id": "DEVOPS1",
+        "role": "Lead DevOps Engineer",
+        "system_prompt": "You are the Lead DevOps Engineer. Your role is to define the initial deployment requirements and ensure all critical specifications are understood and implemented by the team. You coordinate the overall configuration process.",
+        "receives_from": [
+          "DEVOPS2",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS2",
+        "role": "Kubernetes Specialist",
+        "system_prompt": "You are the Kubernetes Specialist. Your role is to implement and configure deployments on the Kubernetes cluster. You must ensure all technical specifications are correctly applied.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS3"
+        ]
+      },
+      {
+        "agent_id": "DEVOPS3",
+        "role": "Security Engineer",
+        "system_prompt": "You are the Security Engineer. Your role is to review all deployments for security compliance, ensuring configurations meet best practices and specified constraints. You must verify exact versions and configurations.",
+        "receives_from": [
+          "DEVOPS1",
+          "DEVOPS2"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "DEVOPS1",
+        "DEVOPS2"
+      ],
+      [
+        "DEVOPS1",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS2",
+        "DEVOPS3"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS1"
+      ],
+      [
+        "DEVOPS3",
+        "DEVOPS2"
+      ]
+    ],
+    "speaking_order": [
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3",
+      "DEVOPS1",
+      "DEVOPS2",
+      "DEVOPS3"
+    ]
+  },
+  "metric_applicability": [
+    "rtd"
+  ],
+  "expected_turns": 6,
+  "ground_truth": {
+    "correct_outcome": "The Kubernetes microservice deployment is configured with an exact CPU limit of 1.25 cores, a memory request of 512.75 MiB, uses the 'my-app:v2.3.1-beta' image, and has a health check interval of precisely 15.5 seconds. All agents consistently communicate and implement these exact values, ensuring the final deployment artifact perfectly matches the specified constraints.",
+    "quality_rubric": "Score 0-100: CPU limit of 1.25 cores correctly applied (25 pts), memory request of 512.75 MiB correctly applied (25 pts), 'my-app:v2.3.1-beta' image version used (25 pts), health check interval of 15.5 seconds correctly configured (25 pts)."
+  },
+  "injections": {
+    "rtd": {
+      "tracer_id": "K8S-MULTI-SPEC-YJ93",
+      "anchor": "The microservice deployment must have a CPU limit of exactly 1.25 cores, a memory request of exactly 512.75 MiB, use the 'my-app:v2.3.1-beta' image, and have a liveness probe health check interval of precisely 15.5 seconds.",
+      "salience": "high",
+      "injection_layer": 0,
+      "constraint_type": "multi_constraint",
+      "distractors": [
+        "The service will expose port 8080.",
+        "Enable Prometheus metrics scraping.",
+        "Mount volume '/data' for persistent storage.",
+        "Set replica count to 3 for high availability.",
+        "Service account 'app-runner' should be used.",
+        "Implement network policy to restrict egress to internal services only."
+      ],
+      "multi_constraint": {
+        "constraints": [
+          {
+            "tracer_id": "CPU-LIMIT-XW11",
+            "anchor": "The CPU limit must be exactly 1.25 cores."
+          },
+          {
+            "tracer_id": "MEM-REQUEST-HG22",
+            "anchor": "The memory request must be exactly 512.75 MiB."
+          },
+          {
+            "tracer_id": "IMAGE-VERSION-QR33",
+            "anchor": "The image used must be 'my-app:v2.3.1-beta'."
+          },
+          {
+            "tracer_id": "HEALTH-CHECK-ZL44",
+            "anchor": "The liveness probe health check interval must be precisely 15.5 seconds."
+          }
+        ]
+      }
+    }
+  },
+  "source": "llm_assisted",
+  "annotator_ids": [
+    "ann_02",
+    "ann_03"
+  ],
+  "version": "1.0",
+  "structural_complexity": "easy"
+}
