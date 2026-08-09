@@ -1,0 +1,106 @@
+======================================================================
+EFFET DE LA COMPLEXITE STRUCTURELLE
+======================================================================
+
+--- Kruskal-Wallis: RTD par complexite ---
+H=0.309, p=0.8568 -> non significatif
+                         mean  median  count
+structural_complexity                       
+easy                   0.6357     1.0     70
+hard                   0.6100     1.0     72
+medium                 0.6452     1.0     62
+
+--- Kruskal-Wallis: RTD par complexite (hierarchical) ---
+H=2.523, p=0.2833 -> non significatif
+                         mean  median  count
+structural_complexity                       
+easy                   0.9286     1.0     14
+hard                   0.9306     1.0     36
+medium                 1.0000     1.0     22
+
+--- Kruskal-Wallis: RTD par complexite (decentralized) ---
+H=1.333, p=0.5135 -> non significatif
+                         mean  median  count
+structural_complexity                       
+easy                   0.5192     0.5     26
+hard                   0.3826     0.0     22
+medium                 0.4028     0.0     24
+
+--- Kruskal-Wallis: RTD par complexite (shared_pool) ---
+H=8.402, p=0.0150 -> SIGNIFICATIF
+                         mean  median  count
+structural_complexity                       
+easy                   0.6000  1.0000     30
+hard                   0.1429  0.0000     14
+medium                 0.5208  0.6667     16
+
+--- Kruskal-Wallis: Latence par complexite ---
+H=145.938, p=0.0000 -> SIGNIFICATIF
+                           mean    median  count
+structural_complexity                           
+easy                    47.2766   38.4936     70
+hard                   280.9528  246.4120     72
+medium                 136.7955  120.3320     62
+
+--- Kruskal-Wallis: Latence par complexite (hierarchical) ---
+H=46.129, p=0.0000 -> SIGNIFICATIF
+                           mean    median  count
+structural_complexity                           
+easy                    34.2927   31.6197     14
+hard                   203.3943  185.0671     36
+medium                 114.5800  105.9856     22
+
+--- Kruskal-Wallis: Latence par complexite (decentralized) ---
+H=52.434, p=0.0000 -> SIGNIFICATIF
+                           mean    median  count
+structural_complexity                           
+easy                    51.0764   43.4680     26
+hard                   371.7329  297.2450     22
+medium                 163.4257  137.9409     24
+
+--- Kruskal-Wallis: Latence par complexite (shared_pool) ---
+H=44.881, p=0.0000 -> SIGNIFICATIF
+                           mean    median  count
+structural_complexity                           
+easy                    50.0425   46.5962     30
+hard                   337.7347  300.9284     14
+medium                 127.3965  112.3232     16
+
+--- Kruskal-Wallis: Couverture substantielle par complexite ---
+H=34.704, p=0.0000 -> SIGNIFICATIF
+                         mean  median  count
+structural_complexity                       
+easy                   0.2248  0.1250     70
+hard                   0.5399  0.5397     72
+medium                 0.3949  0.3889     62
+
+--- Kruskal-Wallis: Couverture substantielle par complexite (hierarchical) ---
+H=13.785, p=0.0010 -> SIGNIFICATIF
+                         mean  median  count
+structural_complexity                       
+easy                   0.0815  0.0000     14
+hard                   0.2737  0.2574     36
+medium                 0.2403  0.1515     22
+
+--- Kruskal-Wallis: Couverture substantielle par complexite (decentralized) ---
+H=26.682, p=0.0000 -> SIGNIFICATIF
+                         mean  median  count
+structural_complexity                       
+easy                   0.2295  0.0500     26
+hard                   0.7568  0.8243     22
+medium                 0.4997  0.5455     24
+
+--- Kruskal-Wallis: Couverture substantielle par complexite (shared_pool) ---
+H=28.153, p=0.0000 -> SIGNIFICATIF
+                         mean  median  count
+structural_complexity                       
+easy                   0.2875  0.2917     30
+hard                   0.8835  0.9089     14
+medium                 0.4504  0.4444     16
+
+--- Table croisee: moyenne RTD par complexite x topologie ---
+structural_complexity    easy    hard  medium
+condition                                    
+decentralized          0.5192  0.3826  0.4028
+hierarchical           0.9286  0.9306  1.0000
+shared_pool            0.6000  0.1429  0.5208

@@ -1,0 +1,42 @@
+======================================================================
+CATEGORISATION DE LA PERTE DE TRACEUR
+======================================================================
+
+--- Distribution globale ---
+loss_category
+preserved           128
+lost_in_transit      49
+never_reproduced     27
+Name: count, dtype: int64
+
+--- Table croisee: categorie x condition ---
+loss_category  lost_in_transit  never_reproduced  preserved
+condition                                                  
+decentralized               27                16         29
+hierarchical                 2                 0         70
+shared_pool                 20                11         29
+Chi2=57.659, p=0.0000, dof=4 -> SIGNIFICATIF
+
+--- Table croisee: categorie x schema_mode ---
+loss_category  lost_in_transit  never_reproduced  preserved
+schema_mode                                                
+free_text                   32                10         60
+typed                       17                17         68
+Chi2=6.907, p=0.0316, dof=2 -> SIGNIFICATIF
+
+--- Table croisee complete: condition x schema x categorie ---
+loss_category            lost_in_transit  never_reproduced  preserved
+cell                                                                 
+decentralized_free_text               16                 7         13
+decentralized_typed                   11                 9         16
+hierarchical_free_text                 2                 0         34
+hierarchical_typed                     0                 0         36
+shared_pool_free_text                 14                 3         13
+shared_pool_typed                      6                 8         16
+
+--- Test cible: anomalie shared_pool + typed (racine jamais reproduite) ---
+root_zero             False  True 
+is_shared_pool_typed              
+False                   155     19
+True                     22      8
+Fisher exact: OR=2.967, p=0.0356 -> SIGNIFICATIF
