@@ -35,6 +35,25 @@ families = {
         ("Chi2 categorie x schema", 0.0316),
         ("Fisher shared_pool+typed racine", 0.0356),
     ],
+
+    "Latence normalisee (15 tests)": [
+        ("Latence/tour - topologie KW", 0.0000),
+        ("Latence/tour - schema global MW", 0.0000),
+        ("Latence/tour - schema hierarchical", 0.2348),
+        ("Latence/tour - schema decentralized", 0.0002),
+        ("Latence/tour - schema shared_pool", 0.0008),
+        ("Latence/token - topologie KW", 0.0000),
+        ("Latence/token - schema global MW", 0.0004),
+        ("Latence/token - schema hierarchical", 0.0001),
+        ("Latence/token - schema decentralized", 0.0880),
+        ("Latence/token - schema shared_pool", 0.0594),
+        ("Pente croissance - topologie KW", 0.0000),
+        ("Pente croissance - schema global MW", 0.6059),
+        ("Pente croissance - schema hierarchical", 0.2133),
+        ("Pente croissance - schema decentralized", 0.0200),
+        ("Pente croissance - schema shared_pool", 0.8534),
+    ],
+    
 }
 
 for family_name, tests in families.items():
