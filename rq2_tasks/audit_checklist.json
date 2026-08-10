@@ -175,6 +175,64 @@
     ]
   },
   {
+    "task_id": "TASK-DEVOPS-RTD-151",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DEP-BG-ZD-OP01"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DEP-BG-ZD-OP01"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all production deployments must utilize blue/green deployment strategy, ensuring zero downtime during cutover"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Infrastructure Engineer (A2) consistently plans for and confirms the use of a blue/green deployment strategy, specifying how zero downtime will be achieved. The Release Manager (A3) consistently o"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-054",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-ARGON2ID-65K"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-ARGON2ID-65K"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all password hashing must use Argon2id with a minimum of 4 iterations and a memory cost of 65536 KB"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SESS-EXP-1440MIN"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SESS-EXP-1440MIN"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "user session tokens must expire after 1440 minutes of inactivity and be invalidated on logout"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Backend Developer (A2) consistently acknowledges and plans for implementing password hashing using 'Argon2id with a minimum of 4 iterations and a memory cost of 65536 KB'. The Frontend Developer ("
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DATAENG-RTD-066",
     "topology": "branching_tree",
     "num_tracers": 2,
@@ -241,6 +299,76 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The CI/CD Pipeline Specialist (A2) correctly receives and acts upon the '98.5% code coverage' constraint, relaying it to the Security Auditor (A4). The Monitoring Engineer (A3) correctly receives and "
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-101",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LOGMON-ZX08-RETENTION"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LOGMON-ZX08-RETENTION"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all production logs must be retained for exactly 367 days"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LOGMON-ZX08-ANOMALY"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LOGMON-ZX08-ANOMALY"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "anomaly detection must alert if the error rate exceeds 0.035% over a 5-minute window"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "A logging configuration where all production logs are retained for exactly 367 days, and a monitoring setup with anomaly detection configured to alert if the error rate exceeds 0.035% over a 5-minute "
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-156",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "K8S-IMMUTABLE-IMAGE-POLICY"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "K8S-IMMUTABLE-IMAGE-POLICY"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all Kubernetes deployments must exclusively use immutable container images with specific version tags, strictly prohibiting 'latest' tags or mutable image updates"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DOWNTIME-MAX-183.25S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DOWNTIME-MAX-183.25S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the application's maximum allowed downtime during the entire migration process must not exceed 183.25 seconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice application is successfully migrated to the new Kubernetes cluster. All Kubernetes deployments exclusively use immutable container images with specific version tags, with no instances"
       }
     ]
   },
@@ -314,6 +442,239 @@
     ]
   },
   {
+    "task_id": "TASK-DATAENG-RTD-099",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DATA-VOL-THRESH-500GB"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DATA-VOL-THRESH-500GB"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "no individual data source ingested should exceed 500.25 GB per day without prior approval"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DATA-RETEN-735DAYS"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DATA-RETEN-735DAYS"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all raw data must be retained for exactly 735 days for audit purposes"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Data Ingestion Engineer (A2) proposes an ingestion plan that respects the 500.25 GB daily limit per source, or clearly identifies cases needing approval. The Data Quality Analyst (A3) accurately v"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-068",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "API-LATENCY-P99-137_5MS"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "API-LATENCY-P99-137_5MS"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all API endpoints must achieve a response time under 137.5 milliseconds for 99th percentile latency"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DATA-ENC-AES256GCM-UNIQUEKEY"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DATA-ENC-AES256GCM-UNIQUEKEY"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all sensitive data must be encrypted using AES-256 GCM with a unique key per user session"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Backend Developer (A2) and Performance Engineer (A4) consistently demonstrate adherence to the 'under 137.5 milliseconds' latency constraint. Concurrently, the Security Engineer (A3) and Code Revi"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-095",
+    "topology": "branching_tree",
+    "num_tracers": 3,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DATA-RETENTION-95D"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DATA-RETENTION-95D"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "data retention policy for raw telemetry data must be exactly 95 days"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ALERT-LATENCY-2.50S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ALERT-LATENCY-2.50S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "average processing latency for critical alerts must not exceed 2.50 seconds"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SECURITY-TLS1.3"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SECURITY-TLS1.3"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all data in transit must use TLS 1.3 or higher"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Storage Engineer (A2) correctly propagates and plans for a data retention of exactly 95 days, passing this to the Data Governance Officer (A4). The Stream Processing Specialist (A3) correctly prop"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-154",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DNTM-23P5S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DNTM-23P5S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "total service downtime for this update must not exceed 23.5 seconds across all affected regions"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Network Engineer proposes changes with an estimated downtime. The Security Engineer similarly provides a plan respecting the constraint. The Observability Engineer outlines a monitoring plan that "
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-110",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SCHEMA-VER-371"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SCHEMA-VER-371"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all incoming customer data must adhere to a schema version 3.7.1"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "JOB-TIME-28.5MIN"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "JOB-TIME-28.5MIN"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "data processing jobs must complete within 28.5 minutes to meet real-time dashboard SLAs"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Schema Validator (A2) consistently acknowledges and plans for enforcing schema version 3.7.1 for incoming customer data. The Performance Monitor (A3) consistently confirms and plans for ensuring d"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-102",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "API-RESP-215MS"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "API-RESP-215MS"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all API responses must complete within 215 milliseconds"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-TOKEN-87MIN"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-TOKEN-87MIN"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "user authentication tokens must expire after 87 minutes of inactivity"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Backend Lead (A2) consistently acknowledges and plans for API responses within 215 milliseconds, passing this constraint to the Database Specialist (A4). The Security Engineer (A3) consistently co"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-026",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "PERF-QP91"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "PERF-QP91"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the 'preferences_by_user_id' database query must consistently return results in no more than 237.5 ms"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Backend Architect's design must explicitly state or imply adherence to the '237.5 ms' query latency. The Senior Developer's implementation details (e.g., pseudo-code, database index strategies) mu"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DEVOPS-RTD-119",
     "topology": "branching_tree",
     "num_tracers": 2,
@@ -380,6 +741,52 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The Lead Backend Engineer (A2) and Junior Developer (A4) consistently acknowledge and plan for using encrypted S3 buckets with server-side encryption for user profiles. The Performance Optimization Sp"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-088",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-HASH-ARGON2ID-12MB"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-HASH-ARGON2ID-12MB"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all user passwords must be hashed using Argon2id with a minimum memory cost of 12MB"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Backend Developer (A2) acknowledges the requirement to use 'Argon2id' with '12MB memory cost' for password hashing and outlines a plan to implement it. The Security Auditor (A3) also acknowledges "
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-123",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "FIREWALL-BP64"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "FIREWALL-BP64"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all public internet-facing ports, except SSH (22) and HTTPS (443), must be blocked at the perimeter firewall"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Security Analyst (A2) correctly identifies any potential vulnerabilities related to exposed ports in their assessment, accurately reflecting the constraint of blocking all public internet-facing p"
       }
     ]
   },
@@ -465,6 +872,65 @@
     ]
   },
   {
+    "task_id": "TASK-SWE-RTD-046",
+    "topology": "branching_tree",
+    "num_tracers": 4,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SEC-SANDBOX-C77"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SEC-SANDBOX-C77"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all image processing operations must be sandboxed within isolated container environments"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "FILE-ACCESS-PROHIBIT-P33"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "FILE-ACCESS-PROHIBIT-P33"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "direct file system access is prohibited from the main application logic"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LIB-PILLOW-V920-R22"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LIB-PILLOW-V920-R22"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "only 'Pillow 9.2.0' is allowed for image processing"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LIB-IMAGEMAGICK-FORBID-D99"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LIB-IMAGEMAGICK-FORBID-D99"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "'ImageMagick' library is strictly forbidden for image processing"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is successfully developed, deployed, and validated, demonstrating full adherence to all constraints. Specifically, all image processing operations are contained within isolated contai"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DATAENG-RTD-111",
     "topology": "branching_tree",
     "num_tracers": 2,
@@ -500,6 +966,41 @@
     ]
   },
   {
+    "task_id": "TASK-DATAENG-RTD-054",
+    "topology": "branching_tree",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "COMM-GRPC-PROTOBUF-REQ"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "COMM-GRPC-PROTOBUF-REQ"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all microservice communication must exclusively use gRPC with Protobuf for serialization and transport"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LATENCY-MAX-150.75MS"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LATENCY-MAX-150.75MS"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the maximum acceptable end-to-end processing latency must not exceed 150.75 milliseconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The real-time data streaming platform is successfully designed, implemented, and validated. All microservice communication throughout the platform exclusively uses gRPC with Protobuf, eliminating any "
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DEVOPS-RTD-172",
     "topology": "branching_tree",
     "num_tracers": 2,
@@ -531,6 +1032,75 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The Infrastructure Engineer (A2) proposes or confirms a VM configuration that adheres to the 'no more than 10.75 GB of RAM' constraint. The Security Operations Engineer (A3) confirms that 'all externa"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-072",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "COMPLIANCE-KR90"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "COMPLIANCE-KR90"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all customer data must reside in the EU region and be encrypted at rest using AES-256 GCM with customer-managed keys (CMK), with a strict key rotation policy of exactly 90 days"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Solutions Architect designs an architecture that specifies data storage in the EU region and encryption using AES-256 GCM with CMKs, explicitly stating the 90-day key rotation. The Lead Engineer a"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-033",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "PIPELINE-LATENCY-EH-1738"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "PIPELINE-LATENCY-EH-1738"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the end-to-end pipeline latency must not exceed 250 milliseconds for any ingested record, and data ingest failures must employ an error handling policy of retrying exactly 3 times with an exponential backoff strategy before alerting"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Deployment Engineer receives an integrated pipeline design that explicitly states the end-to-end latency must not exceed 250 milliseconds and confirms the error handling policy for data ingest fai"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-098",
+    "topology": "branching_tree",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "API-ROUTE-GY24"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "API-ROUTE-GY24"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all external API traffic must be routed through 'azure_firewall_pro' instance with ID 'FW-AZ-003'"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Network Engineer produces a configuration for external API traffic using 'azure_firewall_pro' (ID: FW-AZ-003) and the Security Auditor confirms the correct use of 'FW-AZ-003'. The specific ID 'FW-"
       }
     ]
   },
@@ -628,6 +1198,64 @@
     ]
   },
   {
+    "task_id": "TASK-SWE-RTD-097",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-SEC-LAT-2KBITS"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-SEC-LAT-2KBITS"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the authentication API must use asymmetric encryption with a key length of exactly 2048 bits for all token generation, and the maximum allowed latency for any authentication request cannot exceed 100.00 milliseconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The team successfully designs and implements an authentication module that explicitly uses asymmetric encryption with a 2048-bit key length for token generation, and achieves a maximum authentication "
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-078",
+    "topology": "fully_connected",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LATENCY-50M75S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LATENCY-50M75S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the API response time must never exceed 50.75 milliseconds for 99% of requests"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CONCUR-1200MAX"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CONCUR-1200MAX"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the maximum concurrent connections must not surpass 1200"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The team successfully designs, develops, and deploys an API endpoint for financial transactions where the response time consistently does not exceed 50.75 milliseconds for 99% of requests, and maximum"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DATAENG-RTD-103",
     "topology": "fully_connected",
     "num_tracers": 2,
@@ -659,6 +1287,52 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The data engineering team successfully designs and implements an ETL pipeline that completes daily processing within exactly 2.50 hours and incurs processing costs not exceeding $15.75 USD per day. Al"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-SWE-RTD-074",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-SEC-POL-V4"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-SEC-POL-V4"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all user passwords must be hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and the maximum session timeout must be exactly '3600 seconds'"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The user authentication module is designed, implemented, and tested with user passwords hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and a maximum session timeout of exactly '3600 seconds'"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-167",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "UPDATE-TL78"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "UPDATE-TL78"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The deployment must complete within exactly 45.00 minutes and all new firewall rules must explicitly allow ingress traffic only from the IP range 10.0.0.0/16."
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is deployed successfully within exactly 45.00 minutes. All new firewall rules are correctly configured to allow ingress traffic only from the 10.0.0.0/16 IP range. Internal communicat"
       }
     ]
   },
@@ -733,6 +1407,29 @@
     ]
   },
   {
+    "task_id": "TASK-SWE-RTD-028",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LATENCY-UP500"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LATENCY-UP500"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all user profile updates must be processed within 500 milliseconds end-to-end"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "Both the Frontend Developer and Backend Developer should acknowledge and incorporate the '500 milliseconds end-to-end' constraint into their respective design and implementation plans. The Frontend De"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DEVOPS-RTD-121",
     "topology": "fully_connected",
     "num_tracers": 1,
@@ -752,6 +1449,29 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The 'AuthService' microservice is successfully deployed without exceeding 512.75 MB of RAM utilization. All agents consistently communicate and acknowledge the exact '512.75 MB' memory constraint thro"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-036",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DE_SECURITY_LATENCY_FNC27"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DE_SECURITY_LATENCY_FNC27"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all PII data must be encrypted using 256-bit AES encryption before being stored, and the end-to-end data latency for critical financial transactions must not exceed 60.50 seconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data pipeline is successfully designed and implemented such that all PII data is encrypted using 256-bit AES encryption before storage, and the end-to-end data latency for critical financial trans"
       }
     ]
   },
@@ -791,6 +1511,41 @@
     ]
   },
   {
+    "task_id": "TASK-DATAENG-RTD-109",
+    "topology": "fully_connected",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LATENCY-P5Q8"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LATENCY-P5Q8"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "end-to-end latency must not exceed 15.50 seconds"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ACCURACY-K2T7"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ACCURACY-K2T7"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "data accuracy rate must be at least 99.99%"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The ETL pipeline is successfully designed, implemented, and deployed, consistently achieving an end-to-end latency not exceeding 15.50 seconds and a data accuracy rate of at least 99.99%. All agents' "
+      }
+    ]
+  },
+  {
     "task_id": "TASK-SWE-RTD-064",
     "topology": "fully_connected",
     "num_tracers": 2,
@@ -826,6 +1581,75 @@
     ]
   },
   {
+    "task_id": "TASK-DEVOPS-RTD-141",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DEP-POL-K8SVER-SEC0-MEM250MB"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DEP-POL-K8SVER-SEC0-MEM250MB"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the microservice must be deployed using Kubernetes version 1.28.3, pass an automated security scan with exactly 0 critical vulnerabilities, and not exceed 250.00 MB of memory usage"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is successfully deployed to production using Kubernetes version 1.28.3, passes an automated security scan with exactly 0 critical vulnerabilities, and does not exceed 250.00 MB of mem"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-083",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DATA-MASK-SHA256-TIME-475HR"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DATA-MASK-SHA256-TIME-475HR"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all PII (Personally Identifiable Information) must be masked using SHA-256 hashing, and the entire optimization process must not exceed 4.75 hours"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The optimized ETL pipeline successfully processes customer data. All PII is correctly masked using SHA-256 hashing, and the entire optimization, design to deployment, is completed within 4.75 hours. T"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-055",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "IOT-PIPE-COST-LATENCY-P1R2"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "IOT-PIPE-COST-LATENCY-P1R2"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the average processing cost must not exceed $0.005 USD per GB, and the maximum end-to-end latency for any data point must be strictly less than 2.00 seconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data engineering team produces a comprehensive pipeline design and implementation plan that explicitly states the average processing cost will not exceed $0.005 USD per GB and guarantees a maximum"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-SWE-RTD-030",
     "topology": "fully_connected",
     "num_tracers": 1,
@@ -845,6 +1669,41 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The financial transaction processing microservice is successfully developed and deployed, ensuring all financial transaction data is encrypted using AES-256 with a key rotation interval of exactly 29."
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-063",
+    "topology": "fully_connected",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ENC-AES-256-KF9P"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ENC-AES-256-KF9P"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all PII data must be encrypted using AES-256 encryption"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ETL-TIME-12.75M-XJ3S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ETL-TIME-12.75M-XJ3S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the entire ETL process must complete within 12.75 minutes"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data engineering team produces a design and implementation plan for the ETL pipeline that explicitly mandates AES-256 encryption for all PII data and guarantees an end-to-end processing time of 12"
       }
     ]
   },
@@ -880,6 +1739,111 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The microservice is deployed with all compute instances configured as 't3a.medium' and the maximum concurrent database connections strictly capped at 150.00. All agents consistently reflect and enforc"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-174",
+    "topology": "fully_connected",
+    "num_tracers": 4,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CPU-LIMIT-XW11"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CPU-LIMIT-XW11"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The CPU limit must be exactly 1.25 cores."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "MEM-REQUEST-HG22"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "MEM-REQUEST-HG22"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The memory request must be exactly 512.75 MiB."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "IMAGE-VERSION-QR33"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "IMAGE-VERSION-QR33"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The image used must be 'my-app:v2.3.1-beta'."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "HEALTH-CHECK-ZL44"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "HEALTH-CHECK-ZL44"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The liveness probe health check interval must be precisely 15.5 seconds."
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Kubernetes microservice deployment is configured with an exact CPU limit of 1.25 cores, a memory request of 512.75 MiB, uses the 'my-app:v2.3.1-beta' image, and has a health check interval of prec"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-122",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DEPLOYMENT-MSVC-UPDT-AB45"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DEPLOYMENT-MSVC-UPDT-AB45"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the deployment must complete within exactly 45.00 minutes, and the memory allocation for the new microservice must not exceed 2.50 GB per instance"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice update is successfully deployed to production within exactly 45.00 minutes, maintaining zero downtime, and each instance of the new microservice does not exceed 2.50 GB of memory allo"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-159",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SEC-NET-PORTS-AGW-28X3"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SEC-NET-PORTS-AGW-28X3"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the deployed microservice must strictly use port 8443 for HTTPS traffic and never expose port 80, and all network traffic to the service must be routed through the 'appgw-prod-europe-001' Application Gateway instance"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is deployed successfully, configured to strictly use port 8443 for HTTPS traffic, with port 80 explicitly blocked or never exposed, and all network traffic is correctly routed through"
       }
     ]
   },
@@ -965,6 +1929,41 @@
     ]
   },
   {
+    "task_id": "TASK-SWE-RTD-094",
+    "topology": "fully_connected",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "PERF-RT-42"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "PERF-RT-42"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The microservice must achieve an average transaction processing time of exactly 150.75 milliseconds per request."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SEC-ENC-77"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SEC-ENC-77"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The microservice must use end-to-end encryption with AES-256-GCM."
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice design and implementation clearly reflect both the performance target of exactly 150.75 milliseconds average transaction processing time and the security requirement of end-to-end AES"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DEVOPS-RTD-105",
     "topology": "fully_connected",
     "num_tracers": 1,
@@ -984,6 +1983,41 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The microservice is successfully deployed with an average response time of exactly 150.75 milliseconds and all network traffic is encrypted using TLS 1.3. All agents consistently communicate and adher"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DEVOPS-RTD-144",
+    "topology": "fully_connected",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DB-TIMEOUT-150S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DB-TIMEOUT-150S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The database migration script must be executed with a timeout of exactly 150.00 seconds."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CPU-ROLLBACK-85P"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CPU-ROLLBACK-85P"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The hotfix deployment must be rolled back automatically if the CPU utilization on any production server exceeds 85.00% for more than 30.00 seconds."
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The hotfix is successfully deployed, and the production environment remains stable. The database migration script executed with a timeout of exactly 150.00 seconds. In the event of an issue, the syste"
       }
     ]
   },
@@ -1093,6 +2127,29 @@
     ]
   },
   {
+    "task_id": "TASK-SWE-RTD-083",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "SEC-PASS-ARGON2ID-X9A7"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "SEC-PASS-ARGON2ID-X9A7"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all user passwords must be hashed using the argon2id algorithm"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The user authentication module is developed and tested, ensuring that all user passwords are hashed using the argon2id algorithm. All agents, including the Project Lead, Backend Developer, and QA Engi"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-DEVOPS-RTD-132",
     "topology": "fully_connected",
     "num_tracers": 1,
@@ -1112,6 +2169,122 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The Deployment Engineer (A2) correctly acknowledges the 'deployment logs must be archived to immutable storage within 24 hours' constraint and incorporates it into their plan. The DevOps Lead (A1) con"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-DATAENG-RTD-064",
+    "topology": "fully_connected",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ETL-PERF-SEC-LT055S"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ETL-PERF-SEC-LT055S"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the average processing latency for real-time data must not exceed 0.55 seconds, and all PII fields must be pseudonymized using a SHA-256 hash before storage"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data engineering team successfully designs and implements an ETL pipeline where the average processing latency for real-time data does not exceed 0.55 seconds, and all PII fields are correctly pse"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DATAENG-RTD-096",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "STREAM-FRESH-K17"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "STREAM-FRESH-K17"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The end-to-end data freshness (latency) for all sensor data must not exceed 750 milliseconds."
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CLOUD-COST-X92"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CLOUD-COST-X92"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The total monthly cloud infrastructure cost for the streaming pipeline must not exceed $1800.00 USD."
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data engineering team successfully designs and plans a streaming ETL pipeline that achieves a data freshness (end-to-end latency) of no more than 750 milliseconds and maintains cloud infrastructur"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-SWE-RTD-064",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CACHE-LRU-CAP-X1"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CACHE-LRU-CAP-X1"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the cache eviction policy must be 'Least Recently Used' (LRU) with an exact maximum capacity of 500,000 entries"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "CACHE-AES256-ENC-Y2"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "CACHE-AES256-ENC-Y2"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all data at rest within the cache must be encrypted using AES-256 GCM"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The team successfully designs, implements, deploys, and tests a caching service that strictly adheres to the 'Least Recently Used' (LRU) eviction policy with an exact maximum capacity of 500,000 entri"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DATAENG-RTD-055",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "IOT-PIPE-COST-LATENCY-P1R2"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "IOT-PIPE-COST-LATENCY-P1R2"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the average processing cost must not exceed $0.005 USD per GB, and the maximum end-to-end latency for any data point must be strictly less than 2.00 seconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data engineering team produces a comprehensive pipeline design and implementation plan that explicitly states the average processing cost will not exceed $0.005 USD per GB and guarantees a maximum"
       }
     ]
   },
@@ -1232,6 +2405,52 @@
     ]
   },
   {
+    "task_id": "TASK-POOL-DEVOPS-RTD-121",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "AUTH-SVC-MEM-512MB75"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "AUTH-SVC-MEM-512MB75"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the 'AuthService' microservice must never exceed 512.75 MB of RAM utilization"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The 'AuthService' microservice is successfully deployed without exceeding 512.75 MB of RAM utilization. All agents consistently communicate and acknowledge the exact '512.75 MB' memory constraint thro"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DEVOPS-RTD-140",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "NET-PORT-8443"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "NET-PORT-8443"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the service must listen only on port 8443 for HTTPS traffic"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The DevOps team produces a deployment plan and configuration that explicitly uses Kubernetes Deployments for orchestration and specifies that the microservice listens only on port 8443 for HTTPS traff"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-POOL-SWE-RTD-049",
     "topology": "custom_graph",
     "num_tracers": 2,
@@ -1302,6 +2521,41 @@
     ]
   },
   {
+    "task_id": "TASK-POOL-DATAENG-RTD-078",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "PRIVACY-DP34"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "PRIVACY-DP34"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "Pseudonymize all CII using SHA-256 hash"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LOAD-WINDOW-LW77"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LOAD-WINDOW-LW77"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "The daily data load window must not exceed 2.75 hours"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The ETL pipeline is successfully optimized, ensuring all customer-identifiable information is pseudonymized using a SHA-256 hash, and the daily data load completes within exactly 2.75 hours. All agent"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-POOL-SWE-RTD-097",
     "topology": "custom_graph",
     "num_tracers": 1,
@@ -1344,6 +2598,41 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The user authentication module is designed, implemented, and tested with user passwords hashed using 'SHA-256 with 100,000 iterations of PBKDF2' and a maximum session timeout of exactly '3600 seconds'"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-SWE-RTD-058",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DASH-REFRESH-RT63"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DASH-REFRESH-RT63"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the dashboard's data refresh rate must not exceed 5.25 seconds"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "API-RESP-TX12"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "API-RESP-TX12"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "backend API response time for any data query must consistently remain under 125.00 milliseconds"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The team successfully plans the analytics dashboard, ensuring that all design and implementation discussions explicitly incorporate the constraints: a data refresh rate not exceeding 5.25 seconds and "
       }
     ]
   },
@@ -1394,6 +2683,52 @@
     ]
   },
   {
+    "task_id": "TASK-POOL-DEVOPS-RTD-132",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LOG-ARCHIVE-24H"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LOG-ARCHIVE-24H"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "deployment logs must be securely archived to an immutable storage bucket within 24 hours of each deployment"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The Deployment Engineer (A2) correctly acknowledges the 'deployment logs must be archived to immutable storage within 24 hours' constraint and incorporates it into their plan. The DevOps Lead (A1) con"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DEVOPS-RTD-105",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "PERF-SEC-MSERV-15075MS-TLS13"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "PERF-SEC-MSERV-15075MS-TLS13"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the microservice must achieve an average response time of exactly 150.75 milliseconds and all network traffic must be encrypted using TLS 1.3"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is successfully deployed with an average response time of exactly 150.75 milliseconds and all network traffic is encrypted using TLS 1.3. All agents consistently communicate and adher"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-POOL-SWE-RTD-094",
     "topology": "custom_graph",
     "num_tracers": 2,
@@ -1429,6 +2764,29 @@
     ]
   },
   {
+    "task_id": "TASK-POOL-DEVOPS-RTD-155",
+    "topology": "custom_graph",
+    "num_tracers": 1,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DEVOPS-DEPLOY-CRITICAL-007"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DEVOPS-DEPLOY-CRITICAL-007"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all new deployments must use exactly 'us-east-2' as the AWS region, and the maximum allocated memory for the microservice must not exceed 2048 MB"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The microservice is successfully deployed to production using the 'us-east-2' AWS region, with its memory allocation strictly set at 2048 MB. All internal team communications and configuration outputs"
+      }
+    ]
+  },
+  {
     "task_id": "TASK-POOL-SWE-RTD-027",
     "topology": "custom_graph",
     "num_tracers": 1,
@@ -1448,6 +2806,41 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The user authentication module is successfully implemented, with the login API endpoint responding within exactly 250.00 milliseconds and all password hashes utilizing the Argon2id algorithm. All agen"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DATAENG-RTD-108",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "TECH-BQ-99"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "TECH-BQ-99"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "the new data warehouse must exclusively use 'BigQuery' for analytics"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "DQ-SCORE-099"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "DQ-SCORE-099"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "all migrated data must be validated with a data quality score of exactly 0.99 or higher"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The data analytics pipeline is successfully migrated to the new cloud provider. The new data warehouse is explicitly configured to use 'BigQuery' for all analytics, and all migrated data is thoroughly"
       }
     ]
   },
@@ -1599,6 +2992,41 @@
       {
         "point": "correct_outcome_reflected",
         "detail": "The Kubernetes microservice deployment is configured with an exact CPU limit of 1.25 cores, a memory request of 512.75 MiB, uses the 'my-app:v2.3.1-beta' image, and has a health check interval of prec"
+      }
+    ]
+  },
+  {
+    "task_id": "TASK-POOL-DATAENG-RTD-109",
+    "topology": "custom_graph",
+    "num_tracers": 2,
+    "expected_points": [
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "LATENCY-P5Q8"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "LATENCY-P5Q8"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "end-to-end latency must not exceed 15.50 seconds"
+      },
+      {
+        "point": "tracer_present_in_root_output",
+        "detail": "ACCURACY-K2T7"
+      },
+      {
+        "point": "tracer_present_in_final_output",
+        "detail": "ACCURACY-K2T7"
+      },
+      {
+        "point": "constraint_anchor_addressed",
+        "detail": "data accuracy rate must be at least 99.99%"
+      },
+      {
+        "point": "correct_outcome_reflected",
+        "detail": "The ETL pipeline is successfully designed, implemented, and deployed, consistently achieving an end-to-end latency not exceeding 15.50 seconds and a data accuracy rate of at least 99.99%. All agents' "
       }
     ]
   },
