@@ -8,7 +8,7 @@
 
 **Le but concret de RQ3 est de créer un agent vérificateur/gouvernance et d'évaluer si la gouvernance d'un système multi-agents (MAS) est mesurable et détectable.** C'est le livrable central. La dissociation entre auditabilité post-hoc et gouvernabilité en temps réel (§1) est une **hypothèse de recherche testée à l'intérieur de ce projet plus large** (RQ3c spécifiquement), pas la totalité du but de RQ3 — ne pas réduire l'un à l'autre dans le chapitre.
 
-Sous ce cadrage, **V_live a déjà apporté une réponse substantielle et autonome à la question centrale** : la gouvernance d'un MAS est mesurable — l'agent vérificateur construit détecte un signal réel (401 contradictions sur 204 runs), réagit de façon cohérente et statistiquement significative à des manipulations connues (topologie, schema_mode — tous deux p<10⁻¹¹, §9.4), généralise au-delà de l'échantillon de calibration (17-18/18 vrais positifs, §9.3), et a même découvert un mode de défaillance non anticipé (confusion d'identité de rôle). Ce résultat tient seul, indépendamment de RQ1 et de la question de dissociation.
+Sous ce cadrage, **V_live a déjà apporté une réponse substantielle et autonome à la question centrale** : la gouvernance d'un MAS est mesurable — l'agent vérificateur construit détecte un signal réel (401 contradictions sur 204 runs), réagit de façon cohérente et statistiquement significative à des manipulations connues (topologie : p=4,55×10⁻⁵ ; schema_mode : p=2,17×10⁻¹¹ — voir §9.4 pour le détail), généralise au-delà de l'échantillon de calibration (17-18/18 vrais positifs, §9.3), et a même découvert un mode de défaillance non anticipé (confusion d'identité de rôle, confirmée comme un vrai comportement de coordination erratique et non un artefact du harness, §9.3). Ce résultat tient seul, indépendamment de RQ1 et de la question de dissociation.
 
 ### Ce que fait concrètement V_live (résumé opérationnel)
 
@@ -48,7 +48,7 @@ Cette reformulation est plus modeste que l'ambition initiale mais reste testable
 
 ### Distinction terminologique importante : vérificateur de résultat vs vérificateur de processus
 
-RQ2 rapporte deux scores d'issue — `constraint_anchor_addressed` et `correct_outcome_reflected` — qui évaluent si le **résultat final** du run est correct par rapport à la tâche (fidélité au contenu métier, niveau sémantique). Le vérificateur V_live de RQ3 (schema + contradiction) évalue une question différente : l'intégrité **formelle et logique du processus** qui a produit ce résultat (niveau structurel, agnostique au contenu métier de la tâche).
+RQ2 rapporte des scores d'issue (`root_output_score`, `final_output_score`, `rtd_score`, dans `audit_scores.jsonl`) qui évaluent si le **résultat final** du run est correct par rapport à la tâche (présence de tracers marqués, niveau sémantique restreint). Le vérificateur V_live de RQ3 (schema + contradiction) évalue une question différente : l'intégrité **formelle et logique du processus** qui a produit ce résultat (niveau structurel, agnostique au contenu métier de la tâche).
 
 Ce sont deux axes orthogonaux, pas deux implémentations du même concept :
 - Un run peut être **correct mais chaotique** (bonne réponse finale, contradictions détectées en cours de route).
@@ -122,7 +122,7 @@ Chaque tour de conversation (`turn`) produit trois entrées JSONL, une par type 
 | Judge = Claude Sonnet 5 | Famille de modèle différente du backbone évalué (`gpt-4.1-mini`), conformément au principe de conception RQ3 de réduction du biais d'auto-préférence entre agent évalué et juge évaluateur |
 | Fenêtre glissante k=5 | Paramètre fixé dans la conception RQ3 initiale ; borne le coût et la longueur de contexte du judge tout en couvrant largement les patterns de contradiction observés (qui apparaissent typiquement entre tours consécutifs ou proches) |
 | Étage 1 (schema) avant étage 2 (judge) | Sépare explicitement ce qui est détectable sans appel LLM (conformité structurelle) de ce qui nécessite un jugement sémantique (contradiction factuelle) — cohérent avec la distinction post-hoc/gouvernance du design RQ3 |
-| Reprise par manifest (run-level) | Réutilise le pattern déjà établi en RQ2 (Jour 4, `run_full_rq2.py`) ; accepté comme limite mineure (retente un run entier plutôt qu'un message) car le coût par run est faible (~$0.06) |
+| Reprise par manifest (run-level) | Réutilise le pattern déjà établi en RQ2 (Jour 4, `run_full_rq2.py`) ; accepté comme limite mineure (retente un run entier plutôt qu'un message) car le coût par run reste faible (~$0,25/run, calculé sur le coût réel final de ~$52 / 204 runs — voir §7) |
 | Prompt du judge en anglais | Cohérence avec le contenu évalué (les runs RQ2 sont en anglais) et avec la documentation RQ1/RQ2 ; décision prise après un premier passage en français (voir §5) |
 | Retry avec backoff exponentiel (jusqu'à 4 tentatives, 2s/4s/8s/16s) | Absorbe les erreurs transitoires d'API (saturation 529, troncature JSON rare due au thinking du modèle) sans fausser le taux de trigger observé |
 
