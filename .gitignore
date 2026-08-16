@@ -2,3 +2,4 @@ AgentCollabBench/
 scripts/__pycache__/
 *.pyc
 .env
+**/__pycache__/
