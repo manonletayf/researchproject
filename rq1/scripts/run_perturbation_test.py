@@ -24,6 +24,8 @@ args.add_argument('--max_latent_stage', type=int, default=3)
 args.add_argument('--c_thought', type=int, default=2)
 args.add_argument('--n_instances', type=int, default=50)
 args.add_argument('--perturb_mode', type=str, default='noise', choices=['noise', 'zero'])
+args.add_argument('--perturb_target', type=str, default='latent', choices=['latent', 'question_control'],
+                   help='latent: perturbe une pensee latente (defaut). question_control: perturbe un token de la question (test de controle pour isoler la fragilite du greedy decoding)')
 args.add_argument('--perturb_scale', type=float, default=1.0)
 args.add_argument('--run_id', type=str, required=True)
 args.add_argument('--output_jsonl', type=str, required=True)
@@ -71,10 +73,22 @@ for i, sample in enumerate(data):
     with torch.no_grad():
         out_baseline = model.generate_perturbed(input_ids, attention_mask, max_new_tokens=64,
                                                   perturb_pass_idx=None)
-        out_perturbed = model.generate_perturbed(input_ids, attention_mask, max_new_tokens=64,
-                                                   perturb_pass_idx=mid_pass_idx,
-                                                   perturb_mode=arg.perturb_mode,
-                                                   perturb_scale=arg.perturb_scale)
+        if arg.perturb_target == 'latent':
+            out_perturbed = model.generate_perturbed(input_ids, attention_mask, max_new_tokens=64,
+                                                       perturb_pass_idx=mid_pass_idx,
+                                                       perturb_mode=arg.perturb_mode,
+                                                       perturb_scale=arg.perturb_scale)
+        else:
+            question_len = len(question_tokenized)
+            control_idx = question_len // 2
+            perturbed_embeds = model.embedding(input_ids).clone()
+            vec = perturbed_embeds[0, control_idx, :]
+            if arg.perturb_mode == 'noise':
+                noise = torch.randn_like(vec) * vec.norm() * arg.perturb_scale
+                perturbed_embeds[0, control_idx, :] = vec + noise
+            else:
+                perturbed_embeds[0, control_idx, :] = torch.zeros_like(vec)
+            out_perturbed = model.generate_perturbed_from_embeds(perturbed_embeds, attention_mask, max_new_tokens=64)
 
     text_baseline = tokenizer.decode(out_baseline[0], skip_special_tokens=False)
     text_perturbed = tokenizer.decode(out_perturbed[0], skip_special_tokens=False)
@@ -94,6 +108,7 @@ for i, sample in enumerate(data):
         'instance_id': instance_id,
         'run_id': arg.run_id,
         'method': 'coconut',
+        'task': 'gsm8k',
         'gold_answer': gold_answer,
         'answer_baseline': answer_baseline,
         'answer_perturbed': answer_perturbed,

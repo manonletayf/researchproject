@@ -128,3 +128,27 @@ class CoconutPerturb(Coconut):
             new_inputs_embeds = torch.cat((new_inputs_embeds, new_token_embed), dim=1)
 
         return torch.tensor(tokens).view(1, -1)
+
+    def generate_perturbed_from_embeds(self, inputs_embeds, attention_mask, max_new_tokens=64):
+        """
+        Variante de generate_perturbed qui prend directement des inputs_embeds
+        deja perturbes (utilisee pour le test de controle sur une position
+        non-latente, sans passer par la boucle de calcul des pensees latentes).
+        """
+        self.gen_forward_cnt = 0
+        outputs = self.base_causallm(inputs_embeds=inputs_embeds)
+        next_token = torch.argmax(outputs.logits[0, -1]).item()
+        tokens = [next_token]
+        new_token_embed = self.embedding(torch.tensor(next_token, device=inputs_embeds.device)).view(1, 1, -1)
+        new_inputs_embeds = torch.cat((inputs_embeds, new_token_embed), dim=1)
+
+        for _ in range(max_new_tokens - 1):
+            outputs = self.base_causallm(inputs_embeds=new_inputs_embeds)
+            next_token = torch.argmax(outputs.logits[0, -1]).item()
+            if next_token == self.eos_token_id:
+                break
+            tokens.append(next_token)
+            new_token_embed = self.embedding(torch.tensor(next_token, device=inputs_embeds.device)).view(1, 1, -1)
+            new_inputs_embeds = torch.cat((new_inputs_embeds, new_token_embed), dim=1)
+
+        return torch.tensor(tokens).view(1, -1)
