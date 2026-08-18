@@ -1,0 +1,15 @@
+# Poids, checkpoints, cache -- jamais versionnes
+*.bin
+*.safetensors
+checkpoints/
+hf_cache/
+wandb/
+__pycache__/
+*.pyc
+
+# Resultats bruts potentiellement volumineux -- a la discretion, exclus par defaut
+rq1_results/*.jsonl
+
+# Fichiers de credentials -- jamais versionnes
+*.env
+*_constraints.txt
