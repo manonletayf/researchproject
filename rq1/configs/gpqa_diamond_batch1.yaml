@@ -1,0 +1,30 @@
+dataset_path: arrow
+dataset_kwargs:
+  data_files:
+    train: /home/ubuntu/manon-letayf/rq1_results/s1_gpqa_batch1/data-00000-of-00001.arrow
+tag: gpqa
+dataset_name: gpqa_diamond_batch1
+task: gpqa_diamond_batch1
+output_type: generate_until
+process_docs: !function ../openai/utils.process_docs
+process_results: !function ../openai/utils.process_results
+training_split: train
+validation_split: train
+test_split: null
+doc_to_text: !function ../openai/utils.doc_to_text_gpqa
+doc_to_target: answer
+num_fewshot: 0
+generation_kwargs:
+  until: []
+  do_sample: false
+  temperature: 0
+  max_gen_toks: 1024
+metric_list:
+  - metric: exact_match
+    aggregation: mean
+    higher_is_better: true
+  - metric: extracted_answers
+    aggregation: bypass
+    higher_is_better: true
+metadata:
+  version: 1.0
