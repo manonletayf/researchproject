@@ -12,7 +12,7 @@ from llm_model import EfficientSoftCoTFromSmallModel
 from data_loader import GSM8KLoader
 from utils import pre_process_gsm8k
 from logger import RunLogger
-from error_generator import corrupt_step
+from error_generator import corrupt_step, OpenAICreditError
 
 args = argparse.ArgumentParser()
 args.add_argument('--source_jsonl', type=str,
@@ -83,9 +83,15 @@ for d in correct_instances:
 
     corrupt_idx = len(d['steps']) // 2
     original_step = d['steps'][corrupt_idx]
-    corrupted_step, corruption_prompt = corrupt_step(original_step)
+    try:
+        corrupted_step, corruption_prompt = corrupt_step(original_step)
+    except OpenAICreditError as e:
+        print(f'ARRET: {e}')
+        print(f'Instances traitees avant arret: voir {arg.output_jsonl}')
+        sys.exit(1)
 
     prefix_steps = d['steps'][:corrupt_idx]
+    prefix_text = '\n'.join(prefix_steps)
     reconstructed_text = 'Assistant\nLet\'s solve the problem step-by-step.\n' + \
         '\n'.join(prefix_steps) + '\n' + corrupted_step + '\n'
 
@@ -118,13 +124,16 @@ for d in correct_instances:
         outputs = model.base_model.generate(
             inputs_embeds=full_embeds,
             attention_mask=full_attention_mask,
-            max_new_tokens=256,
+            max_new_tokens=1024,
             eos_token_id=terminators,
             do_sample=True,
             generation_config=generation_config,
         )
 
     response = base_tokenizer.decode(outputs[0], skip_special_tokens=True)
+    generation_truncated = (outputs.shape[1] - full_embeds.shape[1] >= 1024)
+    if generation_truncated:
+        print(f"  ATTENTION: generation potentiellement tronquee (256 tokens atteints) pour {d['instance_id']}")
 
     def extract_final_answer(text):
         match = re.findall(r'\\boxed\{([^}]+)\}|\$([0-9.,]+)\$', text)
@@ -146,10 +155,14 @@ for d in correct_instances:
             propagation_visible = True
             break
 
+    full_perturbed_trace = (prefix_text + '\n' if prefix_text else '') + corrupted_step + '\n' + response
+
     run_logger.log({
         'instance_id': perturb_instance_id,
         'run_id': arg.run_id,
         'method': 'softcot',
+        'task': 'gsm8k',
+        'backbone': arg.base_model_id,
         'original_instance_id': d['instance_id'],
         'gold_answer': gold_answer,
         'original_model_answer': d.get('model_answer'),
@@ -158,9 +171,11 @@ for d in correct_instances:
         'corrupted_step_text': corrupted_step,
         'corruption_prompt': corruption_prompt,
         'perturbed_response': response,
+        'full_perturbed_trace': full_perturbed_trace,
         'perturbed_answer': perturbed_answer,
         'behavioral_sensitivity': behavioral_sensitivity,
         'propagation_visible': propagation_visible,
+        'generation_truncated': generation_truncated,
     })
     print(f"{d['instance_id']}: sensitivity={behavioral_sensitivity}, propagation={propagation_visible}")
 
