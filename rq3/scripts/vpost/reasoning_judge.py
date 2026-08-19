@@ -22,7 +22,7 @@ import time
 from vpost_config import (
     VPOST_JUDGE_MODEL,
     VPOST_JUDGE_MAX_TOKENS,
-    VPOST_THINKING_BUDGET_TOKENS,
+    VPOST_THINKING_EFFORT,
     _MAX_RETRIES,
     _RETRY_BASE_DELAY_SECONDS,
 )
@@ -114,13 +114,11 @@ Is this trace internally coherent and does it genuinely support the stated final
         messages=[{"role": "user", "content": user_prompt}],
     )
     if use_thinking:
-        # NOTE: verifier le nom exact du parametre et le format attendu dans
-        # la version courante du SDK anthropic avant le premier run reel -
-        # ecrit ici d'apres la structure documentee au moment de la redaction.
-        request_kwargs["thinking"] = {
-            "type": "enabled",
-            "budget_tokens": VPOST_THINKING_BUDGET_TOKENS,
-        }
+        # Mode adaptive thinking (remplace l'ancien type "enabled" +
+        # budget_tokens, deprecie sur ce modele - confirme empiriquement
+        # par un test pilote, cf. BadRequestError avant cette correction).
+        request_kwargs["thinking"] = {"type": "adaptive"}
+        request_kwargs["output_config"] = {"effort": VPOST_THINKING_EFFORT}
 
     last_error = None
     anthropic = _get_anthropic_module()  # une seule fois, hors boucle
