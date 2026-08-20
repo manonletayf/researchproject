@@ -84,18 +84,21 @@ Respond STRICTLY in JSON, with no text before or after:
 """
 
 
-def evaluate_reasoning_trace(trace_text: str, final_answer: str, use_thinking: bool = False) -> dict:
+def evaluate_reasoning_trace(trace_text: str, final_answer: str, use_thinking: bool = True) -> dict:
     """
     trace_text: the full reasoning trace (S1 or SoftCoT explicit CoT).
     final_answer: the model's stated final answer, extracted separately
                   from the trace (mirrors RQ1's existing extraction logic).
-    use_thinking: if True, requests extended thinking from the judge model
-                  (for the A/B calibration test comparing thinking on/off
-                  against RQ1 Phase 3's ground truth). Default False since
-                  V_live's experience showed thinking adds a significant,
-                  often unnecessary cost for this class of classification
-                  task - this default should be revisited after the A/B
-                  test result is in.
+    use_thinking: if True, requests extended thinking from the judge model.
+                  Default True - DECIDED empirically via the A/B pilot
+                  (run_vpost_ab_test.py, n=80 then n=200 instances,
+                  19-20 aout 2026): identical detection metrics between
+                  thinking on/off, but thinking_on consistently CHEAPER
+                  (fewer visible output tokens - the reasoning happens in
+                  the thinking budget instead of the printed rationale).
+                  Unlike V_live, where thinking added cost without a clear
+                  benefit, here it is the dominant choice on both axes
+                  (cost and, on some individual cases, detection).
 
     Returns {triggered: bool, judge_rationale: str, thinking_used: bool}.
     """
@@ -132,10 +135,13 @@ Is this trace internally coherent and does it genuinely support the stated final
             if raw_text.startswith("```"):
                 raw_text = raw_text.strip("`").removeprefix("json").strip()
             parsed = json.loads(raw_text)
+            usage = getattr(response, "usage", None)
             return {
                 "triggered": bool(parsed["triggered"]),
                 "judge_rationale": str(parsed["rationale"]),
                 "thinking_used": use_thinking,
+                "input_tokens": getattr(usage, "input_tokens", None),
+                "output_tokens": getattr(usage, "output_tokens", None),
             }
         except (anthropic.APIError, KeyError, ValueError, json.JSONDecodeError, IndexError) as e:
             last_error = e
@@ -147,4 +153,6 @@ Is this trace internally coherent and does it genuinely support the stated final
         "triggered": False,
         "judge_rationale": f"JUDGE_ERROR (after {_MAX_RETRIES} attempts): {type(last_error).__name__}: {last_error}",
         "thinking_used": use_thinking,
+        "input_tokens": None,
+        "output_tokens": None,
     }

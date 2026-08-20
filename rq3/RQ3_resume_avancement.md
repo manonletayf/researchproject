@@ -8,9 +8,15 @@
 
 **Le but concret de RQ3 est de créer un agent vérificateur/gouvernance et d'évaluer si la gouvernance d'un système multi-agents (MAS) est mesurable et détectable.** C'est le livrable central. La dissociation entre auditabilité post-hoc et gouvernabilité en temps réel (§1) est une **hypothèse de recherche testée à l'intérieur de ce projet plus large** (RQ3c spécifiquement), pas la totalité du but de RQ3 — ne pas réduire l'un à l'autre dans le chapitre.
 
-Sous ce cadrage, **V_live a déjà apporté une réponse substantielle et autonome à la question centrale** : la gouvernance d'un MAS est mesurable — l'agent vérificateur construit détecte un signal réel (401 contradictions sur 204 runs), réagit de façon cohérente et statistiquement significative à des manipulations connues (topologie : p=4,55×10⁻⁵ ; schema_mode : p=2,17×10⁻¹¹ — voir §9.4 pour le détail), généralise au-delà de l'échantillon de calibration (17-18/18 vrais positifs, §9.3), et a même découvert un mode de défaillance non anticipé (confusion d'identité de rôle, confirmée comme un vrai comportement de coordination erratique et non un artefact du harness, §9.3). Ce résultat tient seul, indépendamment de RQ1 et de la question de dissociation.
+### Architecture finalisée de RQ3 : trois composantes
 
-### Ce que fait concrètement V_live (résumé opérationnel)
+1. **V_post** — traces de raisonnement RQ1 (S1, SoftCoT), évaluées a posteriori, sur la trace complète en un bloc. Coconut structurellement exclu (aucune trace explicite). Rubrique dédiée (`reasoning_judge.py`) : cohérence interne d'un raisonnement + soutien de la réponse finale. Squelette construit et mécanisme validé (§7), en attente des données RQ1 Phase 3.
+2. **V_live, fenêtre bornée** — l'expérience de replay déjà menée en totalité : 204 runs RQ2, fenêtre glissante de 5 tours précédents, schema + contradiction. **Terminée, calibrée, analysée** (§9).
+3. **V_live, contexte intégral** — même instrument que (2) (`contradiction_judge.py`, même rubrique), même corpus RQ2, mais **sans la limite de fenêtre** : chaque message est évalué avec tout l'historique disponible du run plutôt que les 5 derniers tours. Mesure l'écart de détection entre fenêtre bornée et contexte intégral — le nouvel objet de l'hypothèse de dissociation H11 (reformulée, voir §12). **Pas encore commencée** ; ne dépend pas de RQ1, testable directement sur le corpus RQ2 déjà en main ; coût à chiffrer avant lancement (probablement du même ordre que (2), ~$56,83, du fait de la taille de contexte croissante).
+
+Sous ce cadrage, **V_live (fenêtre bornée) a déjà apporté une réponse substantielle et autonome à la question centrale** : la gouvernance d'un MAS est mesurable — l'agent vérificateur construit détecte un signal réel (401 contradictions sur 204 runs), réagit de façon cohérente et statistiquement significative à des manipulations connues (topologie : p=4,55×10⁻⁵ ; schema_mode : p=2,17×10⁻¹¹ — voir §9.4 pour le détail), généralise au-delà de l'échantillon de calibration (17-18/18 vrais positifs, §9.3), et a même découvert un mode de défaillance non anticipé (confusion d'identité de rôle, confirmée comme un vrai comportement de coordination erratique et non un artefact du harness, §9.3). Ce résultat tient seul, indépendamment de RQ1 et de la question de dissociation.
+
+### Ce que fait concrètement V_live, fenêtre bornée (résumé opérationnel)
 
 Pour chacun des 204 runs RQ2 déjà exécutés (conversations enregistrées entre plusieurs agents), V_live :
 1. Charge le transcript complet (`trace["turns"]`, liste ordonnée des messages).
@@ -18,7 +24,7 @@ Pour chacun des 204 runs RQ2 déjà exécutés (conversations enregistrées entr
 3. Pour chaque message, pose deux questions : *(a)* le format JSON attendu est-il respecté (vérification programmatique, mode `typed` uniquement) ? *(b)* ce message contredit-il quelque chose dit dans les 5 messages précédents (jugement sémantique via Claude Sonnet 5) ?
 4. Écrit le résultat (triggered oui/non + justification) dans un fichier de sortie, un par message et par type de vérification.
 
-Il ne réexécute rien, ne corrige rien — il relit une conversation terminée et signale les incohérences, comme un superviseur humain qui suivrait le fil en direct.
+Il ne réexécute rien, ne corrige rien — il relit une conversation terminée et signale les incohérences, comme un superviseur humain qui suivrait le fil en direct. La variante "contexte intégral" (composante 3 ci-dessus) suivra exactement le même principe, sans l'étape de troncature de la fenêtre.
 
 RQ3 met en place un système de vérification post-hoc (`V_live` / `V_post`) qui rejoue les logs de RQ1 et RQ2 pour détecter des anomalies, **sans réexécution d'agents**. Deux mécanismes de détection distincts :
 
@@ -122,7 +128,7 @@ Chaque tour de conversation (`turn`) produit trois entrées JSONL, une par type 
 | Judge = Claude Sonnet 5 | Famille de modèle différente du backbone évalué (`gpt-4.1-mini`), conformément au principe de conception RQ3 de réduction du biais d'auto-préférence entre agent évalué et juge évaluateur |
 | Fenêtre glissante k=5 | Paramètre fixé dans la conception RQ3 initiale ; borne le coût et la longueur de contexte du judge tout en couvrant largement les patterns de contradiction observés (qui apparaissent typiquement entre tours consécutifs ou proches) |
 | Étage 1 (schema) avant étage 2 (judge) | Sépare explicitement ce qui est détectable sans appel LLM (conformité structurelle) de ce qui nécessite un jugement sémantique (contradiction factuelle) — cohérent avec la distinction post-hoc/gouvernance du design RQ3 |
-| Reprise par manifest (run-level) | Réutilise le pattern déjà établi en RQ2 (Jour 4, `run_full_rq2.py`) ; accepté comme limite mineure (retente un run entier plutôt qu'un message) car le coût par run reste faible (~$0,25/run, calculé sur le coût réel final de ~$52 / 204 runs — voir §7) |
+| Reprise par manifest (run-level) | Réutilise le pattern déjà établi en RQ2 (Jour 4, `run_full_rq2.py`) ; accepté comme limite mineure (retente un run entier plutôt qu'un message) car le coût par run reste faible (~$0,28/run, calculé sur le coût réel final de ~$56,83 / 204 runs — voir §7) |
 | Prompt du judge en anglais | Cohérence avec le contenu évalué (les runs RQ2 sont en anglais) et avec la documentation RQ1/RQ2 ; décision prise après un premier passage en français (voir §5) |
 | Retry avec backoff exponentiel (jusqu'à 4 tentatives, 2s/4s/8s/16s) | Absorbe les erreurs transitoires d'API (saturation 529, troncature JSON rare due au thinking du modèle) sans fausser le taux de trigger observé |
 
@@ -176,7 +182,7 @@ Un passage à 10 runs a révélé un taux d'erreur de 31/~196 (~16%), très majo
 
 **Configuration finale** : Sonnet 5, k=5, max_tokens=2048, retry ×4 avec backoff exponentiel, prompt en anglais.
 
-**Coût réel observé** : ~$52 (vs. ~$12-15 estimés par le dry-run). L'écart s'explique par le thinking du modèle, facturé comme tokens de sortie : le dry-run n'estimait que la taille du JSON final (~150 tokens de sortie par appel), sans anticiper que le modèle consomme fréquemment plusieurs centaines de tokens de raisonnement interne avant de produire sa réponse — dans 3 cas particuliers, la totalité du budget de 1024 tokens y passait systématiquement, sans jamais produire de JSON (voir §5, itération de réparation). **À noter pour la conception de V_post** : pour une tâche de classification simple (bool + rationale court), le thinking du judge represente un surcoût caché significatif (facteur ×3-4 observé ici) qu'il faut anticiper dans le budgeting, soit en désactivant le thinking pour cette tâche, soit en provisionnant un budget nettement supérieur à la taille de sortie attendue.
+**Coût réel observé** : ~$56,83 (vs. ~$12-15 estimés par le dry-run). L'écart s'explique par le thinking du modèle, facturé comme tokens de sortie : le dry-run n'estimait que la taille du JSON final (~150 tokens de sortie par appel), sans anticiper que le modèle consomme fréquemment plusieurs centaines de tokens de raisonnement interne avant de produire sa réponse — dans 3 cas particuliers, la totalité du budget de 1024 tokens y passait systématiquement, sans jamais produire de JSON (voir §5, itération de réparation). **À noter pour la conception de V_post** : pour une tâche de classification simple (bool + rationale court), le thinking du judge represente un surcoût caché significatif (facteur ×3-4 observé ici) qu'il faut anticiper dans le budgeting, soit en désactivant le thinking pour cette tâche, soit en provisionnant un budget nettement supérieur à la taille de sortie attendue.
 
 **Statistiques agrégées** (fichier final dédupliqué : `vlive_trigger_events_final.jsonl`) :
 
@@ -291,7 +297,90 @@ Moyennes de cellule (taux non transformé, pour reporting direct) :
 | shared_pool | free_text | 10,15% | 11,38% | 30 |
 | shared_pool | typed | 1,71% | 4,57% | 30 |
 
-### Court terme (à la fin du run complet)
+## 10. V_post — pilote initial et bug d'extraction découvert via calibration croisée RQ1/RQ3
+
+### 10.1 Chronologie du pilote
+
+Une fois le squelette V_post validé mécaniquement (test synthétique 4/4, §7), les données RQ1 Phase 3 ont été rapatriées depuis l'instance EC2 (`scp` depuis `~/manon-letayf/rq1_results/`) : `softcot_perturb_50.jsonl`, `s1_perturb_50.jsonl` (50 instances positives chacun), plus les runs principaux non corrompus servant de source aux négatifs appariés (`softcot_gsm8k_seed41.jsonl`, `s1_math_batch1-5.jsonl`). `--dry-check` a confirmé la construction de 200 instances labellisées (100 positifs, 100 négatifs, 100/100 par méthode), sans négatif non apparié.
+
+Premier test réel à petite échelle (`--n-sample 3`, 12 appels) : **résultat parfait côté SoftCoT (6/6), rappel nul côté S1 (0/3 positifs détectés)**, identique en thinking on et thinking off.
+
+### 10.2 Diagnostic : comportement réel du modèle, pas un défaut du judge
+
+Investigation sur les 3 cas S1 manqués : la rubrique du judge fonctionne correctement — dans les 3 cas, le raisonnement S1 contient bien la perturbation injectée, mais **le modèle s'auto-corrige explicitement en cours de trace** ("brief momentary slip... immediately acknowledges the error and corrects itself"), et la rubrique exclut à raison les auto-corrections reconnues de la définition d'une contradiction (cohérent avec la même règle appliquée en V_live). **Confirmé sur 3/3 cas testés** : S1 s'auto-corrige face à la perturbation, SoftCoT ne montre ce comportement dans aucun des 3 cas testés sur le même volume. Potentiel résultat RQ1/RQ3 substantiel en soi (robustesse relative des deux stratégies de raisonnement face à une perturbation), à creuser indépendamment de la question thinking on/off.
+
+### 10.3 Bug critique découvert par la même investigation, corrigé côté RQ1
+
+En cherchant une vérité terrain de repli (`perturbed_answer` vs `gold_answer`) pour distinguer "erreur injectée" de "erreur ayant survécu", une anomalie est apparue : `perturbed_answer` était **systématiquement tronqué** sur les cas S1 examinés (`\left(3, \frac{\pi` au lieu de la valeur complète, ou `None`).
+
+**Cause** : la regex d'extraction dans `run_s1_perturbation.py`/`run_softcot_perturbation.py` (`re.findall(r'\\boxed\{([^}]+)\}', text)`) s'arrête à la première accolade fermante — cassée dès qu'une accolade imbriquée apparaît (`\frac{a}{b}`, `\sqrt{...}`). GSM8K (SoftCoT) a des réponses numériques simples, rarement affectées ; MATH (S1) a une écriture LaTeX riche, massivement affectée.
+
+**Ampleur mesurée** : 15/50 réponses S1 (30%) différaient après correction ; 0/50 côté SoftCoT. Correction rétroactive par comptage de profondeur d'accolades (`fix_boxed_extraction.py`), sans recalcul GPU — fichiers `softcot_perturb_50_fixed.jsonl` / `s1_perturb_50_fixed.jsonl`, utilisés désormais dans `vpost_config.py`.
+
+**Conséquence sur les résultats RQ1 déjà écrits** : une conclusion antérieure ("sur S1, la perturbation casse plus souvent la cohérence globale du raisonnement — 39% de réponses non extractibles") s'est révélée être un artefact du bug, pas un vrai signal — **rétractée**. Une fois corrigé, S1 (93,3%) et SoftCoT (100%) sont du même ordre de grandeur sur la cohérence de réponse parmi les cas sensibles ; sensibilité comportementale S1 révisée de 46,0% à 30,0%.
+
+**Point méthodologique à documenter dans le chapitre** : ce bug a été détecté via une vérification croisée initiée côté V_post (RQ3), pas côté RQ1 — exemple concret de la valeur d'une calibration empirique menée sérieusement plutôt qu'une simple confiance dans un pipeline de données en amont. Le pilote à 20 instances de RQ1 (antérieur à l'élargissement à 50) n'a pas été recalculé avec la correction et reste potentiellement contaminé — signalé, pas corrigé.
+
+### 10.4 Statut
+
+Config mise à jour vers les fichiers `_fixed`. Le script (`run_vpost_ab_test.py`) a été enrichi pour capturer les tokens réels et le coût par appel (champs `input_tokens`/`output_tokens` dans chaque événement de sortie, calcul automatique du coût en fin de run), et pour permettre de lancer une seule condition à la fois (`--condition thinking_off|thinking_on|both`) afin de contrôler le coût avant tout engagement à l'échelle.
+
+### 10.5 Résultat du pilote A/B à l'échelle (n=80 instances, 160 appels)
+
+Échantillon : 40 positifs + 40 négatifs (20+20 par méthode), tiré du volume disponible (50 positifs par méthode).
+
+| | Précision | Rappel | F1 | Exactitude | Coût réel |
+|---|---|---|---|---|---|
+| thinking_off | 0,957 | 0,550 | 0,698 | 0,762 | $0,9170 |
+| thinking_on | 0,957 | 0,550 | 0,698 | 0,762 | $0,6273 |
+
+**Métriques agrégées identiques**, mais pas par coïncidence suspecte : les deux conditions détectent le même nombre total de vrais positifs (22/40) sans détecter exactement les mêmes instances individuelles (vérifié ligne par ligne) — un chevauchement partiel, pas une exécution dupliquée.
+
+**Décision retenue sur thinking on/off** : à performance de détection strictement égale sur ce pilote, **`thinking_on` (effort="medium") est préférable** car systématiquement moins cher ($0,63 vs $0,92 sur ce run ; même écart de sens observé sur les deux pilotes précédents à plus petite échelle) — cohérent avec l'observation que le thinking déplace le raisonnement du modèle dans un budget dédié plutôt que dans la justification textuelle visible, réduisant les tokens de sortie facturés. **`use_thinking=True` doit devenir le défaut** pour les runs V_post ultérieurs (à corriger dans `reasoning_judge.py`, actuellement `False` par défaut — décision prise mais pas encore appliquée dans le code).
+
+**Écart de fond confirmé à l'échelle, robuste (pas un artefact de petit échantillon)** :
+
+| Méthode | Rappel (positifs détectés) |
+|---|---|
+| SoftCoT | 17/20 = **85%** |
+| S1 | 5/20 = **25%** |
+
+Écart massif et cohérent avec le diagnostic d'auto-correction posé en §10.2 : S1 (budget-forcing, tâtonnement explicite type "wait, let me reconsider") absorbe et corrige la perturbation injectée bien plus souvent que SoftCoT. Potentiel résultat RQ1/RQ3 substantiel en soi.
+
+### 10.6 Limite méthodologique découverte : la vérité terrain "négatif" n'est pas garantie propre pour S1
+
+Sur 40 négatifs testés (instances RQ1 non corrompues), **1 cas** (`s1/openai_math_batch1_doc00017`) a été signalé `triggered=true` dans les deux conditions — reproductible, donc pas du bruit. Investigation : `correct=True` côté RQ1 (réponse finale exacte), mais la trace brute contient un vrai raisonnement tâtonnant non résolu (le modèle dérive `b=2` puis bascule sur `b=3` sans jamais réconcilier les deux, la trace elle-même contenant l'aveu *"this is conflicting information"*).
+
+**Conclusion : ce n'est pas un faux positif du judge, c'est une limite de la construction de la vérité terrain.** `correct=True` (label RQ1) certifie seulement que la réponse finale extraite est juste — pas que le cheminement est logiquement propre de bout en bout. Le style de raisonnement de S1 (tâtonnement explicite, budget-forcing) produit couramment des étapes intermédiaires contradictoires même sans perturbation injectée et même quand la réponse finale est correcte. **La précision de 0,957 mesurée est donc probablement une sous-estimation légère** de la vraie précision du judge — à mentionner explicitement comme limite dans le chapitre plutôt que comme une erreur à corriger. Le rappel (basé sur les vrais positifs, non affecté par ce problème) reste fiable dans son ordre de grandeur.
+
+### 10.7 Run final à pleine échelle disponible (n=200, thinking_on uniquement, $1,55)
+
+Une fois la décision thinking_on actée (§10.5), extension au volume maximal actuellement disponible (`--n-sample 50 --condition thinking_on`) : 50 positifs + 50 négatifs par méthode, 200 instances, 200 appels (une seule condition, plus besoin de payer les deux).
+
+**Métriques globales** :
+
+| | Précision | Rappel | F1 | Exactitude | Coût réel |
+|---|---|---|---|---|---|
+| thinking_on, n=200 | 0,968 | 0,600 | 0,741 | 0,790 | $1,5478 |
+
+**Ventilation par méthode (rappel)** — écart confirmé et affiné à pleine échelle :
+
+| Méthode | Rappel | Faux positifs (sur 50 négatifs) |
+|---|---|---|
+| SoftCoT | 42/50 = **84%** | 0/50 (spécificité parfaite) |
+| S1 | 18/50 = **36%** | 2/50 |
+
+L'écart SoftCoT/S1 se confirme à pleine échelle (84% vs 36%, cohérent avec 85%/25% observé à n=80) — c'est maintenant le résultat le plus solide dont on dispose sur ce point, basé sur l'intégralité du volume RQ1 Phase 3 actuellement produit.
+
+**2 nouveaux faux positifs S1 vérifiés au cas par cas (`doc00032`, `doc00041`) — confirment le même pattern, avec un niveau de netteté encore supérieur à `doc00017`** :
+- `doc00032` : le judge cite deux résultats numériques conflictuels dans la trace (720 vs 480), "the contradiction essentially unexplained even though the final answer happens to be correct."
+- `doc00041` : cas le plus net des trois — la trace elle-même **admet explicitement à plusieurs reprises** que sa solution ne satisfait pas les conditions du problème ("this is contradictory"), puis conclut quand même avec la valeur numérique correcte.
+
+**Sur 3 cas vérifiés manuellement (100% des faux positifs examinés à ce jour), tous suivent le même pattern.** Ce n'est plus une hypothèse isolée : c'est un comportement systémique établi du style de raisonnement S1 (budget-forcing, exploration/reconsidération multiple), pas un artefact isolé ni une erreur du judge. **`correct=True` (label RQ1) et "raisonnement logiquement cohérent de bout en bout" sont empiriquement deux propriétés distinctes pour S1** — à formuler comme un résultat à part entière dans le chapitre (pas seulement une limite méthodologique en creux), potentiellement pertinent pour RQ1 lui-même (fidélité du raisonnement, indépendamment de l'exactitude du résultat final).
+
+**Ce résultat constitue le pilote V_post définitif sur les données RQ1 Phase 3 actuellement disponibles** — toute extension future (plus d'instances) dépendra d'une décision côté RQ1 de produire davantage de perturbations, pas d'une action côté RQ3.
+
+
 1. Extraire les statistiques agrégées : taux de trigger schema et contradiction sur les 204 runs, ventilation par topologie (hierarchical / decentralized / shared_pool) et par schema_mode (typed / free_text). **Fait — voir §9.**
 2. Revue qualitative d'un échantillon des contradictions détectées à l'échelle (au-delà du sous-échantillon de calibration RTD-088/RTD-092), pour vérifier que le comportement observé en calibration se généralise.
 3. **Croiser les deux axes vérificateur de résultat / vérificateur de processus. Fait — voir §9.**
@@ -300,7 +389,12 @@ Moyennes de cellule (taux non transformé, pour reporting direct) :
 4. Terminer l'exécution de RQ1 (Coconut Stage 2, SoftCoT, S1) — actuellement en pause côté infrastructure EC2.
 5. Résoudre la tension méthodologique identifiée mais non tranchée : le protocole d'injection d'erreur de RQ1 (Phase 3, test de faithfulness) et le mécanisme V_post de RQ3 se recouvrent substantiellement en mécanique. Décision à prendre : fusionner les deux protocoles, ou justifier explicitement leur distinction dans le chapitre.
 6. Une fois RQ1 disponible : activer le trigger `softcot_divergence` (actuellement câblé mais inactif) sur les runs impliquant SoftCoT — étant entendu que ces runs n'existeront que si l'extension optionnelle (point 10) est réalisée, puisque RQ1 seul ne produit pas de logs multi-agents.
-7. Implémenter V_post (évaluation des traces S1/SoftCoT/Coconut) — non commencé, dépend entièrement des logs RQ1.
+7. **V_post — pilote complet et terminé sur les données RQ1 Phase 3 disponibles (n=200, thinking_on, précision 0,968 / rappel 0,600). Voir §10.5-10.7.** Décision thinking_on prise et appliquée dans le run final ; reste à corriger le défaut `use_thinking=False` dans le code source de `reasoning_judge.py` pour que ce choix soit le comportement par défaut des futurs runs, pas seulement un paramètre passé explicitement.
+
+### Reformulation de H11 et V_live, contexte intégral (composante 3, prochaine étape)
+Une reformulation de l'hypothèse de dissociation (H11) a été proposée par l'agent rédacteur du chapitre : au lieu de porter sur l'asymétrie d'éligibilité entre S1/SoftCoT (traces disponibles) et Coconut (aucune trace), l'hypothèse porte désormais sur l'écart de détection entre **fenêtre bornée** (V_live tel que mené, k=5 tours) et **contexte intégral** (accès à tout l'historique disponible). **Décision actée : ceci devient la 3e composante de l'architecture RQ3 (§0), pas une extension optionnelle** — V_post reste un chantier séparé avec sa propre rubrique (`reasoning_judge.py`, inchangé), et la comparaison fenêtre bornée/intégrale devient la seconde moitié de V_live.
+
+Mise en œuvre prévue : reprendre `contradiction_judge.py` tel quel (même rubrique, même modèle), sur les mêmes 204 runs RQ2, en retirant la limite `deque(maxlen=5)` — chaque message est alors évalué avec l'intégralité de l'historique du run plutôt que les 5 derniers tours. **Pas encore commencée.** Avantage : ne dépend pas de RQ1, testable immédiatement sur le corpus déjà en main. Point de vigilance avant de lancer : coût réel à chiffrer précisément (la taille de contexte croît avec chaque run, contrairement à la fenêtre bornée à taille fixe — estimation grossière de l'ordre du coût déjà engagé sur la composante 2, ~$56,83, mais à vérifier par dry-run avant tout engagement, suivant la méthode déjà appliquée partout ailleurs dans le projet).
 
 ### Extension optionnelle (si le temps le permet en fin de projet)
 10. Produire un petit lot de nouveaux runs multi-agents avec S1/Coconut/SoftCoT comme planner (au moins une topologie), pour retester RQ3b/RQ3c dans leur formulation originale (comparaison de scores V_live à travers les trois stratégies de raisonnement). Non prioritaire — le plan principal (RQ3b/RQ3c reformulés, §1) ne dépend pas de cette extension.
