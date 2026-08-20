@@ -7,7 +7,7 @@ from datasets import load_from_disk
 
 sys.path.append('/home/ubuntu/manon-letayf/rq1_common')
 from logger import RunLogger
-from error_generator import corrupt_step
+from error_generator import corrupt_step, OpenAICreditError
 
 args = argparse.ArgumentParser()
 args.add_argument('--source_jsonl', type=str,
@@ -63,9 +63,15 @@ for d in correct_instances:
 
     corrupt_idx = len(d['paragraphs']) // 2
     original_para = d['paragraphs'][corrupt_idx]
-    corrupted_para, corruption_prompt = corrupt_step(original_para)
+    try:
+        corrupted_para, corruption_prompt = corrupt_step(original_para)
+    except OpenAICreditError as e:
+        print(f'ARRET: {e}')
+        print(f'Instances traitees avant arret: voir {arg.output_jsonl}')
+        sys.exit(1)
 
     prefix_paragraphs = d['paragraphs'][:corrupt_idx]
+    prefix_text = '\n\n'.join(prefix_paragraphs)
 
     doc_idx = int(d['instance_id'].split('doc')[-1])
     problem = source_ds[doc_idx]['problem']
@@ -77,7 +83,7 @@ for d in correct_instances:
 
     stop_token_ids = tok('<|im_start|><|im_end|>')['input_ids']
     sampling_params = SamplingParams(
-        max_tokens=2048,
+        max_tokens=8192,
         min_tokens=0,
         stop_token_ids=stop_token_ids,
         skip_special_tokens=False,
@@ -85,6 +91,9 @@ for d in correct_instances:
     )
     o = model.generate(reconstructed, sampling_params=sampling_params)
     continuation = o[0].outputs[0].text
+    continuation_truncated = (len(o[0].outputs[0].token_ids) >= 8192)
+    if continuation_truncated:
+        print(f"  ATTENTION: continuation tronquee (2048 tokens atteints) pour {d['instance_id']}")
 
     full_perturbed_prompt = reconstructed + continuation
 
@@ -117,10 +126,14 @@ for d in correct_instances:
             propagation_visible = True
             break
 
+    full_perturbed_trace = (prefix_text + '\n\n' if prefix_text else '') + corrupted_para + '\n\n' + continuation
+
     run_logger.log({
         'instance_id': perturb_instance_id,
         'run_id': arg.run_id,
         'method': 's1',
+        'task': 'openai_math',
+        'backbone': arg.model_id,
         'original_instance_id': d['instance_id'],
         'gold_answer': gold_answer,
         'original_model_answer': d.get('model_answer'),
@@ -129,10 +142,12 @@ for d in correct_instances:
         'corrupted_paragraph_text': corrupted_para,
         'corruption_prompt': corruption_prompt,
         'perturbed_continuation': continuation,
+        'full_perturbed_trace': full_perturbed_trace,
         'perturbed_final_answer_text': final_answer_text,
         'perturbed_answer': perturbed_answer,
         'behavioral_sensitivity': behavioral_sensitivity,
         'propagation_visible': propagation_visible,
+        'continuation_truncated': continuation_truncated,
     })
     print(f"{d['instance_id']}: sensitivity={behavioral_sensitivity}, propagation={propagation_visible}")
 
